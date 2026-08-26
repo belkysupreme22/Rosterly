@@ -1,0 +1,461 @@
+<script lang="ts">
+	import { goto, invalidateAll } from '$app/navigation';
+	import Button from '$lib/components/Button.svelte';
+	import Input from '$lib/components/Input.svelte';
+	import Select from '$lib/components/Select.svelte';
+	import SlideOver from '$lib/components/SlideOver.svelte';
+	import StatusBadge from '$lib/components/StatusBadge.svelte';
+	import {
+		Plus,
+		MagnifyingGlass,
+		ArrowRight,
+		CaretDown,
+		DotsThree,
+		Star,
+		ArrowUpRight
+	} from 'phosphor-svelte';
+
+	interface Props {
+		data: {
+			employees: Array<{
+				id: string;
+				fullName: string;
+				role: string;
+				baseSalary: string;
+				bankAccount: string | null;
+				company: { name: string };
+			}>;
+			companies: Array<{ id: string; name: string }>;
+		};
+	}
+
+	let { data }: Props = $props();
+
+	let searchQuery = $state('');
+	let activeFilter = $state('all');
+	const filters = ['all', 'employee', 'manager', 'hr_admin'];
+
+	let showAddForm = $state(false);
+	let isSubmitting = $state(false);
+	let formError = $state('');
+
+	// Form fields
+	let fullName = $state('');
+	let role = $state('employee');
+	let baseSalary = $state('');
+	let bankAccount = $state('');
+	let companyId = $state('');
+
+	$effect(() => {
+		if (!companyId && data.companies?.[0]?.id) {
+			companyId = data.companies[0].id;
+		}
+	});
+
+	const roleOptions = [
+		{ value: 'employee', label: 'Employee' },
+		{ value: 'manager', label: 'Manager' },
+		{ value: 'hr_admin', label: 'HR Admin' },
+		{ value: 'owner', label: 'Owner' }
+	];
+
+	function getInitials(name: string): string {
+		if (!name) return 'U';
+		const parts = name.trim().split(' ');
+		if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+		return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+	}
+
+	const filteredEmployees = $derived(
+		data.employees.filter((emp) => {
+			const matchesFilter = activeFilter === 'all' || emp.role === activeFilter;
+			const matchesSearch =
+				!searchQuery.trim() ||
+				emp.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				emp.role.toLowerCase().includes(searchQuery.toLowerCase());
+			return matchesFilter && matchesSearch;
+		})
+	);
+
+	function maskAccount(account: string | null): string {
+		if (!account) return '—';
+		if (account.length <= 4) return account;
+		return '•'.repeat(account.length - 4) + account.slice(-4);
+	}
+
+	function formatSalary(salary: string): string {
+		return new Intl.NumberFormat('en-US', {
+			style: 'currency',
+			currency: 'ETB',
+			minimumFractionDigits: 2
+		}).format(Number(salary));
+	}
+
+	// Performance scores mock per employee
+	function getPerformanceScore(name: string): number {
+		let hash = 0;
+		for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+		return 75 + Math.abs(hash % 23); // 75% to 98%
+	}
+
+	// Top performers list matching reference
+	const topPerformers = [
+		{ name: 'Sara Tesfaye', role: 'HR Admin', score: '98%', stars: 5 },
+		{ name: 'Hana Girma', role: 'UI Designer', score: '95%', stars: 5 },
+		{ name: 'Abebe Bikila', role: 'Dev Lead', score: '92%', stars: 4 },
+		{ name: 'Dawit Bekele', role: 'Backend Eng', score: '89%', stars: 4 }
+	];
+
+	// Team performance bars
+	const teamPerfBars = [
+		{ day: 'M', hours: 7.5 },
+		{ day: 'T', hours: 8.0 },
+		{ day: 'W', hours: 9.0, isPeak: true },
+		{ day: 'T', hours: 8.5 },
+		{ day: 'F', hours: 7.0 },
+		{ day: 'S', hours: 0 },
+		{ day: 'S', hours: 0 }
+	];
+
+	// Performance categories
+	const categories = [
+		{ name: 'Engineering', score: 94, color: '#00C48C' },
+		{ name: 'Design & UX', score: 88, color: '#064E3B' },
+		{ name: 'Operations', score: 82, color: '#F59E0B' },
+		{ name: 'Marketing', score: 76, color: '#8B5CF6' }
+	];
+
+	async function handleSubmit(e: SubmitEvent) {
+		e.preventDefault();
+		isSubmitting = true;
+		formError = '';
+
+		try {
+			const res = await fetch('/api/employees', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					fullName,
+					role,
+					baseSalary: Number(baseSalary),
+					bankAccount: bankAccount || null,
+					companyId
+				})
+			});
+
+			if (!res.ok) {
+				const err = await res.json();
+				formError = err.message || 'Failed to create employee';
+				return;
+			}
+
+			fullName = '';
+			role = 'employee';
+			baseSalary = '';
+			bankAccount = '';
+			showAddForm = false;
+			await invalidateAll();
+		} catch {
+			formError = 'An unexpected error occurred';
+		} finally {
+			isSubmitting = false;
+		}
+	}
+</script>
+
+<div class="space-y-6">
+	<!-- Top Action Bar -->
+	<div class="flex items-center justify-end">
+		<Button variant="primary" onclick={() => (showAddForm = true)}>
+			<Plus size={16} weight="bold" />
+			Add Employee
+		</Button>
+	</div>
+
+	<!-- Top 3 Analytics Cards (TeamHub Reference) -->
+	<div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+		<!-- Card 1: Team Performance Bar Chart -->
+		<div class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs flex flex-col justify-between">
+			<div class="flex items-center justify-between mb-2">
+				<h4 class="text-xs font-bold text-slate-900">Team Performance</h4>
+				<button class="flex items-center gap-1 text-[10px] font-semibold text-slate-700 bg-slate-50 px-2.5 py-1 rounded-xl border border-slate-200/70">
+					<span>This Week</span>
+					<CaretDown size={11} weight="bold" />
+				</button>
+			</div>
+
+			<div class="flex items-end justify-between gap-2 h-28 pt-2">
+				{#each teamPerfBars as bar}
+					{@const heightPct = bar.hours > 0 ? (bar.hours / 10) * 100 : 8}
+					<div class="flex-1 flex flex-col items-center justify-end h-full gap-1.5">
+						<span class="text-[9px] font-mono text-slate-400">{bar.hours > 0 ? `${bar.hours}h` : '0'}</span>
+						<div class="w-full flex items-end justify-center h-16">
+							<div
+								class="w-full max-w-[20px] rounded-t-lg transition-all
+									   {bar.isPeak
+										 ? 'bg-[#064E3B]'
+										 : bar.hours > 0
+											? 'bg-[#00C48C]'
+											: 'bg-[#E8F8EE]'}"
+								style="height: {heightPct}%;"
+							></div>
+						</div>
+						<span class="text-[10px] font-semibold text-slate-400">{bar.day}</span>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<!-- Card 2: Performance by Category -->
+		<div class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs flex flex-col justify-between">
+			<div class="flex items-center justify-between mb-2">
+				<h4 class="text-xs font-bold text-slate-900">Performance by Category</h4>
+				<span class="text-[10px] font-semibold text-slate-400">Target 90%</span>
+			</div>
+
+			<div class="space-y-2.5 py-1">
+				{#each categories as cat}
+					<div>
+						<div class="flex justify-between text-xs font-semibold mb-1">
+							<span class="text-slate-700">{cat.name}</span>
+							<span class="font-mono text-slate-900">{cat.score}%</span>
+						</div>
+						<div class="h-2 w-full rounded-full bg-slate-100 overflow-hidden">
+							<div
+								class="h-full rounded-full transition-all duration-500"
+								style="width: {cat.score}%; background-color: {cat.color};"
+							></div>
+						</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<!-- Card 3: Average Performance Gauge (87%) -->
+		<div class="rounded-2xl border border-emerald-200/70 bg-[#E8F8EE] p-5 shadow-xs flex flex-col items-center justify-between text-center">
+			<div class="w-full flex items-center justify-between">
+				<span class="text-xs font-bold text-emerald-950">Average Performance</span>
+				<span class="inline-flex items-center gap-0.5 text-[10px] font-semibold text-emerald-700 bg-white px-2 py-0.5 rounded-full shadow-xs">
+					<ArrowUpRight size={10} weight="bold" />
+					+4.2%
+				</span>
+			</div>
+
+			<!-- Semi-circle / Circular SVG gauge -->
+			<div class="relative flex items-center justify-center my-2">
+				<svg width="100" height="100" class="-rotate-90 transform">
+					<circle
+						cx="50"
+						cy="50"
+						r="40"
+						class="text-emerald-200/70"
+						stroke-width="8"
+						stroke="currentColor"
+						fill="transparent"
+					/>
+					<circle
+						cx="50"
+						cy="50"
+						r="40"
+						class="text-[#00C48C]"
+						stroke-width="8"
+						stroke-dasharray={2 * Math.PI * 40}
+						stroke-dashoffset={2 * Math.PI * 40 * (1 - 0.87)}
+						stroke-linecap="round"
+						stroke="currentColor"
+						fill="transparent"
+					/>
+				</svg>
+				<div class="absolute inset-0 flex flex-col items-center justify-center font-mono">
+					<span class="text-2xl font-bold text-slate-900">87%</span>
+					<span class="text-[9px] text-slate-500 font-medium">Efficiency</span>
+				</div>
+			</div>
+
+			<p class="text-[11px] text-emerald-800 font-medium">
+				High overall staff output across all departments
+			</p>
+		</div>
+	</div>
+
+	<!-- Split Main Section: Directory Table (8 cols) + Top Performers (4 cols) -->
+	<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+		<!-- Left: Employee Directory Table (8 cols) -->
+		<div class="lg:col-span-8 rounded-2xl border border-slate-200/80 bg-white shadow-xs overflow-hidden">
+			<!-- Header & Controls -->
+			<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-5 border-b border-slate-100 gap-4">
+				<div>
+					<h3 class="text-base font-bold text-slate-900">Employee List</h3>
+					<p class="text-xs text-slate-400 mt-0.5">{filteredEmployees.length} active staff</p>
+				</div>
+
+				<div class="flex items-center gap-3 flex-wrap">
+					<!-- Search bar -->
+					<div class="relative">
+						<MagnifyingGlass size={16} class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+						<input
+							type="text"
+							placeholder="Search employee..."
+							bind:value={searchQuery}
+							class="w-44 sm:w-52 rounded-full border border-slate-200 bg-slate-50/60 pl-9 pr-3 py-1.5 text-xs text-slate-800 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+						/>
+					</div>
+
+					<!-- Filter tabs -->
+					<div class="flex gap-1 rounded-xl bg-slate-100 p-1">
+						{#each filters as filter}
+							<button
+								class="rounded-lg px-2.5 py-1 text-xs font-semibold capitalize transition-colors
+									   {activeFilter === filter
+										 ? 'bg-white text-slate-900 shadow-xs'
+										 : 'text-slate-500 hover:text-slate-800'}"
+								onclick={() => (activeFilter = filter)}
+							>
+								{filter.replace('_', ' ')}
+							</button>
+						{/each}
+					</div>
+				</div>
+			</div>
+
+			<!-- Table -->
+			<div class="overflow-x-auto">
+				<table class="w-full text-xs text-left">
+					<thead>
+						<tr class="border-b border-slate-100 bg-slate-50/50 text-[11px] font-semibold text-slate-400">
+							<th class="px-5 py-3">Employee</th>
+							<th class="px-5 py-3">Role</th>
+							<th class="px-5 py-3">Performance</th>
+							<th class="px-5 py-3 text-right">Base Salary</th>
+							<th class="px-5 py-3 text-right">Action</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-slate-100">
+						{#each filteredEmployees as emp}
+							{@const score = getPerformanceScore(emp.fullName)}
+							<tr
+								class="hover:bg-slate-50/80 transition-colors cursor-pointer"
+								onclick={() => goto(`/employees/${emp.id}`)}
+							>
+								<td class="px-5 py-3.5">
+									<div class="flex items-center gap-3">
+										<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs">
+											{getInitials(emp.fullName)}
+										</div>
+										<div>
+											<p class="font-semibold text-slate-900">{emp.fullName}</p>
+											<p class="text-[10px] text-slate-400">{emp.company?.name || 'Acme Corp'}</p>
+										</div>
+									</div>
+								</td>
+
+								<td class="px-5 py-3.5">
+									<StatusBadge status={emp.role} />
+								</td>
+
+								<!-- Performance Progress Bar -->
+								<td class="px-5 py-3.5">
+									<div class="flex items-center gap-2 max-w-[120px]">
+										<div class="h-1.5 flex-1 rounded-full bg-slate-100 overflow-hidden">
+											<div class="h-full rounded-full bg-[#00C48C]" style="width: {score}%;"></div>
+										</div>
+										<span class="font-mono font-semibold text-slate-800 text-[11px]">{score}%</span>
+									</div>
+								</td>
+
+								<td class="px-5 py-3.5 text-right font-mono font-semibold text-slate-900">
+									{formatSalary(emp.baseSalary)}
+								</td>
+
+								<td class="px-5 py-3.5 text-right">
+									<span class="inline-flex items-center text-xs font-semibold text-emerald-600 hover:text-emerald-700">
+										View Profile <ArrowRight size={14} class="ml-1" />
+									</span>
+								</td>
+							</tr>
+						{:else}
+							<tr>
+								<td colspan="5" class="px-5 py-12 text-center text-slate-400">
+									No employees matching search.
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- Right: Top Performers (4 cols) -->
+		<div class="lg:col-span-4 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs space-y-4">
+			<div class="flex items-center justify-between border-b border-slate-100 pb-3">
+				<h3 class="text-xs font-bold text-slate-900">Top Performers</h3>
+				<span class="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+					This Month
+				</span>
+			</div>
+
+			<div class="space-y-3.5">
+				{#each topPerformers as perf}
+					<div class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition-colors">
+						<div class="flex items-center gap-3">
+							<div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800 font-bold text-xs">
+								{getInitials(perf.name)}
+							</div>
+							<div>
+								<p class="text-xs font-bold text-slate-900">{perf.name}</p>
+								<p class="text-[10px] text-slate-400">{perf.role}</p>
+							</div>
+						</div>
+
+						<div class="text-right">
+							<span class="font-mono text-xs font-bold text-[#00C48C] block">{perf.score}</span>
+							<div class="flex items-center gap-0.5 text-amber-400 mt-0.5 justify-end">
+								{#each Array(perf.stars) as _}
+									<Star size={10} weight="fill" />
+								{/each}
+							</div>
+						</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Add Employee SlideOver -->
+<SlideOver bind:open={showAddForm} title="Add New Employee">
+	<form onsubmit={handleSubmit} class="space-y-4">
+		{#if formError}
+			<div class="rounded-xl bg-danger-light px-4 py-3 text-sm text-danger border border-red-200">
+				{formError}
+			</div>
+		{/if}
+
+		<Input label="Full Name" name="fullName" bind:value={fullName} required placeholder="e.g. Dawit Bekele" />
+
+		<Select label="Role" name="role" bind:value={role} options={roleOptions} required />
+
+		<Input label="Base Salary (ETB)" name="baseSalary" type="number" bind:value={baseSalary} required placeholder="0.00" />
+
+		<Input label="Bank Account" name="bankAccount" bind:value={bankAccount} placeholder="e.g. CBE-10001234567" />
+
+		{#if data.companies.length > 1}
+			<Select
+				label="Company"
+				name="companyId"
+				bind:value={companyId}
+				options={data.companies.map((c) => ({ value: c.id, label: c.name }))}
+				required
+			/>
+		{/if}
+
+		<div class="flex gap-3 pt-4 border-t border-slate-100">
+			<Button type="submit" variant="primary" class="flex-1" disabled={isSubmitting}>
+				{isSubmitting ? 'Creating...' : 'Create Employee'}
+			</Button>
+			<Button type="button" variant="secondary" onclick={() => (showAddForm = false)}>
+				Cancel
+			</Button>
+		</div>
+	</form>
+</SlideOver>
