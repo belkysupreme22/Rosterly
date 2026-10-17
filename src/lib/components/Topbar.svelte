@@ -2,24 +2,33 @@
 	import {
 		SignOut,
 		MagnifyingGlass,
-		Bell,
 		GearSix,
+		Bell,
 		CaretDown,
 		ArrowLeft
 	} from 'phosphor-svelte';
 	import { authClient } from '$lib/auth-client';
+	import { goto } from '$app/navigation';
 
 	interface Props {
 		userName: string;
 		userRole: string;
-		currentPath?: string;
+		currentPath: string;
+		unreadNoticesCount?: number;
+		employeeId?: string | null;
 	}
 
-	let { userName, userRole, currentPath = '/dashboard' }: Props = $props();
+	let {
+		userName,
+		userRole,
+		currentPath,
+		unreadNoticesCount = 0,
+		employeeId = null
+	}: Props = $props();
 
 	async function handleSignOut() {
 		await authClient.signOut();
-		window.location.href = '/login';
+		goto('/login');
 	}
 
 	function getInitials(name: string): string {
@@ -35,7 +44,7 @@
 			return {
 				title: 'Employee Details',
 				breadcrumb: 'Dashboard / Employees / Employee Details',
-				backHref: '/employees'
+				backHref: userRole === 'employee' ? '/dashboard' : '/employees'
 			};
 		}
 		if (currentPath.startsWith('/payslips/') && currentPath !== '/payslips') {
@@ -52,6 +61,16 @@
 				backHref: '/payroll'
 			};
 		}
+		if (currentPath.startsWith('/departments/') && currentPath !== '/departments') {
+			return {
+				title: 'Department Unit Details',
+				breadcrumb: 'Dashboard / Departments / Department Details',
+				backHref: '/departments'
+			};
+		}
+		if (currentPath === '/departments') {
+			return { title: 'Departments & Organization Units', breadcrumb: 'Dashboard / Departments & Leads' };
+		}
 		if (currentPath === '/employees') {
 			return { title: 'Employees', breadcrumb: 'Dashboard / Employees' };
 		}
@@ -67,27 +86,31 @@
 		if (currentPath === '/payslips') {
 			return { title: 'Payslips & Statements', breadcrumb: 'Dashboard / Payslips & Vouchers' };
 		}
+		if (currentPath === '/notices') {
+			return { title: 'Company Notices & Hub', breadcrumb: 'Dashboard / Notifications & Notices' };
+		}
 		return { title: 'Dashboard', breadcrumb: 'Dashboard / Overview' };
 	});
 </script>
 
-<header class="sticky top-0 z-20 flex h-20 items-center justify-between border-b border-slate-200/80 bg-surface-page/90 backdrop-blur-md px-6 lg:px-8">
-	<!-- Left: Page Title & Breadcrumbs (Reference Mockup) -->
-	<div class="flex items-center gap-3">
+<header class="sticky top-0 z-20 flex h-20 items-center justify-between bg-surface-page/90 backdrop-blur-md px-6 lg:px-8 border-b border-slate-200/50">
+	<!-- Left: Interactive Dynamic Page Title & Breadcrumb -->
+	<div class="flex items-center gap-3.5">
 		{#if pageMeta.backHref}
 			<a
 				href={pageMeta.backHref}
-				class="flex h-9 w-9 items-center justify-center rounded-xl bg-white border border-slate-200/80 text-slate-700 hover:text-[#00C48C] hover:border-[#00C48C] transition-colors shadow-2xs"
+				class="flex h-9 w-9 items-center justify-center rounded-xl bg-white border border-slate-200/80 text-slate-500 hover:text-slate-900 hover:bg-slate-50 shadow-2xs transition-colors"
 				title="Go back"
 			>
 				<ArrowLeft size={16} weight="bold" />
 			</a>
 		{/if}
+
 		<div>
-			<h1 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+			<h1 class="text-xl font-bold tracking-tight text-slate-900 leading-none">
 				{pageMeta.title}
 			</h1>
-			<p class="text-[11px] font-medium text-slate-400">
+			<p class="text-[11px] font-semibold text-slate-400 mt-1">
 				{pageMeta.breadcrumb}
 			</p>
 		</div>
@@ -113,17 +136,28 @@
 			<GearSix size={18} />
 		</button>
 
-		<!-- 3. Notification Bell Button with Green Active Indicator -->
-		<button
-			class="relative flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200/80 bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors shadow-2xs"
-			title="Notifications"
+		<!-- 3. Notification Bell Button with Live Unread Counter -->
+		<a
+			href="/notices"
+			class="relative flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200/80 bg-white text-slate-600 hover:text-[#00C48C] hover:border-[#00C48C] hover:bg-slate-50 transition-colors shadow-2xs"
+			title="Notifications & Company Notices"
 		>
 			<Bell size={18} />
-			<span class="absolute top-2 right-2.5 h-2 w-2 rounded-full bg-[#00C48C] ring-2 ring-white"></span>
-		</button>
+			{#if unreadNoticesCount > 0}
+				<span class="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#00C48C] px-1 text-[10px] font-bold text-white shadow-xs ring-2 ring-white">
+					{unreadNoticesCount}
+				</span>
+			{:else}
+				<span class="absolute top-2 right-2.5 h-2 w-2 rounded-full bg-[#00C48C] ring-2 ring-white"></span>
+			{/if}
+		</a>
 
-		<!-- 4. User Profile Widget -->
-		<div class="flex items-center gap-3 pl-1">
+		<!-- 4. User Profile Widget (Clickable Link to View Profile for All Roles) -->
+		<a
+			href={employeeId ? `/employees/${employeeId}` : '/profile'}
+			class="flex items-center gap-3 pl-1 pr-2 py-1 rounded-2xl hover:bg-white/80 hover:shadow-2xs border border-transparent hover:border-slate-200/60 transition-all cursor-pointer"
+			title="View My Profile"
+		>
 			<div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#00C48C] text-white font-bold text-sm shadow-xs ring-2 ring-emerald-100">
 				{getInitials(userName)}
 			</div>
@@ -134,7 +168,7 @@
 			</div>
 
 			<CaretDown size={13} class="text-slate-400 hidden md:block" />
-		</div>
+		</a>
 
 		<!-- 5. Sign Out Button -->
 		<button

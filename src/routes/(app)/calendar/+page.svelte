@@ -1,5 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
+	import Input from '$lib/components/Input.svelte';
+	import SlideOver from '$lib/components/SlideOver.svelte';
 	import {
 		CaretLeft,
 		CaretRight,
@@ -29,6 +31,14 @@
 	let { data }: Props = $props();
 
 	let currentMonth = $state('June 2035');
+
+	// Schedule Event Modal State
+	let showScheduleModal = $state(false);
+	let eventTitle = $state('');
+	let eventCategory = $state('meeting');
+	let eventDate = $state('2035-06-18');
+	let eventTime = $state('10:00 AM');
+	let eventLocation = $state('Conference Room 3B');
 
 	// Calendar grid days (June 2035)
 	const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -92,7 +102,7 @@
 <div class="space-y-6">
 	<!-- Top Action Bar -->
 	<div class="flex items-center justify-end">
-		<Button variant="primary" size="sm">
+		<Button variant="primary" size="sm" onclick={() => (showScheduleModal = true)}>
 			<Plus size={14} weight="bold" />
 			Schedule Event
 		</Button>
@@ -275,3 +285,85 @@
 		</div>
 	</div>
 </div>
+
+<!-- Schedule Event SlideOver -->
+<SlideOver
+	bind:open={showScheduleModal}
+	title="Schedule Team Event"
+	subtitle="Add meeting, milestone, or sprint review to team schedule"
+>
+	<form
+		onsubmit={(e) => {
+			e.preventDefault();
+			showScheduleModal = false;
+		}}
+		class="space-y-5"
+	>
+		<Input
+			label="Event Title"
+			name="eventTitle"
+			bind:value={eventTitle}
+			required
+			placeholder="e.g. Q3 Sprint Retrospective & Demo"
+		/>
+
+		<!-- Event Category Selection Chips -->
+		<div class="space-y-2">
+			<label class="text-xs font-bold text-slate-700 tracking-tight">Category *</label>
+			<div class="grid grid-cols-2 gap-2">
+				{#each [
+					{ id: 'meeting', label: '🤝 Company Meeting', color: 'border-emerald-200' },
+					{ id: 'sprint', label: '🚀 Sprint Review', color: 'border-purple-200' },
+					{ id: 'deadline', label: '⏳ Payroll Deadline', color: 'border-amber-200' },
+					{ id: 'general', label: '📌 General Sync', color: 'border-blue-200' }
+				] as cat}
+					<button
+						type="button"
+						onclick={() => (eventCategory = cat.id)}
+						class="flex items-center justify-between rounded-2xl border p-3 text-left transition-all cursor-pointer
+							   {eventCategory === cat.id
+								 ? 'border-[#00C48C] bg-[#E8F8EE] ring-2 ring-[#00C48C]/20 shadow-xs font-bold text-slate-900'
+								 : 'border-slate-200/80 bg-slate-50/50 hover:bg-white text-slate-700'}"
+					>
+						<span class="text-xs">{cat.label}</span>
+					</button>
+				{/each}
+			</div>
+		</div>
+
+		<!-- Date & Time Range Inputs -->
+		<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+			<Input
+				label="Event Date"
+				name="eventDate"
+				type="date"
+				bind:value={eventDate}
+				required
+			/>
+
+			<Input
+				label="Start Time"
+				name="eventTime"
+				bind:value={eventTime}
+				placeholder="10:00 AM"
+				required
+			/>
+		</div>
+
+		<Input
+			label="Location / Meeting URL"
+			name="eventLocation"
+			bind:value={eventLocation}
+			placeholder="Room 3B or Zoom / Google Meet Link"
+		/>
+
+		<div class="flex gap-3 pt-4 border-t border-slate-100">
+			<Button type="submit" variant="primary" class="flex-1">
+				Confirm &amp; Schedule
+			</Button>
+			<Button type="button" variant="secondary" onclick={() => (showScheduleModal = false)}>
+				Cancel
+			</Button>
+		</div>
+	</form>
+</SlideOver>

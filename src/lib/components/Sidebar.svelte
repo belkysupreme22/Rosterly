@@ -7,7 +7,8 @@
 		CurrencyCircleDollar,
 		CalendarBlank,
 		TreeStructure,
-		Sparkle
+		Megaphone,
+		Buildings
 	} from 'phosphor-svelte';
 
 	interface NavItem {
@@ -25,12 +26,14 @@
 	let { currentPath, userRole }: Props = $props();
 
 	const navItems: NavItem[] = [
-		{ label: 'Dashboard', href: '/dashboard', icon: House, roles: ['employee', 'manager', 'hr_admin', 'owner'] },
-		{ label: 'Calendar', href: '/calendar', icon: CalendarBlank, roles: ['employee', 'manager', 'hr_admin', 'owner'] },
-		{ label: 'Employees', href: '/employees', icon: Users, roles: ['hr_admin', 'owner'] },
-		{ label: 'Payroll', href: '/payroll', icon: CurrencyCircleDollar, roles: ['manager', 'hr_admin', 'owner'] },
-		{ label: 'Leave Management', href: '/leave', icon: CalendarCheck, roles: ['employee', 'manager', 'hr_admin', 'owner'] },
-		{ label: 'Payslips', href: '/payslips', icon: Receipt, roles: ['employee', 'manager', 'hr_admin', 'owner'] }
+		{ label: 'Dashboard', href: '/dashboard', icon: House, roles: ['employee', 'manager', 'hr_admin', 'finance', 'owner'] },
+		{ label: 'Departments', href: '/departments', icon: Buildings, roles: ['employee', 'manager', 'hr_admin', 'finance', 'owner'] },
+		{ label: 'Employees', href: '/employees', icon: Users, roles: ['hr_admin', 'finance', 'manager', 'owner'] },
+		{ label: 'Payroll Engine', href: '/payroll', icon: CurrencyCircleDollar, roles: ['finance', 'owner'] },
+		{ label: 'Leave Management', href: '/leave', icon: CalendarCheck, roles: ['employee', 'manager', 'hr_admin', 'finance', 'owner'] },
+		{ label: 'Payslips', href: '/payslips', icon: Receipt, roles: ['employee', 'manager', 'hr_admin', 'finance', 'owner'] },
+		{ label: 'Calendar', href: '/calendar', icon: CalendarBlank, roles: ['employee', 'manager', 'hr_admin', 'finance', 'owner'] },
+		{ label: 'Notifications & Notices', href: '/notices', icon: Megaphone, roles: ['employee', 'manager', 'hr_admin', 'finance', 'owner'] }
 	];
 
 	const visibleItems = $derived(navItems.filter((item) => item.roles.includes(userRole)));
@@ -73,15 +76,15 @@
 	<!-- Level Up Your HR System Promo Card -->
 	<div class="p-4 border-t border-slate-100">
 		<div class="rounded-2xl bg-[#E8F8EE] p-4 border border-emerald-200/70">
-			<h4 class="text-xs font-bold text-emerald-950">Level Up Your HR System</h4>
+			<h4 class="text-xs font-bold text-emerald-950">Ethiopian Tax Compliance</h4>
 			<p class="mt-1 text-[11px] text-emerald-800/80 leading-relaxed">
-				Rosterly Pro gives you full control with advanced Ethiopian tax modules.
+				MoR progressive tax tiers, 7% private pension, and CBE wire export.
 			</p>
 			<a
 				href="/payroll"
 				class="mt-3 block w-full rounded-xl bg-[#00C48C] hover:bg-[#00b07d] text-center py-2 text-xs font-bold text-white shadow-xs transition-colors"
 			>
-				Get Rosterly Pro
+				View Payroll Hub
 			</a>
 		</div>
 	</div>

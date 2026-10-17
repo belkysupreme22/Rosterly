@@ -9,8 +9,9 @@ export const load: PageServerLoad = async ({ parent }) => {
 	// If employee role, filter only to their payslips
 	if (user.role === 'employee') {
 		// Find employee linked via userAccount or email/name
+		const phone = (user as any).phoneNumber || '';
 		const userAcc = await db.query.userAccount.findFirst({
-			where: eq(userAccount.phone, user.phoneNumber || '')
+			where: eq(userAccount.phone, phone)
 		});
 
 		// Fallback: look for employee by matching email or first employee

@@ -24,7 +24,10 @@
 
 	interface Props {
 		data: {
-			user: { role: string };
+			userRole: string;
+			canInitiate: boolean;
+			canApprove: boolean;
+			canDisburse: boolean;
 			runs: Array<{
 				id: string;
 				periodStart: string;
@@ -47,7 +50,8 @@
 
 	let { data }: Props = $props();
 
-	const canCreate = $derived(data.user.role === 'hr_admin' || data.user.role === 'owner');
+	const canInitiate = $derived(data.canInitiate);
+	const canApprove = $derived(data.canApprove);
 
 	// SlideOver State
 	let showRunModal = $state(false);
@@ -266,15 +270,43 @@
 </script>
 
 <div class="space-y-6">
-	{#if canCreate}
-		<!-- Top Action Bar -->
-		<div class="flex items-center justify-end">
+	<!-- Top Action Bar -->
+	<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+		<div class="flex items-center gap-2">
+			{#if data.userRole === 'finance'}
+				<span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-[#00C48C] border border-emerald-200/70">
+					💰 Finance Role: Payroll Calculation &amp; Disbursal Authority
+				</span>
+			{:else if data.userRole === 'owner'}
+				<span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-800 border border-amber-200/70">
+					👑 Owner Role: Executive Authorization &amp; Approval Sign-Off
+				</span>
+			{/if}
+		</div>
+
+		{#if canInitiate}
 			<Button variant="primary" onclick={() => (showRunModal = true)}>
 				<Plus size={16} weight="bold" />
-				Run Payroll
+				Run Payroll (Finance)
 			</Button>
+		{/if}
+	</div>
+
+	<!-- Payroll Cycle Schedule Banner -->
+	<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white px-5 py-3.5 shadow-2xs text-xs">
+		<div class="flex items-center gap-2.5">
+			<span class="flex h-7 w-7 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800 font-bold">
+				25
+			</span>
+			<div>
+				<span class="font-bold text-slate-900">Configured Payroll Cycle:</span>
+				<span class="text-slate-500 ml-1">Monthly Attendance Cutoff: <strong>25th</strong> &bull; Bank Disbursal Target: <strong>30th</strong></span>
+			</div>
 		</div>
-	{/if}
+		<span class="inline-flex items-center gap-1 font-semibold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full text-[11px]">
+			● Active Automated Schedule
+		</span>
+	</div>
 
 	<!-- Top 4 Metric Cards (TeamHub Reference) -->
 	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -514,24 +546,32 @@
 </div>
 
 <!-- Run Payroll SlideOver -->
-<SlideOver bind:open={showRunModal} title="Process Monthly Payroll">
-	<div class="space-y-4">
+<SlideOver
+	bind:open={showRunModal}
+	title="Process Monthly Payroll Batch"
+	subtitle="Calculate Ethiopian income taxes, 7% pension, and CBE disbursal totals"
+>
+	<div class="space-y-5">
 		{#if errorMessage}
-			<div class="rounded-xl bg-danger-light px-4 py-3 text-sm text-danger border border-red-200">
-				{errorMessage}
+			<div class="rounded-2xl bg-rose-50 p-4 text-xs font-semibold text-rose-700 border border-rose-200 flex items-center gap-2">
+				<span>⚠️</span>
+				<span>{errorMessage}</span>
 			</div>
 		{/if}
 
-		<div class="rounded-xl bg-emerald-50/60 p-3.5 text-xs text-emerald-950 border border-emerald-200/50">
-			Calculates Ethiopian income tax brackets, 7% employee pension, and itemized deduction rules for <strong>{data.totalEmployees} active employees</strong>.
+		<div class="rounded-2xl bg-emerald-50/70 p-4 text-xs text-emerald-950 border border-emerald-200/70">
+			Calculates Ministry of Revenue income tax brackets, 7% employee pension, and salary advance repayments for <strong>{data.totalEmployees} active employees</strong>.
 		</div>
 
-		<Input label="Period Start Date" name="periodStart" type="date" bind:value={periodStart} required />
-		<Input label="Period End Date" name="periodEnd" type="date" bind:value={periodEnd} required />
+		<!-- 2-Column Date Range -->
+		<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+			<Input label="Period Start Date" name="periodStart" type="date" bind:value={periodStart} required />
+			<Input label="Period End Date" name="periodEnd" type="date" bind:value={periodEnd} required />
+		</div>
 
 		{#if data.companies.length > 1}
 			<Select
-				label="Company"
+				label="Target Company / Entity"
 				name="companyId"
 				bind:value={companyId}
 				options={data.companies.map((c) => ({ value: c.id, label: c.name }))}
@@ -539,35 +579,35 @@
 			/>
 		{/if}
 
-		<div class="pt-2">
+		<div class="pt-1">
 			<Button variant="secondary" class="w-full" onclick={handlePreview} disabled={isPreviewing || isSubmitting}>
 				<Calculator size={16} />
-				{isPreviewing ? 'Calculating preview...' : 'Calculate Preview'}
+				{isPreviewing ? 'Calculating Statutory Preview...' : 'Calculate Tax & Pension Preview'}
 			</Button>
 		</div>
 
 		<!-- Calculation Preview Box -->
 		{#if previewData}
-			<div class="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 space-y-3">
-				<div class="flex items-center gap-2 text-emerald-950 font-bold text-sm">
-					<CheckCircle size={18} weight="fill" class="text-[#00C48C]" />
-					Calculation Preview ({previewData.employeeCount} Employees)
+			<div class="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 space-y-3">
+				<div class="flex items-center gap-2 text-emerald-950 font-bold text-xs">
+					<CheckCircle size={17} weight="fill" class="text-[#00C48C]" />
+					Statutory Preview ({previewData.employeeCount} Staff Members)
 				</div>
 				<div class="grid grid-cols-2 gap-2 text-xs">
-					<div class="bg-white p-2.5 rounded-xl border border-emerald-100">
-						<span class="text-slate-400">Total Gross:</span>
+					<div class="bg-white p-3 rounded-2xl border border-emerald-100/80 shadow-2xs">
+						<span class="text-slate-400 font-medium">Total Gross:</span>
 						<p class="font-mono font-bold text-slate-900 text-sm mt-0.5">{formatCurrency(previewData.summary.totalGross)}</p>
 					</div>
-					<div class="bg-white p-2.5 rounded-xl border border-emerald-100">
-						<span class="text-slate-400">Total Income Tax:</span>
+					<div class="bg-white p-3 rounded-2xl border border-emerald-100/80 shadow-2xs">
+						<span class="text-slate-400 font-medium">Income Tax (MoR):</span>
 						<p class="font-mono font-bold text-slate-900 text-sm mt-0.5">{formatCurrency(previewData.summary.totalTax)}</p>
 					</div>
-					<div class="bg-white p-2.5 rounded-xl border border-emerald-100">
-						<span class="text-slate-400">Employee Pension (7%):</span>
+					<div class="bg-white p-3 rounded-2xl border border-emerald-100/80 shadow-2xs">
+						<span class="text-slate-400 font-medium">Pension Fund (7%):</span>
 						<p class="font-mono font-bold text-slate-900 text-sm mt-0.5">{formatCurrency(previewData.summary.totalPension)}</p>
 					</div>
-					<div class="bg-white p-2.5 rounded-xl border border-emerald-100">
-						<span class="text-slate-400">Total Net Payout:</span>
+					<div class="bg-white p-3 rounded-2xl border border-emerald-100/80 shadow-2xs">
+						<span class="text-slate-400 font-medium">Net Disbursal:</span>
 						<p class="font-mono font-bold text-[#00C48C] text-sm mt-0.5">{formatCurrency(previewData.summary.totalNet)}</p>
 					</div>
 				</div>
@@ -582,7 +622,7 @@
 				onclick={handleExecuteRun}
 				disabled={isSubmitting || !previewData}
 			>
-				{isSubmitting ? 'Processing...' : 'Confirm & Process Run'}
+				{isSubmitting ? 'Processing Batch...' : 'Confirm & Process Batch'}
 			</Button>
 			<Button type="button" variant="secondary" onclick={() => (showRunModal = false)}>
 				Cancel

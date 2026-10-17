@@ -10,7 +10,13 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 
 	const emp = await db.query.employee.findFirst({
 		where: eq(employee.id, params.id),
-		with: { company: true, leaveRequests: true }
+		with: {
+			company: true,
+			department: true,
+			leaveRequests: true,
+			assets: true,
+			salaryAdvances: true
+		}
 	});
 
 	if (!emp) throw error(404, 'Employee not found');
@@ -28,13 +34,28 @@ export const PATCH: RequestHandler = async ({ params, request, locals }) => {
 	}
 
 	const body = await request.json();
-	const { fullName, baseSalary, bankAccount, role: empRole } = body;
+	const {
+		fullName,
+		baseSalary,
+		bankAccount,
+		role: empRole,
+		departmentId,
+		employmentType,
+		positionLevel,
+		workStatus,
+		jobDescription
+	} = body;
 
 	const updates: Record<string, unknown> = {};
 	if (fullName !== undefined) updates.fullName = fullName;
 	if (baseSalary !== undefined) updates.baseSalary = String(baseSalary);
 	if (bankAccount !== undefined) updates.bankAccount = bankAccount;
 	if (empRole !== undefined) updates.role = empRole;
+	if (departmentId !== undefined) updates.departmentId = departmentId || null;
+	if (employmentType !== undefined) updates.employmentType = employmentType;
+	if (positionLevel !== undefined) updates.positionLevel = positionLevel;
+	if (workStatus !== undefined) updates.workStatus = workStatus;
+	if (jobDescription !== undefined) updates.jobDescription = jobDescription;
 
 	if (Object.keys(updates).length === 0) {
 		throw error(400, 'No fields to update');

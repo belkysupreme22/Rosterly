@@ -7,7 +7,7 @@ declare global {
 				id: string;
 				name: string;
 				email: string;
-				role: 'employee' | 'manager' | 'hr_admin' | 'owner';
+				role: 'employee' | 'manager' | 'hr_admin' | 'finance' | 'owner';
 			} | null;
 			session: {
 				id: string;

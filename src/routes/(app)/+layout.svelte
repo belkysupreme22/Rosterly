@@ -6,6 +6,8 @@
 	interface Props {
 		data: {
 			user: { id: string; name: string; email: string; role: string };
+			employeeId: string | null;
+			unreadNoticesCount: number;
 			currentPath: string;
 		};
 		children: Snippet;
@@ -20,7 +22,13 @@
 
 	<!-- Main content area -->
 	<div class="ml-64 flex flex-1 flex-col">
-		<Topbar userName={data.user.name} userRole={data.user.role} currentPath={data.currentPath} />
+		<Topbar
+			userName={data.user.name}
+			userRole={data.user.role}
+			currentPath={data.currentPath}
+			unreadNoticesCount={data.unreadNoticesCount}
+			employeeId={data.employeeId}
+		/>
 
 		<main class="flex-1 p-6 lg:p-8">
 			{@render children()}

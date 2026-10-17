@@ -63,8 +63,10 @@
 	let isSubmitting = $state(false);
 	let formError = $state('');
 	let employeeId = $state('');
+	let selectedType = $state('Annual Leave');
 	let startDate = $state('');
 	let endDate = $state('');
+	let leaveReason = $state('');
 
 	function getInitials(name: string): string {
 		if (!name) return 'U';
@@ -427,25 +429,89 @@
 </div>
 
 <!-- Request Leave SlideOver -->
-<SlideOver bind:open={showRequestForm} title="Submit Leave Request">
-	<form onsubmit={handleSubmit} class="space-y-4">
+<SlideOver bind:open={showRequestForm} title="Submit Leave Request" subtitle="Fill in dates and reason for manager approval">
+	<form onsubmit={handleSubmit} class="space-y-5">
 		{#if formError}
-			<div class="rounded-xl bg-danger-light px-4 py-3 text-sm text-danger border border-red-200">
-				{formError}
+			<div class="rounded-2xl bg-rose-50 p-4 text-xs font-semibold text-rose-700 border border-rose-200 flex items-center gap-2">
+				<span>⚠️</span>
+				<span>{formError}</span>
 			</div>
 		{/if}
 
-		<Select
-			label="Employee"
-			name="employeeId"
-			bind:value={employeeId}
-			options={data.employees.map((e) => ({ value: e.id, label: e.fullName }))}
-			required
-		/>
+		<!-- Leave Type Selection Cards -->
+		<div class="space-y-2">
+			<label class="text-xs font-bold text-slate-700 tracking-tight">Leave Category *</label>
+			<div class="grid grid-cols-2 gap-2">
+				{#each [
+					{ id: 'Annual Leave', label: '🌴 Annual Leave', desc: 'Paid Vacation' },
+					{ id: 'Casual Leave', label: '⏱️ Casual Leave', desc: 'Emergency Hours' },
+					{ id: 'Sick Leave', label: '🏥 Sick Leave', desc: 'Medical Off' },
+					{ id: 'Unpaid Leave', label: '🏖️ Unpaid Leave', desc: 'Personal Time' }
+				] as cat}
+					<button
+						type="button"
+						onclick={() => (selectedType = cat.id)}
+						class="flex flex-col items-start rounded-2xl border p-3 text-left transition-all cursor-pointer
+							   {selectedType === cat.id
+								 ? 'border-[#00C48C] bg-[#E8F8EE] ring-2 ring-[#00C48C]/20 shadow-xs'
+								 : 'border-slate-200/80 bg-slate-50/50 hover:bg-white hover:border-slate-300'}"
+					>
+						<span class="text-xs font-bold text-slate-900">{cat.label}</span>
+						<span class="text-[10px] text-slate-400 mt-0.5">{cat.desc}</span>
+					</button>
+				{/each}
+			</div>
+		</div>
 
-		<Input label="Start Date" name="startDate" type="date" bind:value={startDate} required />
+		{#if data.employees && data.employees.length > 1}
+			<Select
+				label="Applicant Employee"
+				name="employeeId"
+				bind:value={employeeId}
+				options={data.employees.map((e) => ({ value: e.id, label: e.fullName }))}
+				required
+			/>
+		{/if}
 
-		<Input label="End Date" name="endDate" type="date" bind:value={endDate} required />
+		<!-- Date Range Inputs (2 Columns) -->
+		<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+			<Input
+				label="Start Date"
+				name="startDate"
+				type="date"
+				bind:value={startDate}
+				required
+			/>
+
+			<Input
+				label="End Date"
+				name="endDate"
+				type="date"
+				bind:value={endDate}
+				required
+			/>
+		</div>
+
+		<!-- Live Duration Calculation Chip -->
+		{#if startDate && endDate}
+			{@const days = getDurationDays(startDate, endDate)}
+			<div class="flex items-center justify-between rounded-2xl bg-slate-100/70 px-4 py-2.5 text-xs text-slate-700 border border-slate-200/60">
+				<span class="font-medium">Calculated Leave Duration:</span>
+				<span class="font-bold text-[#00C48C] font-mono">{days} Working Day{days > 1 ? 's' : ''}</span>
+			</div>
+		{/if}
+
+		<!-- Reason / Notes -->
+		<div class="flex flex-col gap-1.5">
+			<label for="leave-reason" class="text-xs font-bold text-slate-700">Reason / Handover Notes</label>
+			<textarea
+				id="leave-reason"
+				rows={3}
+				bind:value={leaveReason}
+				placeholder="State reason for absence and team handover details..."
+				class="w-full rounded-2xl border border-slate-200/80 bg-slate-50/50 p-3 text-xs text-slate-800 focus:border-[#00C48C] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#00C48C]/15 transition-all shadow-2xs"
+			></textarea>
+		</div>
 
 		<div class="flex gap-3 pt-4 border-t border-slate-100">
 			<Button type="submit" variant="primary" class="flex-1" disabled={isSubmitting}>

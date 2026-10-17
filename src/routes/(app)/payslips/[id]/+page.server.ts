@@ -23,8 +23,9 @@ export const load: PageServerLoad = async ({ params, parent }) => {
 
 	// If employee role, ensure they are viewing their own payslip
 	if (user.role === 'employee') {
+		const phone = (user as any).phoneNumber || '';
 		const userAcc = await db.query.userAccount.findFirst({
-			where: eq(userAccount.phone, user.phoneNumber || '')
+			where: eq(userAccount.phone, phone)
 		});
 		if (userAcc && userAcc.employeeId !== slip.employeeId) {
 			throw error(403, 'Access denied');

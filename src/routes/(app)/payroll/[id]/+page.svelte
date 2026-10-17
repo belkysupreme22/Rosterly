@@ -2,7 +2,7 @@
 	import { invalidateAll, goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
 	import StatusBadge from '$lib/components/StatusBadge.svelte';
-	import { ArrowLeft, Check, PaperPlaneTilt, Receipt, Buildings } from 'phosphor-svelte';
+	import { ArrowLeft, Check, PaperPlaneTilt, Receipt, Buildings, DownloadSimple } from 'phosphor-svelte';
 
 	interface Props {
 		data: {
@@ -129,6 +129,15 @@
 		</div>
 
 		<div class="flex items-center gap-3">
+			<a
+				href="/api/payroll/{data.payrollRun.id}/export"
+				download
+				class="inline-flex items-center gap-1.5 rounded-xl border border-slate-200/80 bg-white px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors shadow-2xs"
+			>
+				<DownloadSimple size={15} weight="bold" />
+				Export CBE Wire File (CSV)
+			</a>
+
 			{#if updateError}
 				<p class="text-xs text-danger">{updateError}</p>
 			{/if}
