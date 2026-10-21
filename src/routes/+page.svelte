@@ -20,7 +20,8 @@
 		Bank,
 		Scales,
 		FileText,
-		Star
+		Star,
+		CaretDown
 	} from 'phosphor-svelte';
 	import { authClient } from '$lib/auth-client';
 
@@ -408,55 +409,64 @@
 	/>
 </svelte:head>
 
-<!-- Deep Matte Obsidian Canvas (#0c0a09) with Hard Paper Tactile Texture and Controlled Brand Accent -->
-<div class="min-h-screen bg-[#0c0a09] inngest-paper text-[#f4f4f5] selection:bg-[#00C48C]/25 selection:text-white relative overflow-hidden font-sans">
-	<!-- Tactile Uncoated Paper Grain Noise Overlay (No Square Grids) -->
-	<div class="pointer-events-none fixed inset-0 inngest-grain z-0 opacity-45"></div>
+<!-- Deep Matte Obsidian Canvas (#08090a) with Fine-Grit Sandpaper Feel and Controlled Brand Gradients -->
+<div class="min-h-screen bg-[#08090a] inngest-paper text-[#f4f4f5] selection:bg-[#00C48C]/20 selection:text-white relative overflow-hidden font-sans">
+	<!-- Fine-Grit Sandpaper Noise Overlay (Tactile Emery Tooth) -->
+	<div class="pointer-events-none fixed inset-0 inngest-grain z-0 opacity-50"></div>
 
 	<!-- Atmospheric Ambient Lighting (Controlled Soft Glows) -->
-	<div class="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(0,196,140,0.08),transparent_70%)] blur-3xl"></div>
-	<div class="pointer-events-none absolute top-[1800px] right-0 w-[600px] h-[500px] bg-[radial-gradient(circle,rgba(0,196,140,0.04),transparent_70%)] blur-3xl"></div>
+	<div class="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[480px] bg-[radial-gradient(ellipse_at_top,rgba(0,196,140,0.06),transparent_70%)] blur-3xl"></div>
+	<div class="pointer-events-none absolute top-[1800px] right-0 w-[600px] h-[500px] bg-[radial-gradient(circle,rgba(0,196,140,0.03),transparent_70%)] blur-3xl"></div>
 
-	<!-- ── STICKY HEADER (Frosted matte paper background with hairline border) ── -->
-	<header class="sticky top-0 z-50 border-b border-white/[0.06] bg-[#0c0a09]/80 backdrop-blur-xl h-[78px] flex items-center shadow-[inset_0_-1px_0_0_rgba(255,255,255,0.02)] transition-inngest">
+	<!-- ── INNGEST-STYLE DOCKED HEADER (Blends seamlessly with the sandpaper background) ── -->
+	<header class="sticky top-0 z-50 bg-transparent border-b border-white/[0.04] backdrop-blur-[6px] h-[88px] flex items-center transition-inngest">
 		<div class="mx-auto flex w-full max-w-[1440px] items-center justify-between px-6 sm:px-12">
-			<!-- Logo -->
-			<a href="/" class="flex items-center gap-3 group">
-				<div class="flex h-9 w-9 items-center justify-center rounded-[6px] bg-[#16171a] border border-white/[0.08] text-white shadow-xs group-hover:border-[#00C48C]/40 transition-colors">
-					<TreeStructure size={18} weight="fill" class="text-[#00C48C]" />
-				</div>
-				<div class="flex items-center gap-2">
-					<span class="text-sm font-semibold tracking-tight text-zinc-100">Rosterly</span>
-					<span class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#00C48C]/10 text-[#00C48C] border border-[#00C48C]/20">v2.4</span>
-				</div>
-			</a>
+			<!-- Logo Area -->
+			<div class="flex items-center gap-8">
+				<a href="/" class="flex items-center gap-2.5 group">
+					<div class="flex h-8 w-8 items-center justify-center rounded-[6px] bg-[#121316] border border-white/[0.08] text-white shadow-xs group-hover:border-[#00C48C]/40 transition-colors">
+						<TreeStructure size={16} weight="fill" class="text-[#00C48C]" />
+					</div>
+					<span class="text-[15px] font-semibold tracking-tight text-zinc-100">Rosterly</span>
+					<span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#00C48C]/[0.08] text-[#00C48C]/90 border border-[#00C48C]/20">v2.4</span>
+				</a>
 
-			<!-- Center Nav Links (Clean Sentence Case, Natural Contrast) -->
-			<nav class="hidden md:flex items-center gap-8 text-xs font-medium text-zinc-400">
-				<a href="#pipeline" class="hover:text-zinc-100 transition-colors">Pipeline</a>
-				<a href="#engine" class="hover:text-zinc-100 transition-colors">Tax engine</a>
-				<a href="#timeline" class="hover:text-zinc-100 transition-colors">Compliance</a>
-				<a href="#roles" class="hover:text-zinc-100 transition-colors">Roles</a>
-			</nav>
+				<!-- Inngest Style Center Menu Items with subtle Carets -->
+				<nav class="hidden lg:flex items-center gap-6 text-[13px] text-zinc-400">
+					<a href="#pipeline" class="hover:text-zinc-100 flex items-center gap-1 transition-colors group">
+						<span>Platform</span>
+						<CaretDown size={11} class="text-zinc-500 group-hover:text-zinc-300 transition-colors" />
+					</a>
+					<a href="#engine" class="hover:text-zinc-100 transition-colors">Tax engine</a>
+					<a href="#timeline" class="hover:text-zinc-100 transition-colors">Compliance</a>
+					<a href="#roles" class="hover:text-zinc-100 transition-colors">Governance</a>
+					<a href="#roles" class="hover:text-zinc-100 transition-colors">Telegram</a>
+				</nav>
+			</div>
 
-			<!-- Actions: Sole Notable GitHub Link + Open Workspace CTA -->
-			<div class="flex items-center gap-3">
+			<!-- Inngest Style Actions: GitHub Star Pill + Sign In + Get Started Button -->
+			<div class="flex items-center gap-4">
 				<a
 					href={GITHUB_URL}
 					target="_blank"
 					rel="noreferrer"
-					class="inline-flex items-center gap-2 rounded-[6px] border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.15] px-3.5 py-2 text-xs font-medium text-zinc-300 hover:text-white transition-inngest shadow-xs"
+					class="hidden sm:inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/[0.14] px-3.5 py-1.5 text-xs text-zinc-300 hover:text-white transition-inngest shadow-xs"
 				>
 					<GithubLogo size={14} weight="bold" />
-					<span class="hidden sm:inline">GitHub</span>
-					<span class="flex items-center gap-1 text-[10px] text-[#00C48C] font-mono pl-1 border-l border-white/[0.08]">
-						<Star size={10} weight="fill" />
-						<span>Repo</span>
-					</span>
+					<span>Star</span>
+					<span class="text-[10px] text-zinc-400 font-mono pl-1.5 border-l border-white/[0.08]">★ 1.2k</span>
 				</a>
+
 				<a
 					href="/login"
-					class="inline-flex items-center gap-2 rounded-[6px] bg-gradient-to-r from-[#00C48C] to-[#00a876] hover:brightness-105 active:scale-[0.99] text-[#051a14] font-semibold px-4.5 py-2 text-xs transition-inngest shadow-sm"
+					class="text-xs text-zinc-400 hover:text-zinc-100 transition-colors hidden md:block"
+				>
+					Sign in
+				</a>
+
+				<a
+					href="/login"
+					class="inline-flex items-center gap-1.5 rounded-[6px] bg-gradient-to-r from-[#00b884] via-[#00a876] to-[#009468] hover:brightness-105 active:scale-[0.99] text-[#051a14] font-semibold px-4 py-2 text-xs transition-inngest shadow-xs"
 				>
 					<span>Open workspace</span>
 					<ArrowRight size={13} weight="bold" />
@@ -473,10 +483,10 @@
 				<!-- Announcement Pill -->
 				<a
 					href="#timeline"
-					class="inline-flex items-center gap-2 rounded-full border border-[#00C48C]/25 bg-[#00C48C]/[0.06] hover:bg-[#00C48C]/[0.10] px-3.5 py-1 text-xs font-mono text-zinc-200 mb-6 transition-inngest"
+					class="inline-flex items-center gap-2 rounded-full border border-[#00C48C]/20 bg-[#00C48C]/[0.05] hover:bg-[#00C48C]/[0.08] px-3.5 py-1 text-xs font-mono text-zinc-300 mb-6 transition-inngest"
 				>
-					<span class="h-1.5 w-1.5 rounded-full bg-[#00C48C] animate-pulse"></span>
-					<span class="font-medium text-zinc-200">Ethiopian MoR Proclamation 979/2016</span>
+					<span class="h-1.5 w-1.5 rounded-full bg-[#00C48C]/80 animate-pulse"></span>
+					<span class="text-zinc-300 font-medium">Ethiopian MoR Proclamation 979/2016</span>
 					<span class="text-zinc-600">&bull;</span>
 					<span class="text-[#00C48C]">Directives &rarr;</span>
 				</a>
@@ -495,14 +505,14 @@
 				<div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
 					<a
 						href="/login"
-						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] bg-gradient-to-r from-[#00C48C] to-[#00a876] hover:brightness-105 active:scale-[0.99] text-[#051a14] font-semibold text-xs h-[42px] px-6 transition-inngest cursor-pointer shadow-sm"
+						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] bg-gradient-to-r from-[#00b884] via-[#00a876] to-[#009468] hover:brightness-105 active:scale-[0.99] text-[#051a14] font-semibold text-xs h-[42px] px-6 transition-inngest cursor-pointer shadow-sm"
 					>
 						<span>Explore pre-seeded company</span>
 						<ArrowRight size={13} weight="bold" />
 					</a>
 					<a
 						href="#engine"
-						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.15] text-zinc-200 font-medium text-xs h-[42px] px-5 transition-inngest cursor-pointer"
+						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.14] text-zinc-300 font-medium text-xs h-[42px] px-5 transition-inngest cursor-pointer"
 					>
 						<Sliders size={13} class="text-[#00C48C]" />
 						<span>Test tax simulator</span>
@@ -510,14 +520,14 @@
 				</div>
 			</div>
 
-			<!-- Hero Right Column: Inngest-Style Visual Workflow Pipeline (No Code) -->
-			<div id="pipeline" class="lg:col-span-6 rounded-[6px] border border-white/[0.07] bg-gradient-to-b from-[#161619]/80 to-[#101012]/95 p-5 sm:p-6 shadow-xl backdrop-blur-sm relative overflow-hidden">
+			<!-- Hero Right Column: Inngest-Style Visual Workflow Pipeline (Integrated with Sandpaper Canvas) -->
+			<div id="pipeline" class="lg:col-span-6 inngest-card p-5 sm:p-6 relative overflow-hidden">
 				<div class="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.06]">
 					<div class="flex items-center gap-2 text-xs font-mono text-[#00C48C]">
 						<Cpu size={15} />
 						<span class="font-medium">Workflow execution pipeline</span>
 					</div>
-					<span class="text-[11px] font-mono text-zinc-400 px-2.5 py-0.5 rounded-full border border-white/[0.06] bg-white/[0.02]">
+					<span class="text-[11px] font-mono text-zinc-400 px-2.5 py-0.5 rounded-full inngest-subcard">
 						Cycle #2026-09
 					</span>
 				</div>
@@ -530,11 +540,11 @@
 							onclick={() => (activePipelineStep = step.id)}
 							class="w-full text-left rounded-[6px] border p-3 transition-inngest cursor-pointer flex items-center justify-between
 								   {isSelected
-									 ? 'border-[#00C48C]/40 bg-[#00C48C]/[0.06] shadow-[inset_2px_0_0_0_#00C48C]'
-									 : 'border-white/[0.05] bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/[0.1]'}"
+									 ? 'border-[#00C48C]/35 bg-[#00C48C]/[0.06] shadow-[inset_2px_0_0_0_#00C48C]'
+									 : 'border-white/[0.05] bg-white/[0.015] hover:bg-white/[0.04] hover:border-white/[0.1]'}"
 						>
 							<div class="flex items-center gap-3">
-								<div class="h-2 w-2 rounded-full {isSelected ? 'bg-[#00C48C] animate-pulse' : 'bg-zinc-600'}"></div>
+								<div class="h-2 w-2 rounded-full {isSelected ? 'bg-[#00C48C]/90 shadow-[0_0_8px_rgba(0,196,140,0.4)]' : 'bg-zinc-600'}"></div>
 								<div>
 									<div class="text-xs font-mono text-zinc-200">{step.name}</div>
 									<div class="text-[10px] text-zinc-400 font-mono">{step.badge} &bull; {step.duration}</div>
@@ -547,9 +557,9 @@
 					{/each}
 				</div>
 
-				<!-- Live Step Inspector (Visual Log Viewer) -->
-				<div class="rounded-[6px] border border-white/[0.06] bg-[#0c0a09]/80 p-4 font-mono text-xs">
-					<div class="flex items-center justify-between pb-2 mb-2 border-b border-white/[0.06]">
+				<!-- Live Step Inspector (Visual Log Viewer, Translucent Subcard) -->
+				<div class="inngest-subcard p-4 font-mono text-xs">
+					<div class="flex items-center justify-between pb-2 mb-2 border-b border-white/[0.05]">
 						<div class="flex items-center gap-2">
 							<span class="h-1.5 w-1.5 rounded-full bg-[#00C48C]"></span>
 							<span class="text-zinc-200 font-medium">{selectedStepObj.name}</span>
@@ -559,7 +569,7 @@
 					<p class="text-zinc-400 text-xs font-sans mb-3 leading-relaxed">
 						{selectedStepObj.description}
 					</p>
-					<div class="bg-white/[0.02] border border-white/[0.06] rounded-[6px] p-2.5 text-[11px] space-y-1">
+					<div class="bg-white/[0.02] border border-white/[0.05] rounded-[6px] p-2.5 text-[11px] space-y-1">
 						{#each Object.entries(selectedStepObj.meta) as [key, val]}
 							<div class="flex items-start gap-2">
 								<span class="text-zinc-500 min-w-24 capitalize">{key}:</span>
@@ -572,27 +582,27 @@
 		</section>
 
 		<!-- ── ENDLESS RAIL LOGO MARQUEE (Trust & Institutional Anchors) ────── -->
-		<section class="border-y border-white/[0.06] py-5 my-12 bg-white/[0.015] overflow-hidden relative">
+		<section class="border-y border-white/[0.05] py-5 my-12 bg-white/[0.01] overflow-hidden relative">
 			<div class="animate-inngest-marquee flex items-center gap-12 text-xs font-mono text-zinc-400">
-				<span class="flex items-center gap-2"><Bank size={15} class="text-[#00C48C]/80" /> Commercial Bank of Ethiopia (CBE Direct)</span>
+				<span class="flex items-center gap-2"><Bank size={15} class="text-[#00C48C]/70" /> Commercial Bank of Ethiopia (CBE Direct)</span>
 				<span class="text-zinc-700">&bull;</span>
-				<span class="flex items-center gap-2"><Scales size={15} class="text-[#00C48C]/80" /> Ministry of Revenue (MoR Proclamation 979)</span>
+				<span class="flex items-center gap-2"><Scales size={15} class="text-[#00C48C]/70" /> Ministry of Revenue (MoR Proclamation 979)</span>
 				<span class="text-zinc-700">&bull;</span>
-				<span class="flex items-center gap-2"><Shield size={15} class="text-[#00C48C]/80" /> Pension Agency (POESSA Directives)</span>
+				<span class="flex items-center gap-2"><Shield size={15} class="text-[#00C48C]/70" /> Pension Agency (POESSA Directives)</span>
 				<span class="text-zinc-700">&bull;</span>
-				<span class="flex items-center gap-2"><FileText size={15} class="text-[#00C48C]/80" /> ISO 20022 Corporate Wire Standard</span>
+				<span class="flex items-center gap-2"><FileText size={15} class="text-[#00C48C]/70" /> ISO 20022 Corporate Wire Standard</span>
 				<span class="text-zinc-700">&bull;</span>
-				<span class="flex items-center gap-2"><Coins size={15} class="text-[#00C48C]/80" /> Telebirr Corporate Batch Gateway</span>
+				<span class="flex items-center gap-2"><Coins size={15} class="text-[#00C48C]/70" /> Telebirr Corporate Batch Gateway</span>
 				<span class="text-zinc-700">&bull;</span>
-				<span class="flex items-center gap-2"><Bank size={15} class="text-[#00C48C]/80" /> Commercial Bank of Ethiopia (CBE Direct)</span>
+				<span class="flex items-center gap-2"><Bank size={15} class="text-[#00C48C]/70" /> Commercial Bank of Ethiopia (CBE Direct)</span>
 				<span class="text-zinc-700">&bull;</span>
-				<span class="flex items-center gap-2"><Scales size={15} class="text-[#00C48C]/80" /> Ministry of Revenue (MoR Proclamation 979)</span>
+				<span class="flex items-center gap-2"><Scales size={15} class="text-[#00C48C]/70" /> Ministry of Revenue (MoR Proclamation 979)</span>
 				<span class="text-zinc-700">&bull;</span>
-				<span class="flex items-center gap-2"><Shield size={15} class="text-[#00C48C]/80" /> Pension Agency (POESSA Directives)</span>
+				<span class="flex items-center gap-2"><Shield size={15} class="text-[#00C48C]/70" /> Pension Agency (POESSA Directives)</span>
 				<span class="text-zinc-700">&bull;</span>
-				<span class="flex items-center gap-2"><FileText size={15} class="text-[#00C48C]/80" /> ISO 20022 Corporate Wire Standard</span>
+				<span class="flex items-center gap-2"><FileText size={15} class="text-[#00C48C]/70" /> ISO 20022 Corporate Wire Standard</span>
 				<span class="text-zinc-700">&bull;</span>
-				<span class="flex items-center gap-2"><Coins size={15} class="text-[#00C48C]/80" /> Telebirr Corporate Batch Gateway</span>
+				<span class="flex items-center gap-2"><Coins size={15} class="text-[#00C48C]/70" /> Telebirr Corporate Batch Gateway</span>
 			</div>
 		</section>
 
@@ -611,8 +621,8 @@
 				</p>
 			</div>
 
-			<!-- Large Showcase Container (Matching Inngest frame center showcase) -->
-			<div class="rounded-[6px] border border-white/[0.07] bg-gradient-to-b from-[#161619]/90 to-[#101012]/95 p-6 sm:p-10 shadow-xl backdrop-blur-sm relative overflow-hidden">
+			<!-- Large Showcase Container (Integrated Frosted Sandpaper Card) -->
+			<div class="inngest-card p-6 sm:p-10 relative overflow-hidden">
 				<!-- Header Controls: Presets & Period -->
 				<div class="flex flex-col lg:flex-row lg:items-center justify-between pb-6 mb-6 border-b border-white/[0.06] gap-4">
 					<!-- Presets -->
@@ -623,7 +633,7 @@
 								onclick={() => (baseSalaryInput = p.amount)}
 								class="rounded-[6px] border px-3 py-1.5 text-xs font-mono transition-inngest cursor-pointer
 									   {baseSalaryInput === p.amount
-										 ? 'border-[#00C48C]/40 bg-[#00C48C]/[0.08] text-[#00C48C] font-medium'
+										 ? 'border-[#00C48C]/35 bg-[#00C48C]/[0.08] text-[#00C48C] font-medium'
 										 : 'border-white/[0.06] bg-white/[0.02] text-zinc-400 hover:text-zinc-200 hover:border-white/[0.12]'}"
 							>
 								{p.label} ({p.amount.toLocaleString()} ETB)
@@ -647,7 +657,7 @@
 								Annual
 							</button>
 						</div>
-						<div class="px-3 py-1 rounded-full border border-white/[0.06] bg-white/[0.02] text-xs font-mono text-[#00C48C] font-medium">
+						<div class="px-3 py-1 rounded-full border border-white/[0.06] inngest-subcard text-xs font-mono text-[#00C48C] font-medium">
 							{calc.bracketLabel}
 						</div>
 					</div>
@@ -660,7 +670,7 @@
 							<Sliders size={14} class="text-[#00C48C]" />
 							<span>Monthly base gross salary</span>
 						</label>
-						<div class="flex items-center gap-1.5 bg-[#0c0a09] border border-white/[0.08] rounded-[6px] px-3.5 py-1.5 font-mono text-sm font-semibold text-zinc-200">
+						<div class="flex items-center gap-1.5 inngest-subcard px-3.5 py-1.5 font-mono text-sm font-semibold text-zinc-200">
 							<span class="text-zinc-500 text-xs">ETB</span>
 							<input
 								id="salary-number"
@@ -680,42 +690,42 @@
 						min="1000"
 						max="150000"
 						step="1000"
-						class="w-full h-2 bg-[#0c0a09] rounded-lg appearance-none cursor-pointer accent-[#00C48C]"
+						class="w-full h-2 bg-zinc-900 rounded-lg appearance-none cursor-pointer accent-[#00C48C]"
 					/>
 				</div>
 
 				<!-- Visual Distribution Bar -->
-				<div class="mb-8 p-4 rounded-[6px] bg-[#0c0a09]/80 border border-white/[0.06]">
+				<div class="mb-8 p-4 rounded-[6px] inngest-subcard">
 					<div class="flex items-center justify-between text-xs font-mono mb-2.5">
 						<span class="text-zinc-400 text-[11px]">Deductions distribution</span>
 						<div class="flex items-center gap-4 text-[10px]">
-							<span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-[#00C48C]"></span>Net take-home ({calc.netPercent}%)</span>
-							<span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-amber-400/90"></span>Income tax ({calc.taxPercent}%)</span>
+							<span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-[#00C48C]/90"></span>Net take-home ({calc.netPercent}%)</span>
+							<span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-amber-400/80"></span>Income tax ({calc.taxPercent}%)</span>
 							<span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-zinc-600"></span>Pension ({calc.pensionPercent}%)</span>
 						</div>
 					</div>
-					<div class="h-2.5 w-full rounded-full bg-zinc-800/80 overflow-hidden flex">
-						<div class="h-full bg-gradient-to-r from-[#00C48C] to-[#00b07d] transition-inngest" style="width: {calc.netPercent}%"></div>
-						<div class="h-full bg-gradient-to-r from-amber-400/90 to-amber-500/80 transition-inngest" style="width: {calc.taxPercent}%"></div>
-						<div class="h-full bg-zinc-600 transition-inngest" style="width: {calc.pensionPercent}%"></div>
+					<div class="h-2.5 w-full rounded-full bg-zinc-800/60 overflow-hidden flex">
+						<div class="h-full bg-gradient-to-r from-[#00b884] to-[#009468] transition-inngest" style="width: {calc.netPercent}%"></div>
+						<div class="h-full bg-gradient-to-r from-amber-500/80 to-amber-600/70 transition-inngest" style="width: {calc.taxPercent}%"></div>
+						<div class="h-full bg-zinc-700/70 transition-inngest" style="width: {calc.pensionPercent}%"></div>
 					</div>
 				</div>
 
 				<!-- 4 Metric Cards -->
 				<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-					<div class="rounded-[6px] border border-white/[0.06] bg-white/[0.02] p-4">
+					<div class="inngest-subcard p-4">
 						<div class="text-[10px] text-zinc-400 font-mono">7% Employee pension</div>
 						<div class="text-base font-mono font-medium text-zinc-100 mt-1">{formatETB(calc.employeePension)}</div>
 					</div>
-					<div class="rounded-[6px] border border-white/[0.06] bg-white/[0.02] p-4">
+					<div class="inngest-subcard p-4">
 						<div class="text-[10px] text-zinc-400 font-mono">Taxable income base</div>
 						<div class="text-base font-mono font-medium text-zinc-300 mt-1">{formatETB(calc.base - calc.employeePension)}</div>
 					</div>
-					<div class="rounded-[6px] border border-white/[0.06] bg-white/[0.02] p-4">
-						<div class="text-[10px] text-amber-400/90 font-mono">MoR income tax</div>
-						<div class="text-base font-mono font-medium text-amber-400/90 mt-1">{formatETB(calc.incomeTax)}</div>
+					<div class="inngest-subcard p-4">
+						<div class="text-[10px] text-amber-400/80 font-mono">MoR income tax</div>
+						<div class="text-base font-mono font-medium text-amber-400/80 mt-1">{formatETB(calc.incomeTax)}</div>
 					</div>
-					<div class="rounded-[6px] border border-white/[0.06] bg-white/[0.02] p-4">
+					<div class="inngest-subcard p-4">
 						<div class="text-[10px] text-[#00C48C] font-mono">Net take-home pay</div>
 						<div class="text-base font-mono font-semibold text-[#00C48C] mt-1">{formatETB(calc.netPay)}</div>
 					</div>
@@ -724,7 +734,7 @@
 		</section>
 
 		<!-- ── VIBRANT ACCENT BAND (Deep hard paper gradient with controlled contrast) ── -->
-		<section class="rounded-[6px] border border-[#00C48C]/20 bg-gradient-to-r from-[#0d1c17]/90 via-[#0a1813]/80 to-[#0d1c17]/90 p-8 sm:p-12 my-16 shadow-[inset_0_1px_0_0_rgba(0,196,140,0.12)]">
+		<section class="rounded-[6px] border border-[#00C48C]/15 bg-gradient-to-b from-[#0a1512]/60 via-[#070e0b]/50 to-[#070b0a]/70 backdrop-blur-md p-8 sm:p-12 my-16 shadow-[inset_0_1px_0_0_rgba(0,196,140,0.1)]">
 			<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
 				<div class="max-w-xl">
 					<span class="text-xs font-mono text-[#00C48C] font-medium block mb-2">
@@ -782,7 +792,7 @@
 							<!-- Stepper Node Dot -->
 							<div
 								class="absolute -left-[31px] top-1 h-3.5 w-3.5 rounded-full border-2 transition-inngest
-									   {isCurrent ? 'bg-[#00C48C] border-[#0c0a09] ring-4 ring-[#00C48C]/15' : 'bg-zinc-800 border-zinc-700 group-hover:border-[#00C48C]'}"
+									   {isCurrent ? 'bg-[#00C48C]/90 border-[#08090a] ring-4 ring-[#00C48C]/15' : 'bg-zinc-800 border-zinc-700 group-hover:border-[#00C48C]'}"
 							></div>
 
 							<div class="flex items-center gap-2 mb-1">
@@ -803,8 +813,8 @@
 					{/each}
 				</div>
 
-				<!-- Right Interactive Showcase Card for Active Step -->
-				<div class="lg:col-span-7 rounded-[6px] border border-white/[0.07] bg-gradient-to-b from-[#161619]/90 to-[#101012]/95 p-6 sm:p-8 shadow-xl">
+				<!-- Right Interactive Showcase Card for Active Step (Incorporated Frosted Card) -->
+				<div class="lg:col-span-7 inngest-card p-6 sm:p-8">
 					{#if activeTimelineStep === 1}
 						<!-- Step 1: 7-Tier Tax Schedule Inspector -->
 						<div>
@@ -818,13 +828,13 @@
 							<p class="text-xs text-zinc-400 leading-relaxed mb-4">
 								Every Birr is calculated deterministically with statutory deductibles applied per income bracket:
 							</p>
-							<div class="rounded-[6px] border border-white/[0.06] bg-[#0c0a09] overflow-hidden font-mono text-xs">
-								<div class="grid grid-cols-3 bg-white/[0.02] p-2.5 text-[11px] font-medium text-zinc-400 border-b border-white/[0.06]">
+							<div class="inngest-subcard overflow-hidden font-mono text-xs">
+								<div class="grid grid-cols-3 bg-white/[0.02] p-2.5 text-[11px] font-medium text-zinc-400 border-b border-white/[0.05]">
 									<span>Monthly taxable bracket</span>
 									<span class="text-center">Rate</span>
 									<span class="text-right">Deduction (ETB)</span>
 								</div>
-								<div class="divide-y divide-white/[0.04] text-[11px]">
+								<div class="divide-y divide-white/[0.03] text-[11px]">
 									<div class="grid grid-cols-3 p-2.5 text-zinc-400">
 										<span>0 – 600 ETB</span>
 										<span class="text-center text-[#00C48C]">0%</span>
@@ -877,18 +887,18 @@
 								Statutory split deposited to the Private Organization Employees’ Pension Agency:
 							</p>
 							<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-								<div class="rounded-[6px] border border-white/[0.06] bg-[#0c0a09] p-4">
+								<div class="inngest-subcard p-4">
 									<div class="text-[10px] font-mono text-zinc-400">Employee 7% deduction</div>
 									<div class="text-lg font-mono font-semibold text-[#00C48C] mt-1">ETB 26,481.00</div>
 									<div class="text-[11px] text-zinc-500 mt-1 font-sans">Exempt from monthly income tax base</div>
 								</div>
-								<div class="rounded-[6px] border border-white/[0.06] bg-[#0c0a09] p-4">
+								<div class="inngest-subcard p-4">
 									<div class="text-[10px] font-mono text-zinc-400">Employer 11% match</div>
 									<div class="text-lg font-mono font-semibold text-zinc-100 mt-1">ETB 41,613.00</div>
 									<div class="text-[11px] text-zinc-500 mt-1 font-sans">Mandatory corporate social security</div>
 								</div>
 							</div>
-							<div class="rounded-[6px] border border-white/[0.06] bg-[#0c0a09] p-3 text-xs font-mono flex items-center justify-between text-zinc-400">
+							<div class="inngest-subcard p-3 text-xs font-mono flex items-center justify-between text-zinc-400">
 								<span>Total remittance voucher due:</span>
 								<span class="text-zinc-100 font-semibold">ETB 68,094.00</span>
 							</div>
@@ -909,14 +919,14 @@
 								Disbursement integrity prevents rogue or fraudulent wire executions:
 							</p>
 							<div class="space-y-3 font-mono text-xs">
-								<div class="rounded-[6px] border border-white/[0.06] bg-[#0c0a09] p-3 flex items-center justify-between">
+								<div class="inngest-subcard p-3 flex items-center justify-between">
 									<div class="flex items-center gap-2">
 										<CheckCircle size={16} class="text-[#00C48C]" weight="fill" />
 										<span class="text-zinc-200">Finance &amp; Treasury</span>
 									</div>
 									<span class="text-[11px] text-[#00C48C]">Drafted &amp; audited</span>
 								</div>
-								<div class="rounded-[6px] border border-[#00C48C]/30 bg-[#00C48C]/[0.05] p-3 flex items-center justify-between">
+								<div class="rounded-[6px] border border-[#00C48C]/25 bg-[#00C48C]/[0.05] p-3 flex items-center justify-between">
 									<div class="flex items-center gap-2">
 										<span class="h-2 w-2 rounded-full bg-[#00C48C] animate-ping"></span>
 										<span class="text-zinc-100">Managing Director (Owner)</span>
@@ -936,7 +946,7 @@
 								<div class="flex items-center gap-1.5">
 									<button
 										onclick={copyBatchCSV}
-										class="text-[11px] font-mono text-zinc-300 hover:text-white flex items-center gap-1 bg-[#0c0a09] px-2.5 py-1 rounded-[6px] border border-white/[0.08] transition-colors cursor-pointer"
+										class="text-[11px] font-mono text-zinc-300 hover:text-white flex items-center gap-1 inngest-subcard px-2.5 py-1 rounded-[6px] transition-colors cursor-pointer"
 									>
 										{#if copiedBatch}
 											<Check size={12} class="text-[#00C48C]" />
@@ -948,7 +958,7 @@
 									</button>
 									<button
 										onclick={downloadBatchCSV}
-										class="text-[11px] font-mono text-[#051a14] font-semibold hover:brightness-105 flex items-center gap-1 bg-gradient-to-r from-[#00C48C] to-[#00a876] px-2.5 py-1 rounded-[6px] transition-colors cursor-pointer"
+										class="text-[11px] font-mono text-[#051a14] font-semibold hover:brightness-105 flex items-center gap-1 bg-gradient-to-r from-[#00b884] to-[#009468] px-2.5 py-1 rounded-[6px] transition-colors cursor-pointer"
 										title="Download CSV"
 									>
 										<DownloadSimple size={12} />
@@ -959,7 +969,7 @@
 							<p class="text-xs text-zinc-400 leading-relaxed mb-3">
 								ISO 20022 compliant corporate batch file ready for upload to CBE Corporate Portal:
 							</p>
-							<div class="rounded-[6px] border border-white/[0.06] bg-[#0c0a09] p-3 font-mono text-[11px] space-y-1 overflow-x-auto text-zinc-400">
+							<div class="inngest-subcard p-3 font-mono text-[11px] space-y-1 overflow-x-auto text-zinc-400">
 								<div class="text-zinc-500"># CBE Wire Transfer Batch (Cycle 2026-09)</div>
 								<div class="text-[#00C48C] font-medium">Account,Beneficiary,Amount_ETB,Ref</div>
 								<div class="text-zinc-200">1000188923456,"Abebe Kebede",38200.00,SAL-09</div>
@@ -988,8 +998,8 @@
 			</div>
 
 			<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-				<!-- BENTO CARD 1 (SPAN 2): Separation of Duties Role Switcher -->
-				<div class="lg:col-span-2 rounded-[6px] border border-white/[0.07] bg-gradient-to-b from-[#161619]/90 to-[#101012]/95 p-6 sm:p-8 shadow-xl">
+				<!-- BENTO CARD 1 (SPAN 2): Separation of Duties Role Switcher (Integrated Frosted Glass) -->
+				<div class="lg:col-span-2 inngest-card p-6 sm:p-8">
 					<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-5 border-b border-white/[0.06] gap-3">
 						<div>
 							<span class="text-xs font-mono text-[#00C48C] block mb-1">Interactive RBAC</span>
@@ -999,7 +1009,7 @@
 						<button
 							onclick={() => launchAsRole(currentRole.email)}
 							disabled={isLoggingIn}
-							class="inline-flex items-center gap-2 rounded-[6px] bg-gradient-to-r from-[#00C48C] to-[#00a876] hover:brightness-105 active:scale-[0.99] text-[#051a14] font-semibold text-xs px-4 py-2 transition-inngest disabled:opacity-50 cursor-pointer self-start sm:self-auto shadow-sm"
+							class="inline-flex items-center gap-2 rounded-[6px] bg-gradient-to-r from-[#00b884] via-[#00a876] to-[#009468] hover:brightness-105 active:scale-[0.99] text-[#051a14] font-semibold text-xs px-4 py-2 transition-inngest disabled:opacity-50 cursor-pointer self-start sm:self-auto shadow-sm"
 						>
 							<Lightning size={13} weight="fill" />
 							<span>{isLoggingIn ? 'Authenticating...' : currentRole.actionText}</span>
@@ -1014,7 +1024,7 @@
 								onclick={() => (activeRole = r)}
 								class="flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium transition-inngest cursor-pointer
 									   {activeRole === r
-										 ? 'bg-gradient-to-r from-[#00C48C] to-[#00a876] text-[#051a14] font-semibold'
+										 ? 'bg-gradient-to-r from-[#00b884] to-[#009468] text-[#051a14] font-semibold'
 										 : 'bg-white/[0.02] text-zinc-400 hover:text-zinc-200 border border-white/[0.06]'}"
 							>
 								<span>{roleMeta[r].title}</span>
@@ -1026,7 +1036,7 @@
 					</div>
 
 					<!-- Role Preview Box -->
-					<div class="rounded-[6px] border border-white/[0.06] bg-[#0c0a09] p-4">
+					<div class="inngest-subcard p-4">
 						<div class="flex items-center justify-between text-xs mb-3">
 							<span class="font-medium text-zinc-200">{currentRole.headline}</span>
 							<span class="font-mono text-[10px] text-[#00C48C] bg-[#00C48C]/10 px-2.5 py-0.5 rounded-full border border-[#00C48C]/20">
@@ -1035,7 +1045,7 @@
 						</div>
 						<div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
 							{#each currentRole.stats as stat}
-								<div class="rounded-[6px] border border-white/[0.06] bg-white/[0.02] p-3">
+								<div class="inngest-subcard p-3">
 									<div class="text-[10px] text-zinc-500 font-mono">{stat.label}</div>
 									<div class="text-sm font-mono font-medium text-zinc-200 mt-1">{stat.value}</div>
 								</div>
@@ -1044,11 +1054,11 @@
 					</div>
 				</div>
 
-				<!-- BENTO CARD 2 (SPAN 1): Telegram Mobile Worker Simulator -->
-				<div class="rounded-[6px] border border-white/[0.07] bg-gradient-to-b from-[#161619]/90 to-[#101012]/95 p-6 sm:p-8 shadow-xl flex flex-col justify-between">
+				<!-- BENTO CARD 2 (SPAN 1): Telegram Mobile Worker Simulator (Integrated Frosted Glass) -->
+				<div class="inngest-card p-6 sm:p-8 flex flex-col justify-between">
 					<div>
 						<div class="flex items-center justify-between mb-4">
-							<div class="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#0c0a09] border border-white/[0.08] text-white">
+							<div class="flex h-10 w-10 items-center justify-center rounded-[6px] inngest-subcard text-white">
 								<PaperPlaneRight size={20} weight="duotone" class="text-[#00C48C]" />
 							</div>
 							<span class="text-[10px] font-mono text-[#00C48C] bg-[#00C48C]/10 px-2.5 py-0.5 rounded-full border border-[#00C48C]/20">Telegram API</span>
@@ -1075,11 +1085,11 @@
 					</div>
 
 					<!-- Simulated Bot Thread -->
-					<div class="rounded-[6px] border border-white/[0.06] bg-[#0c0a09] p-3 space-y-2 text-xs">
-						<div class="bg-white/[0.03] border border-white/[0.06] text-zinc-200 rounded-[6px] py-1 px-2.5 text-[11px] font-mono text-right">
+					<div class="inngest-subcard p-3 space-y-2 text-xs">
+						<div class="bg-white/[0.03] border border-white/[0.05] text-zinc-200 rounded-[6px] py-1 px-2.5 text-[11px] font-mono text-right">
 							{currentBot.cmd}
 						</div>
-						<div class="bg-white/[0.03] border border-white/[0.06] text-zinc-200 rounded-[6px] p-2.5 text-[11px]">
+						<div class="bg-white/[0.03] border border-white/[0.05] text-zinc-200 rounded-[6px] p-2.5 text-[11px]">
 							<span class="font-medium text-zinc-100 block mb-1 text-[11px]">{currentBot.replyTitle}</span>
 							{#each currentBot.details as d}
 								<div class="flex items-center justify-between text-[10px] py-0.5">
@@ -1087,7 +1097,7 @@
 									<span class="font-mono font-medium {d.highlight ? 'text-[#00C48C]' : 'text-zinc-200'}">{d.val}</span>
 								</div>
 							{/each}
-							<div class="border-t border-white/[0.06] mt-1.5 pt-1 text-[9px] text-zinc-500 font-mono">
+							<div class="border-t border-white/[0.05] mt-1.5 pt-1 text-[9px] text-zinc-500 font-mono">
 								{currentBot.footer}
 							</div>
 						</div>
@@ -1097,7 +1107,7 @@
 		</section>
 
 		<!-- ── CALL TO ACTION BANNER (No duplicate GitHub buttons) ──────────── -->
-		<section class="rounded-[6px] border border-white/[0.07] bg-gradient-to-b from-[#161619]/90 to-[#101012]/95 p-8 sm:p-14 text-center my-16 shadow-xl">
+		<section class="inngest-card p-8 sm:p-14 text-center my-16">
 			<div class="max-w-2xl mx-auto">
 				<h2 class="text-3xl sm:text-4xl font-normal text-zinc-100 tracking-[-0.035em] mb-4">
 					Test the complete workforce platform
@@ -1107,7 +1117,7 @@
 				</p>
 				<a
 					href="/login"
-					class="inline-flex items-center justify-center gap-2 rounded-[6px] bg-gradient-to-r from-[#00C48C] to-[#00a876] hover:brightness-105 active:scale-[0.99] text-[#051a14] font-semibold text-xs h-[42px] px-8 transition-inngest shadow-sm"
+					class="inline-flex items-center justify-center gap-2 rounded-[6px] bg-gradient-to-r from-[#00b884] via-[#00a876] to-[#009468] hover:brightness-105 active:scale-[0.99] text-[#051a14] font-semibold text-xs h-[42px] px-8 transition-inngest shadow-sm"
 				>
 					<span>Open role selector</span>
 					<ArrowRight size={14} weight="bold" />
@@ -1117,7 +1127,7 @@
 	</main>
 
 	<!-- ── FOOTER ───────────────────────────────────────────────────────── -->
-	<footer class="border-t border-white/[0.06] bg-[#0c0a09] py-10 text-center text-xs text-zinc-500 font-mono">
+	<footer class="border-t border-white/[0.05] bg-[#08090a] py-10 text-center text-xs text-zinc-500 font-mono">
 		<div class="mx-auto max-w-[1440px] px-6 sm:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
 			<div class="flex items-center gap-2 text-zinc-400">
 				<TreeStructure size={16} class="text-[#00C48C]" weight="fill" />

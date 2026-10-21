@@ -19,9 +19,9 @@
 	--color-inngest-text: #ffffff;
 	--color-inngest-text-muted: #b3b3b3;
 
-	/* Typography */
-	--font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-	--font-display: 'Inter', system-ui, -apple-system, sans-serif;
+	/* Typography: Lexend across the board */
+	--font-sans: 'Lexend', system-ui, -apple-system, sans-serif;
+	--font-display: 'Lexend', system-ui, -apple-system, sans-serif;
 	--font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
 	/* Inngest Scale Radii */
@@ -79,19 +79,39 @@
 	--radius-xl: 0.75rem;
 }
 
-/* Inngest v1 Hard Paper & Tactile Texture (No Square Grids) */
+/* Inngest Fine-Grit Sandpaper Canvas */
 .inngest-paper {
-	background-color: #0c0a09;
+	background-color: #08090a;
 	background-image: 
-		radial-gradient(ellipse 90% 50% at 50% -10%, rgba(0, 196, 140, 0.09), transparent 70%),
-		radial-gradient(circle at 90% 25%, rgba(0, 196, 140, 0.04), transparent 45%),
-		radial-gradient(circle at 10% 65%, rgba(0, 196, 140, 0.03), transparent 50%),
-		radial-gradient(ellipse 70% 40% at 50% 100%, rgba(0, 196, 140, 0.05), transparent 60%);
+		radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0, 196, 140, 0.07), transparent 60%),
+		radial-gradient(circle at 90% 30%, rgba(0, 196, 140, 0.03), transparent 45%),
+		radial-gradient(circle at 10% 70%, rgba(0, 196, 140, 0.025), transparent 50%),
+		radial-gradient(ellipse 60% 40% at 50% 100%, rgba(0, 196, 140, 0.04), transparent 50%);
 }
 
-/* Tactile Uncoated Heavy Hard Paper Noise Overlay */
+/* Fine-Grit Abrasive Sandpaper Grain */
 .inngest-grain {
-	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='sandpaper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.25' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23sandpaper)'/%3E%3C/svg%3E");
+}
+
+/* Integrated Frosted Glass Cards (Inngest Style) */
+.inngest-card {
+	background-color: rgba(18, 19, 23, 0.45);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid rgba(255, 255, 255, 0.06);
+	box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.03), 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+	border-radius: 6px;
+}
+
+.inngest-card:hover {
+	border-color: rgba(255, 255, 255, 0.12);
+}
+
+.inngest-subcard {
+	background-color: rgba(10, 11, 13, 0.5);
+	border: 1px solid rgba(255, 255, 255, 0.05);
+	border-radius: 6px;
 }
 
 /* Inngest Marquee Endless Rail */
