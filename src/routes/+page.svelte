@@ -445,7 +445,7 @@
 					href={GITHUB_URL}
 					target="_blank"
 					rel="noreferrer"
-					class="inline-flex items-center gap-2 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#ffffff2e] px-3.5 py-2 text-xs font-semibold uppercase tracking-wider text-[#ffffff] transition-all"
+					class="inline-flex items-center gap-2 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#ffffff2e] px-3.5 py-2 text-xs font-semibold uppercase tracking-wider text-[#ffffff] transition-inngest"
 				>
 					<GithubLogo size={15} weight="bold" />
 					<span class="hidden sm:inline">GitHub</span>
@@ -456,7 +456,7 @@
 				</a>
 				<a
 					href="/login"
-					class="inline-flex items-center gap-2 rounded-[6px] bg-[#00C48C] hover:bg-[#00ab7a] text-[#0c0a09] font-bold px-5 py-2.5 text-xs uppercase tracking-wider transition-all shadow-[rgb(28,28,28)_0px_0px_0px_2px]"
+					class="inline-flex items-center gap-2 rounded-[6px] bg-[#00C48C] hover:bg-[#00ab7a] text-[#0c0a09] font-bold px-5 py-2.5 text-xs uppercase tracking-wider transition-inngest shadow-[rgb(28,28,28)_0px_0px_0px_2px]"
 				>
 					<span>Open Workspace</span>
 					<ArrowRight size={14} weight="bold" />
@@ -473,7 +473,7 @@
 				<!-- Announcement Pill -->
 				<a
 					href="#timeline"
-					class="inline-flex items-center gap-2 rounded-full border border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#00C48C]/40 px-3.5 py-1 text-xs font-mono text-[#ffffff] mb-6 transition-all"
+					class="inline-flex items-center gap-2 rounded-full border border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#00C48C]/40 px-3.5 py-1 text-xs font-mono text-[#ffffff] mb-6 transition-inngest"
 				>
 					<span class="h-2 w-2 rounded-full bg-[#00C48C] animate-pulse"></span>
 					<span class="font-medium text-[#ffffff]">Ethiopian MoR Proclamation 979/2016</span>
@@ -495,14 +495,14 @@
 				<div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
 					<a
 						href="/login"
-						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] bg-[#00C48C] hover:bg-[#00ab7a] text-[#0c0a09] font-bold text-xs uppercase tracking-wider h-[42px] px-6 transition-all cursor-pointer shadow-[rgb(28,28,28)_0px_0px_0px_2px]"
+						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] bg-[#00C48C] hover:bg-[#00ab7a] text-[#0c0a09] font-bold text-xs uppercase tracking-wider h-[42px] px-6 transition-inngest cursor-pointer shadow-[rgb(28,28,28)_0px_0px_0px_2px]"
 					>
 						<span>Explore Pre-Seeded Company</span>
 						<ArrowRight size={14} weight="bold" />
 					</a>
 					<a
 						href="#engine"
-						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#ffffff2e] text-[#ffffff] font-semibold text-xs uppercase tracking-wider h-[42px] px-6 transition-all cursor-pointer"
+						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#ffffff2e] text-[#ffffff] font-semibold text-xs uppercase tracking-wider h-[42px] px-6 transition-inngest cursor-pointer"
 					>
 						<Sliders size={14} class="text-[#00C48C]" />
 						<span>Test Tax Simulator</span>
@@ -528,7 +528,7 @@
 						{@const isSelected = activePipelineStep === step.id}
 						<button
 							onclick={() => (activePipelineStep = step.id)}
-							class="w-full text-left rounded-[6px] border p-3 transition-all duration-200 cursor-pointer flex items-center justify-between
+							class="w-full text-left rounded-[6px] border p-3 transition-inngest cursor-pointer flex items-center justify-between
 								   {isSelected
 									 ? 'border-[#00C48C] bg-[#0c0a09] shadow-[rgb(0,196,140)_2px_0px_0px_0px_inset]'
 									 : 'border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#ffffff2e]'}"
@@ -621,7 +621,7 @@
 						{#each salaryPresets as p}
 							<button
 								onclick={() => (baseSalaryInput = p.amount)}
-								class="rounded-[6px] border px-3 py-1.5 text-xs font-mono transition-all cursor-pointer
+								class="rounded-[6px] border px-3 py-1.5 text-xs font-mono transition-inngest cursor-pointer
 									   {baseSalaryInput === p.amount
 										 ? 'border-[#00C48C] bg-[#0c0a09] text-[#00C48C] font-semibold'
 										 : 'border-[#1f1e1d] bg-[#0c0a09] text-[#b3b3b3] hover:text-white hover:border-[#ffffff2e]'}"
@@ -636,13 +636,13 @@
 						<div class="inline-flex rounded-full border border-[#1f1e1d] bg-[#0c0a09] p-0.5 text-xs">
 							<button
 								onclick={() => (period = 'monthly')}
-								class="rounded-full px-3 py-1 font-semibold transition-all cursor-pointer {period === 'monthly' ? 'bg-[#00C48C] text-[#0c0a09]' : 'text-[#b3b3b3] hover:text-white'}"
+								class="rounded-full px-3 py-1 font-semibold transition-inngest cursor-pointer {period === 'monthly' ? 'bg-[#00C48C] text-[#0c0a09]' : 'text-[#b3b3b3] hover:text-white'}"
 							>
 								Monthly
 							</button>
 							<button
 								onclick={() => (period = 'annual')}
-								class="rounded-full px-3 py-1 font-semibold transition-all cursor-pointer {period === 'annual' ? 'bg-[#00C48C] text-[#0c0a09]' : 'text-[#b3b3b3] hover:text-white'}"
+								class="rounded-full px-3 py-1 font-semibold transition-inngest cursor-pointer {period === 'annual' ? 'bg-[#00C48C] text-[#0c0a09]' : 'text-[#b3b3b3] hover:text-white'}"
 							>
 								Annual
 							</button>
@@ -777,11 +777,11 @@
 						{@const isCurrent = activeTimelineStep === step.id}
 						<button
 							onclick={() => (activeTimelineStep = step.id)}
-							class="text-left w-full group cursor-pointer relative transition-all"
+							class="text-left w-full group cursor-pointer relative transition-inngest"
 						>
 							<!-- Stepper Node Dot -->
 							<div
-								class="absolute -left-[31px] top-1 h-3.5 w-3.5 rounded-full border-2 transition-all
+								class="absolute -left-[31px] top-1 h-3.5 w-3.5 rounded-full border-2 transition-inngest
 									   {isCurrent ? 'bg-[#00C48C] border-[#0c0a09] ring-4 ring-[#00C48C]/20' : 'bg-[#1c1c1c] border-[#1f1e1d] group-hover:border-[#00C48C]'}"
 							></div>
 
@@ -999,7 +999,7 @@
 						<button
 							onclick={() => launchAsRole(currentRole.email)}
 							disabled={isLoggingIn}
-							class="inline-flex items-center gap-2 rounded-[6px] bg-[#00C48C] hover:bg-[#00ab7a] text-[#0c0a09] font-bold text-xs uppercase tracking-wider px-4 py-2.5 transition-all disabled:opacity-50 cursor-pointer self-start sm:self-auto"
+							class="inline-flex items-center gap-2 rounded-[6px] bg-[#00C48C] hover:bg-[#00ab7a] text-[#0c0a09] font-bold text-xs uppercase tracking-wider px-4 py-2.5 transition-inngest disabled:opacity-50 cursor-pointer self-start sm:self-auto"
 						>
 							<Lightning size={13} weight="fill" />
 							<span>{isLoggingIn ? 'Authenticating...' : currentRole.actionText}</span>
@@ -1012,7 +1012,7 @@
 						{#each (['finance', 'owner', 'hr', 'manager', 'employee'] as RoleKey[]) as r}
 							<button
 								onclick={() => (activeRole = r)}
-								class="flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium transition-all cursor-pointer
+								class="flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium transition-inngest cursor-pointer
 									   {activeRole === r
 										 ? 'bg-[#00C48C] text-[#0c0a09] font-bold'
 										 : 'bg-[#0c0a09] text-[#b3b3b3] hover:text-white border border-[#1f1e1d]'}"
@@ -1063,7 +1063,7 @@
 							{#each (['/payslip', '/leave', '/status', '/letter'] as const) as cmd}
 								<button
 									onclick={() => (activeCommand = cmd)}
-									class="px-2.5 py-1 rounded-full font-mono text-[10px] transition-all cursor-pointer
+									class="px-2.5 py-1 rounded-full font-mono text-[10px] transition-inngest cursor-pointer
 										   {activeCommand === cmd
 											 ? 'bg-[#00C48C] text-[#0c0a09] font-bold'
 											 : 'bg-[#0c0a09] text-[#b3b3b3] hover:text-white border border-[#1f1e1d]'}"
@@ -1107,7 +1107,7 @@
 				</p>
 				<a
 					href="/login"
-					class="inline-flex items-center justify-center gap-2 rounded-[6px] bg-[#00C48C] hover:bg-[#00ab7a] text-[#0c0a09] font-bold text-xs uppercase tracking-wider h-[42px] px-8 transition-all shadow-[rgb(28,28,28)_0px_0px_0px_2px]"
+					class="inline-flex items-center justify-center gap-2 rounded-[6px] bg-[#00C48C] hover:bg-[#00ab7a] text-[#0c0a09] font-bold text-xs uppercase tracking-wider h-[42px] px-8 transition-inngest shadow-[rgb(28,28,28)_0px_0px_0px_2px]"
 				>
 					<span>Open Role Selector</span>
 					<ArrowRight size={14} weight="bold" />
