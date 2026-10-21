@@ -5,11 +5,15 @@ import {
 	employeeRole,
 	managerRole,
 	hrAdminRole,
+	financeRole,
 	ownerRole
 } from '$lib/permissions';
 
 export const authClient = createAuthClient({
-	baseURL: typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000',
+	baseURL:
+		typeof window !== 'undefined'
+			? window.location.origin
+			: (import.meta.env.VITE_APP_URL as string) || 'http://localhost:5173',
 	plugins: [
 		adminClient({
 			ac,
@@ -17,6 +21,7 @@ export const authClient = createAuthClient({
 				employee: employeeRole,
 				manager: managerRole,
 				hr_admin: hrAdminRole,
+				finance: financeRole,
 				owner: ownerRole
 			}
 		}),

@@ -1,4 +1,12 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
+import path from 'path';
+
+// Pre-load .env.local with priority over .env across both root and bot workdirs
+dotenv.config({ path: '.env.local' });
+dotenv.config({ path: '.env' });
+dotenv.config({ path: path.resolve(process.cwd(), '../.env.local') });
+dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
+
 import { Bot, InlineKeyboard, Keyboard, session, type Context, type SessionFlavor } from 'grammy';
 import {
 	conversations,
@@ -450,7 +458,8 @@ bot.command('letter', async (ctx) => {
 		recipientOrganization: 'To Whom It May Concern'
 	});
 
-	const verifyUrl = `http://localhost:3000/verify/${token}`;
+	const baseUrl = process.env.PUBLIC_APP_URL || process.env.APP_URL || 'http://localhost:5173';
+	const verifyUrl = `${baseUrl.replace(/\/$/, '')}/verify/${token}`;
 
 	await ctx.reply(
 		`📜 *Official Employment & Salary Verification Certificate*\n` +

@@ -1,10 +1,9 @@
-import 'dotenv/config';
-import { env } from '$env/dynamic/private';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { admin, phoneNumber } from 'better-auth/plugins';
 import { db } from './db';
 import * as schema from './db/schema';
+import { BETTER_AUTH_SECRET, BETTER_AUTH_URL, getTrustedOrigins } from './env';
 import {
 	ac,
 	employeeRole,
@@ -15,20 +14,9 @@ import {
 } from '../permissions';
 
 export const auth = betterAuth({
-	secret:
-		env.BETTER_AUTH_SECRET ||
-		process.env.BETTER_AUTH_SECRET ||
-		'rosterly-secret-32-chars-long-auth-token-dev',
-	baseURL:
-		env.BETTER_AUTH_URL ||
-		process.env.BETTER_AUTH_URL ||
-		'http://localhost:3000',
-	trustedOrigins: [
-		'http://localhost:3000',
-		'http://127.0.0.1:3000',
-		'http://localhost:5173',
-		'http://127.0.0.1:5173'
-	],
+	secret: BETTER_AUTH_SECRET,
+	baseURL: BETTER_AUTH_URL,
+	trustedOrigins: getTrustedOrigins(),
 	database: drizzleAdapter(db, {
 		provider: 'pg',
 		schema

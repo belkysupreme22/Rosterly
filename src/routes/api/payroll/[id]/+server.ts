@@ -25,26 +25,34 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 export const PATCH: RequestHandler = async ({ params, request, locals }) => {
 	if (!locals.user) throw error(401, 'Unauthorized');
 
-	if (locals.user.role !== 'hr_admin' && locals.user.role !== 'owner' && locals.user.role !== 'manager') {
-		throw error(403, 'Forbidden');
+	const role = locals.user.role;
+	if (role !== 'finance' && role !== 'hr_admin' && role !== 'owner') {
+		throw error(403, 'Forbidden: Insufficient permissions to manage payroll runs');
 	}
 
 	const body = await request.json();
 	const { status } = body;
 
-	if (!status || !['draft', 'pending_approval', 'disbursed'].includes(status)) {
-		throw error(400, 'Invalid status');
+	const validStatuses = ['draft', 'pending_approval', 'approved', 'disbursed'] as const;
+	if (!status || !validStatuses.includes(status)) {
+		throw error(400, 'Invalid status. Must be draft, pending_approval, approved, or disbursed');
 	}
 
-	// Only owner or hr_admin can disburse
-	if (status === 'disbursed' && locals.user.role !== 'owner' && locals.user.role !== 'hr_admin') {
-		throw error(403, 'Only Owner or HR Admin can disburse payroll');
+	// Separation of Duties checks:
+	// Only Owner has fiduciary authorization to approve payroll
+	if (status === 'approved' && role !== 'owner') {
+		throw error(403, 'Forbidden: Only the Owner / Managing Director can authorize and approve payroll runs');
+	}
+
+	// Only Finance, Owner, or HR Admin can execute disbursement
+	if (status === 'disbursed' && role !== 'finance' && role !== 'owner' && role !== 'hr_admin') {
+		throw error(403, 'Forbidden: Only Finance or Executive management can disburse payroll');
 	}
 
 	const [updated] = await db
 		.update(payrollRun)
 		.set({
-			status: status as any,
+			status,
 			updatedAt: new Date()
 		})
 		.where(eq(payrollRun.id, params.id))

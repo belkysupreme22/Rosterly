@@ -8,7 +8,8 @@ import { previewPayrollRun, executePayrollRun } from '$lib/server/payroll';
 export const GET: RequestHandler = async ({ locals }) => {
 	if (!locals.user) throw error(401, 'Unauthorized');
 
-	if (locals.user.role !== 'hr_admin' && locals.user.role !== 'owner' && locals.user.role !== 'manager') {
+	const role = locals.user.role;
+	if (role !== 'finance' && role !== 'hr_admin' && role !== 'owner' && role !== 'manager') {
 		throw error(403, 'Forbidden');
 	}
 
@@ -28,8 +29,9 @@ export const GET: RequestHandler = async ({ locals }) => {
 export const POST: RequestHandler = async ({ request, locals }) => {
 	if (!locals.user) throw error(401, 'Unauthorized');
 
-	if (locals.user.role !== 'hr_admin' && locals.user.role !== 'owner') {
-		throw error(403, 'Only HR Admin and Owner can create payroll runs');
+	const role = locals.user.role;
+	if (role !== 'finance' && role !== 'hr_admin' && role !== 'owner') {
+		throw error(403, 'Only Finance, HR Admin, and Owner can create payroll runs');
 	}
 
 	const body = await request.json();

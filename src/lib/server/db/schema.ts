@@ -188,6 +188,7 @@ export const employee = pgTable('employee', {
 	companyId: uuid('company_id')
 		.notNull()
 		.references(() => company.id, { onDelete: 'cascade' }),
+	userId: text('user_id').references(() => user.id, { onDelete: 'set null' }),
 	departmentId: uuid('department_id').references(() => department.id, { onDelete: 'set null' }),
 	fullName: varchar('full_name', { length: 255 }).notNull(),
 	role: employeeRoleEnum('role').notNull().default('employee'),
@@ -389,6 +390,10 @@ export const departmentRelations = relations(department, ({ one, many }) => ({
 }));
 
 export const employeeRelations = relations(employee, ({ one, many }) => ({
+	user: one(user, {
+		fields: [employee.userId],
+		references: [user.id]
+	}),
 	company: one(company, {
 		fields: [employee.companyId],
 		references: [company.id]

@@ -5,10 +5,16 @@
  * Requires DATABASE_URL to be set in .env
  */
 
-import 'dotenv/config';
+declare const process: any;
+
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.local' });
+dotenv.config({ path: '.env' });
+
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import { auth } from '../auth';
+import * as schema from './schema';
 import {
 	company,
 	department,
@@ -27,41 +33,15 @@ import {
 } from './schema';
 import { eq } from 'drizzle-orm';
 
-const DATABASE_URL = process.env.DATABASE_URL;
-if (!DATABASE_URL) {
-	console.error('DATABASE_URL not set in .env');
-	process.exit(1);
-}
+const DATABASE_URL =
+	process.env.DATABASE_URL ||
+	'postgres://postgres:postgrespassword@localhost:5555/rosterly';
 
 const client = postgres(DATABASE_URL, { max: 1 });
-const db = drizzle(client);
+const db = drizzle(client, { schema });
 
 async function seed() {
 	console.log('Seeding database with full operational test suite (Departments & Finance Role)...');
-
-	// Schema DDL migration
-	try {
-		await client`ALTER TYPE employee_role ADD VALUE IF NOT EXISTS 'finance'`;
-	} catch {}
-
-	await client`
-		CREATE TABLE IF NOT EXISTS "department" (
-			"id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-			"company_id" uuid NOT NULL REFERENCES "company"("id") ON DELETE CASCADE,
-			"name" varchar(255) NOT NULL,
-			"code" varchar(50) NOT NULL,
-			"description" text,
-			"lead_id" uuid,
-			"budget_monthly" numeric(12, 2) DEFAULT 0,
-			"color" varchar(50) DEFAULT '#00C48C',
-			"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-			"updated_at" timestamp with time zone DEFAULT now() NOT NULL
-		)
-	`;
-
-	try {
-		await client`ALTER TABLE "employee" ADD COLUMN IF NOT EXISTS "department_id" uuid REFERENCES "department"("id") ON DELETE SET NULL`;
-	} catch {}
 
 	// Clean up old tables
 	await client`TRUNCATE "session", "account", "verification", "user", "payslip", "leave_request", "salary_advance", "company_asset", "notice_acknowledgment", "notice", "document_request", "payroll_run", "deduction_rule", "user_account", "employee", "department", "company" CASCADE`;
@@ -288,17 +268,34 @@ async function seed() {
 	];
 
 	for (const u of authUsers) {
+		let createdUserId: string | null = null;
 		try {
-			await auth.api.signUpEmail({
+			const res = await auth.api.signUpEmail({
 				body: {
 					email: u.email,
 					password: u.password,
 					name: u.name
 				}
 			});
+			createdUserId = res?.user?.id || null;
 			await db.update(user).set({ role: u.role }).where(eq(user.email, u.email));
 		} catch (err) {
 			console.error(`  Sign up error for ${u.email}:`, err);
+		}
+
+		if (!createdUserId) {
+			const existingUser = await db.query.user.findFirst({
+				where: eq(user.email, u.email)
+			});
+			createdUserId = existingUser?.id || null;
+		}
+
+		// Link employee directly to this authenticated user
+		if (createdUserId && u.employeeId) {
+			await db
+				.update(employee)
+				.set({ userId: createdUserId })
+				.where(eq(employee.id, u.employeeId));
 		}
 
 		await db.insert(userAccount).values({

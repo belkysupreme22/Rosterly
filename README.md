@@ -1,54 +1,61 @@
 # Rosterly
 
-Full-stack HR + payroll management platform, built local-compliance-first (initial target: Ethiopia).
+An HR and payroll platform tailored for Ethiopian labor law and banking.
 
-## Stack
+Most small and mid-sized companies in Ethiopia calculate payroll manually in Excel, track leave in WhatsApp groups, and re-type employment letters by hand. Western HR tools don't support Ethiopian income tax brackets, private pension rules, or local bank formats.
 
-- **Frontend + Backend:** SvelteKit (Svelte 5, runes)
-- **Database:** PostgreSQL + Drizzle ORM
-- **Auth:** Better Auth with RBAC (employee, manager, hr_admin, owner)
-- **Payroll Engine:** `packages/payroll-engine` — pure functions, zero SvelteKit imports
-- **Bot:** `bot/` — standalone Telegram bot service (Layer 3)
+Rosterly handles the local compliance out of the box: progressive income tax (all 7 tiers), mandatory private pension (7% employee / 11% employer), leave tracking, role-based payroll approvals, and bulk wire exports for the Commercial Bank of Ethiopia (CBE). It also includes a Telegram bot so staff can check payslips or request leave from their phones.
 
-## Getting Started
+## Features
+
+- **Ethiopian Payroll Engine:** Calculates gross-to-net pay with the 7 Ministry of Revenue tax tiers, pension contributions, and unpaid leave adjustments.
+- **Bank Batch Export:** Generates ready-to-upload CSV files for Commercial Bank of Ethiopia (CBE) bulk transfers.
+- **Role-Based Workflows:** Separates duties cleanly — Finance drafts the payroll, the company Owner approves it, and HR manages staff records.
+- **Leave Management:** Employees submit leave requests; managers review and approve against team calendars.
+- **Telegram Companion:** A bot for staff self-service — check payslips, view leave balances, and request official employment verification letters.
+- **Digital Verification:** Generates verification certificates with unique security tokens that banks and embassies can verify online.
+
+## Tech Stack
+
+- **Framework:** SvelteKit (Svelte 5) + TypeScript
+- **Database:** PostgreSQL with Drizzle ORM
+- **Auth:** Better Auth (RBAC)
+- **Styling:** Tailwind CSS v4
+- **Bot:** Grammy (Telegram Bot API)
+- **Engine:** Pure TypeScript calculation package (`@rosterly/payroll-engine`)
+
+## Quickstart
 
 ```bash
-# Install dependencies
+# 1. Clone & install
+git clone https://github.com/belkysupreme22/Rosterly.git
+cd Rosterly
 npm install
 
-# Copy environment variables
-cp .env.example .env
-# Edit .env with your PostgreSQL connection string and auth secret
-
-# Push database schema
+# 2. Setup environment & database
+cp .env.example .env.local
+docker compose up -d
 npm run db:push
-
-# Seed development data
 npm run db:seed
 
-# Start development server
+# 3. Start the dev server
 npm run dev
 ```
 
-## Project Structure
+Open [http://localhost:5173](http://localhost:5173) to see the landing page and dashboard.
 
-```
-src/
-  lib/
-    server/        — DB client, Better Auth config, route helpers
-    components/    — Reusable Svelte components
-  routes/
-    api/           — +server.ts route handlers
-    (app)/         — Web dashboard pages (auth-guarded)
-    login/         — Login page
-packages/
-  payroll-engine/  — Isolated payroll calculation engine
-bot/               — Standalone Telegram bot service
-```
+## Demo Accounts
 
-## Build Order
+The seed script creates realistic demo accounts for each role (all passwords: `password123`):
 
-1. **Layer 1 — HR Core:** Employee CRUD, leave requests, basic payslip view
-2. **Layer 2 — Payroll Engine:** Versioned deduction rules, real payslip generation
-3. **Layer 3 — Telegram Bot:** Employee self-service commands
-4. **Layer 4 — Automation:** BullMQ leave-to-payroll trigger, n8n workflows
+| Role | Email | Focus |
+|---|---|---|
+| **Owner** | `owner@acme.com` | Final review & payroll approval |
+| **Finance** | `finance@acme.com` | Run payroll, export CBE transfers |
+| **HR Admin** | `hr@acme.com` | Manage team records, departments, assets |
+| **Manager** | `manager@acme.com` | Team leave approvals, calendar |
+| **Employee** | `hana@acme.com` | Personal payslips & leave requests |
+
+## License
+
+MIT

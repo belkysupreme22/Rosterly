@@ -1,0 +1,35 @@
+[
+  {
+    "family": "CircularXX",
+    "roles": [
+      "body"
+    ],
+    "licence": "licence_required",
+    "licenceName": "Commercial (Lineto)",
+    "install": null,
+    "alternative": "DM Sans",
+    "note": "Use only with your own licence. Otherwise use DM Sans."
+  },
+  {
+    "family": "WhyteV1",
+    "roles": [
+      "display"
+    ],
+    "licence": "style_only",
+    "licenceName": null,
+    "install": null,
+    "alternative": "Inter",
+    "note": "A custom or unidentified typeface. Recreate its feel with the suggested free family."
+  },
+  {
+    "family": "CircularXXMono",
+    "roles": [
+      "mono"
+    ],
+    "licence": "style_only",
+    "licenceName": null,
+    "install": null,
+    "alternative": "JetBrains Mono",
+    "note": "A custom or unidentified typeface. Recreate its feel with the suggested free family."
+  }
+]

@@ -2,8 +2,8 @@ import { redirect } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
 import { auth } from '$lib/server/auth';
 import { db } from '$lib/server/db';
-import { employee, userAccount, notice, noticeAcknowledgment } from '$lib/server/db/schema';
-import { eq, ilike } from 'drizzle-orm';
+import { employee, notice, noticeAcknowledgment } from '$lib/server/db/schema';
+import { eq } from 'drizzle-orm';
 
 export const load: LayoutServerLoad = async ({ locals, request, url }) => {
 	let user = locals.user;
@@ -23,37 +23,24 @@ export const load: LayoutServerLoad = async ({ locals, request, url }) => {
 		throw redirect(302, '/login');
 	}
 
-	// 1. Resolve employee record for this user across all roles
-	const emailToPhone: Record<string, string> = {
-		'owner@acme.com': '+251911000001',
-		'hr@acme.com': '+251911000002',
-		'finance@acme.com': '+251911000005',
-		'manager@acme.com': '+251911000003',
-		'hana@acme.com': '+251911000004'
-	};
-
-	const phone = emailToPhone[user.email] || (user as any).phoneNumber || '';
-
-	let emp = null;
-	if (phone) {
-		const userAcc = await db.query.userAccount.findFirst({
-			where: eq(userAccount.phone, phone)
-		});
-		if (userAcc?.employeeId) {
-			emp = await db.query.employee.findFirst({
-				where: eq(employee.id, userAcc.employeeId)
-			});
+	// 1. Resolve employee record directly linked to this authenticated user
+	let emp = await db.query.employee.findFirst({
+		where: eq(employee.userId, user.id),
+		with: {
+			company: true,
+			department: true
 		}
-	}
+	});
 
-	if (!emp) {
+	// Graceful fallback for demo accounts if userId has not yet been linked
+	if (!emp && user.role) {
 		emp = await db.query.employee.findFirst({
-			where: eq(employee.role, user.role as any)
+			where: eq(employee.role, user.role as any),
+			with: {
+				company: true,
+				department: true
+			}
 		});
-	}
-
-	if (!emp) {
-		emp = await db.query.employee.findFirst();
 	}
 
 	// 2. Count unread (unacknowledged) notices
@@ -74,6 +61,7 @@ export const load: LayoutServerLoad = async ({ locals, request, url }) => {
 		user,
 		session,
 		employeeId: emp?.id || null,
+		employee: emp,
 		unreadNoticesCount,
 		currentPath: url.pathname
 	};
