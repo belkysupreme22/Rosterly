@@ -11,127 +11,94 @@
 		Coins,
 		DownloadSimple,
 		PaperPlaneRight,
-		QrCode,
 		Buildings,
 		CheckCircle,
 		Lightning,
-		Play,
-		Code,
-		GitBranch,
 		Cpu,
 		Clock,
-		ArrowsClockwise
+		ArrowsClockwise,
+		Bank,
+		Scales,
+		FileText,
+		Star
 	} from 'phosphor-svelte';
 	import { authClient } from '$lib/auth-client';
 
 	const GITHUB_URL = 'https://github.com/belkysupreme22/Rosterly';
 
-	// ── Inngest-Style Workflow Pipeline Visualizer (Interactive Switcher) ────
-	let pipelineMode = $state<'visual' | 'code'>('visual');
+	// ── Inngest-Style Workflow Pipeline Visualizer (Visual Only, No Code) ──
 	let activePipelineStep = $state<number>(3); // default highlight on approval step
 
 	const workflowSteps = [
 		{
 			id: 1,
 			type: 'trigger',
-			name: 'Event: payroll/monthly.cutoff',
+			name: 'payroll/monthly.cutoff',
 			badge: 'Trigger',
-			badgeColor: 'bg-sky-500/10 text-sky-400 border-sky-500/20',
 			duration: '09:00:00 EAT',
 			status: 'Dispatched',
 			description: 'Fired on the 25th of every month. Freezes attendance, unpaid absences, and salary advances.',
 			meta: {
-				payload: '{ companyId: "ETH-ROSTERLY-01", cycle: "2026-09", cutoffDay: 25 }'
+				payload: '{ companyId: "ETH-ROSTERLY-01", cycle: "2026-09", cutoffDay: 25 }',
+				scope: 'Automated Event Trigger'
 			}
 		},
 		{
 			id: 2,
 			type: 'step',
-			name: 'step.run("compute-mor-statutory-taxes")',
+			name: 'compute-mor-statutory-taxes',
 			badge: 'Pure Engine',
-			badgeColor: 'bg-emerald-500/10 text-[#00C48C] border-emerald-500/20',
 			duration: '1.4ms',
 			status: 'Completed',
 			description: 'Evaluates all 18 staff against the 7 Ministry of Revenue progressive income tax brackets.',
 			meta: {
-				engine: '@rosterly/payroll-engine (zero-dependency pure TypeScript)',
+				engine: '@rosterly/payroll-engine (deterministic TypeScript)',
 				output: 'Gross: ETB 378,300.00 • MoR Tax Pool: ETB 68,410.00'
 			}
 		},
 		{
 			id: 3,
 			type: 'step',
-			name: 'step.run("compute-pension-contributions")',
+			name: 'compute-pension-contributions',
 			badge: 'Directive 979',
-			badgeColor: 'bg-emerald-500/10 text-[#00C48C] border-emerald-500/20',
 			duration: '0.8ms',
 			status: 'Completed',
 			description: 'Applies mandatory 7% employee contribution (tax-exempt) + 11% employer match.',
 			meta: {
 				employeeFund: '7% (ETB 26,481.00)',
 				employerFund: '11% (ETB 41,613.00)',
-				totalFiling: 'ETB 68,094.00 to Private Organization Pension Agency'
+				totalFiling: 'ETB 68,094.00 to Pension Agency (POESSA)'
 			}
 		},
 		{
 			id: 4,
 			type: 'gate',
-			name: 'step.waitForApproval("fiduciary-signoff")',
+			name: 'fiduciary-signoff-gate',
 			badge: 'RBAC Gate',
-			badgeColor: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
 			duration: 'Pending',
 			status: 'Awaiting Owner Authorization',
 			description: 'Separation of duties: Finance has drafted the cycle; waiting for Managing Director sole approval.',
 			meta: {
-				authorizedRole: 'Owner (owner@acme.com)',
-				fiduciaryAction: 'Audit draft run & release wire disbursement'
+				authorizedRole: 'Managing Director (owner@acme.com)',
+				fiduciaryAction: 'Audit draft run & authorize bank wire release'
 			}
 		},
 		{
 			id: 5,
 			type: 'step',
-			name: 'step.run("generate-cbe-bulk-batch")',
+			name: 'generate-cbe-bulk-batch',
 			badge: 'Wire Batch',
-			badgeColor: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
 			duration: 'Queued',
 			status: 'Ready on Authorization',
 			description: 'Exports Commercial Bank of Ethiopia CSV file ready for corporate banking batch portal.',
 			meta: {
-				format: 'CBE Corporate Wire Batch CSV (ISO 20022 formatted)',
+				format: 'CBE Corporate Wire Batch CSV (ISO 20022 compliant)',
 				beneficiaries: '18 CBE account transfers'
 			}
 		}
 	];
 
 	const selectedStepObj = $derived(workflowSteps.find((s) => s.id === activePipelineStep) || workflowSteps[0]);
-
-	const sampleWorkflowCode = `// src/lib/server/payroll/workflow.ts
-import { inngest } from '$lib/server/inngest';
-import { calculatePayroll } from '@rosterly/payroll-engine';
-
-export const processPayrollCycle = inngest.createFunction(
-  { id: "process-monthly-payroll", concurrency: 1 },
-  { event: "payroll/monthly.cutoff" },
-  async ({ event, step }) => {
-    // 1. Calculate statutory Ethiopian tax and 7% pension
-    const calculations = await step.run("calculate-statutory-taxes", async () => {
-      const staff = await db.query.employee.findMany();
-      return staff.map(emp => calculatePayroll({ employee: emp }));
-    });
-
-    // 2. Fiduciary governance gate: Wait for Owner executive authorization
-    const authorization = await step.waitForEvent("wait-for-owner-approval", {
-      event: "payroll/cycle.authorized",
-      timeout: "48h",
-      match: "data.companyId"
-    });
-
-    // 3. Generate Commercial Bank of Ethiopia (CBE) bulk wire export
-    await step.run("generate-cbe-batch", async () => {
-      return generateCbeBatchExport(authorization.data.payrollRunId);
-    });
-  }
-);`;
 
 	// ── Live Interactive Tax Engine Simulator ────────────────────────────────
 	let baseSalaryInput = $state(38000);
@@ -212,6 +179,44 @@ export const processPayrollCycle = inngest.createFunction(
 			maximumFractionDigits: 2
 		}).format(val);
 	}
+
+	// ── Feature Timeline Stepper (Left Rail + Right Interactive Panel) ─────────
+	let activeTimelineStep = $state<number>(1);
+
+	const timelineSteps = [
+		{
+			id: 1,
+			number: '01',
+			category: 'STATUTORY TAXES',
+			title: 'Progressive Ministry of Revenue brackets',
+			description: 'Evaluates each employee across Ethiopia’s 7 progressive income tax brackets with zero rounding drift.',
+			badge: 'MoR Proclamation 979'
+		},
+		{
+			id: 2,
+			number: '02',
+			category: 'PENSION DIRECTIVE',
+			title: 'Mandatory private organization pension',
+			description: 'Calculates the 7% employee tax-exempt deduction alongside the mandatory 11% employer contribution.',
+			badge: 'POESSA Directive'
+		},
+		{
+			id: 3,
+			number: '03',
+			category: 'FIDUCIARY GOVERNANCE',
+			title: 'Strict separation of duties sign-off gate',
+			description: 'Finance prepares and audits the cycle. Managing Director holds sole authority to authorize disbursement.',
+			badge: 'Executive Gate'
+		},
+		{
+			id: 4,
+			number: '04',
+			category: 'BANKING DISBURSEMENT',
+			title: 'Commercial Bank of Ethiopia direct batch',
+			description: 'Generates ISO 20022 compliant corporate CSV batches directly uploadable to CBE Corporate Banking.',
+			badge: 'CBE Wire Batch'
+		}
+	];
 
 	// ── Interactive Role Switcher & Direct 1-Click Session Launcher ─────────
 	type RoleKey = 'finance' | 'owner' | 'hr' | 'manager' | 'employee';
@@ -359,7 +364,7 @@ export const processPayrollCycle = inngest.createFunction(
 		},
 		'/letter': {
 			cmd: '/letter',
-			replyTitle: '📜 Official Employment & Salary Certificate',
+			replyTitle: '📜 Official Employment Certificate',
 			details: [
 				{ label: 'Verification Code', val: 'ETH-VERIFY-2026-HANA', highlight: true },
 				{ label: 'Recipient', val: 'To Whom It May Concern' },
@@ -403,39 +408,55 @@ export const processPayrollCycle = inngest.createFunction(
 	/>
 </svelte:head>
 
-<!-- Deep Matte Obsidian Canvas (#0c0a09) with Inngest Neutral Surfaces (#1c1c1c) and Accent (#f65c4f) -->
-<div class="min-h-screen bg-[#0c0a09] text-[#ffffff] selection:bg-[#f65c4f]/30 selection:text-white relative overflow-hidden font-sans">
-	<!-- Inngest Micro Grid Pattern -->
-	<div class="pointer-events-none absolute inset-0 [background-image:linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] [background-size:36px_36px]"></div>
+<!-- Deep Matte Obsidian Canvas (#0c0a09) with Hard Paper Tactile Texture and Brand Accent (#00C48C) -->
+<div class="min-h-screen bg-[#0c0a09] inngest-paper text-[#ffffff] selection:bg-[#00C48C]/30 selection:text-white relative overflow-hidden font-sans">
+	<!-- Tactile Hard Paper Grain Noise Overlay -->
+	<div class="pointer-events-none fixed inset-0 inngest-grain z-0 opacity-40"></div>
 
-	<!-- Top Bar -->
+	<!-- Ambient Lighting Cones (Inngest Style) -->
+	<div class="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[550px] bg-[radial-gradient(ellipse_at_top,rgba(0,196,140,0.14),transparent_70%)] blur-3xl"></div>
+	<div class="pointer-events-none absolute top-[1600px] right-0 w-[700px] h-[600px] bg-[radial-gradient(circle,rgba(0,196,140,0.06),transparent_70%)] blur-3xl"></div>
+
+	<!-- ── STICKY HEADER (88px tall with hairline border) ─────────────────── -->
 	<header class="sticky top-0 z-50 border-b border-[#1f1e1d] bg-[#0c0a09]/90 backdrop-blur-xl h-[88px] flex items-center">
 		<div class="mx-auto flex w-full max-w-[1440px] items-center justify-between px-6 sm:px-12">
 			<!-- Logo -->
 			<a href="/" class="flex items-center gap-3 group">
 				<div class="flex h-9 w-9 items-center justify-center rounded-[6px] bg-[#1c1c1c] border border-[#1f1e1d] text-[#ffffff] shadow-[rgb(28,28,28)_0px_0px_0px_2px]">
-					<TreeStructure size={18} weight="fill" class="text-[#f65c4f]" />
+					<TreeStructure size={18} weight="fill" class="text-[#00C48C]" />
 				</div>
 				<div class="flex items-center gap-2">
 					<span class="text-sm font-semibold tracking-tight text-[#ffffff]">Rosterly</span>
-					<span class="text-[10px] uppercase tracking-widest font-mono font-medium px-2 py-0.5 rounded-full bg-[#1c1c1c] text-[#b3b3b3] border border-[#1f1e1d]">v2.4</span>
+					<span class="text-[10px] uppercase tracking-widest font-mono font-medium px-2 py-0.5 rounded-full bg-[#1c1c1c] text-[#00C48C] border border-[#00C48C]/20">v2.4</span>
 				</div>
 			</a>
 
-			<!-- Actions -->
+			<!-- Center Nav Links -->
+			<nav class="hidden md:flex items-center gap-8 text-xs font-semibold uppercase tracking-wider text-[#b3b3b3]">
+				<a href="#pipeline" class="hover:text-white transition-colors">Pipeline</a>
+				<a href="#engine" class="hover:text-white transition-colors">Tax Engine</a>
+				<a href="#timeline" class="hover:text-white transition-colors">Compliance</a>
+				<a href="#roles" class="hover:text-white transition-colors">Roles</a>
+			</nav>
+
+			<!-- Actions: Sole Notable GitHub Link + Open Workspace CTA -->
 			<div class="flex items-center gap-3">
 				<a
 					href={GITHUB_URL}
 					target="_blank"
 					rel="noreferrer"
-					class="hidden sm:inline-flex items-center gap-1.5 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#b3b3b3] hover:text-white hover:border-[#ffffff2e] transition-all"
+					class="inline-flex items-center gap-2 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#ffffff2e] px-3.5 py-2 text-xs font-semibold uppercase tracking-wider text-[#ffffff] transition-all"
 				>
-					<GithubLogo size={14} weight="bold" />
-					<span>GitHub</span>
+					<GithubLogo size={15} weight="bold" />
+					<span class="hidden sm:inline">GitHub</span>
+					<span class="flex items-center gap-0.5 text-[10px] text-[#00C48C] font-mono pl-1 border-l border-[#1f1e1d]">
+						<Star size={11} weight="fill" />
+						<span>Repo</span>
+					</span>
 				</a>
 				<a
 					href="/login"
-					class="inline-flex items-center gap-2 rounded-[6px] bg-[#f65c4f] hover:bg-[#d94a2b] text-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-all"
+					class="inline-flex items-center gap-2 rounded-[6px] bg-[#00C48C] hover:bg-[#00ab7a] text-[#0c0a09] font-bold px-5 py-2.5 text-xs uppercase tracking-wider transition-all shadow-[rgb(28,28,28)_0px_0px_0px_2px]"
 				>
 					<span>Open Workspace</span>
 					<ArrowRight size={14} weight="bold" />
@@ -444,223 +465,202 @@ export const processPayrollCycle = inngest.createFunction(
 		</div>
 	</header>
 
-	<main class="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-12 pt-16 pb-36">
-		<!-- ── INNGEST-STYLE HERO ─────────────────────────────────────────── -->
-		<div class="text-center max-w-4xl mx-auto mb-20">
-			<!-- Announcement Pill -->
-			<a
-				href="/login"
-				class="inline-flex items-center gap-2 rounded-full border border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#ffffff2e] px-4 py-1.5 text-xs font-mono text-[#ffffff] mb-8 transition-all"
-			>
-				<span class="h-2 w-2 rounded-full bg-[#f65c4f] animate-pulse"></span>
-				<span class="font-medium text-[#ffffff]">Ethiopian MoR Proclamation 979/2016</span>
-				<span class="text-[#b3b3b3]">|</span>
-				<span class="text-[#b3b3b3]">Private Pension Directive →</span>
-			</a>
-
-			<!-- Main Headline -->
-			<h1 class="text-4xl sm:text-6xl lg:text-7xl font-normal tracking-[-0.035em] text-[#ffffff] leading-[1.08] mb-6">
-				The durable workforce &amp; payroll engine for Ethiopia.
-			</h1>
-
-			<!-- Subtext -->
-			<p class="text-base sm:text-lg text-[#b3b3b3] max-w-2xl mx-auto leading-relaxed mb-10">
-				Replace fragile Excel sheets and manual chat approvals with an audited, deterministic platform. Calculate progressive taxes, stream CBE wire batches, and empower staff over Telegram.
-			</p>
-
-			<!-- Action Buttons -->
-			<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+	<main class="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-12">
+		<!-- ── INNGEST 2-COLUMN HERO (Matching Inngest desktop wireframe) ──── -->
+		<section class="py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+			<!-- Hero Left Column: Headline, Subhead & Actions -->
+			<div class="lg:col-span-6 flex flex-col items-start text-left">
+				<!-- Announcement Pill -->
 				<a
-					href="/login"
-					class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-[6px] bg-[#f65c4f] hover:bg-[#d94a2b] text-white font-semibold text-xs uppercase tracking-wider h-[42px] px-6 transition-all cursor-pointer"
+					href="#timeline"
+					class="inline-flex items-center gap-2 rounded-full border border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#00C48C]/40 px-3.5 py-1 text-xs font-mono text-[#ffffff] mb-6 transition-all"
 				>
-					<span>Explore Pre-Seeded Company</span>
-					<ArrowRight size={14} weight="bold" />
+					<span class="h-2 w-2 rounded-full bg-[#00C48C] animate-pulse"></span>
+					<span class="font-medium text-[#ffffff]">Ethiopian MoR Proclamation 979/2016</span>
+					<span class="text-[#b3b3b3]">|</span>
+					<span class="text-[#00C48C]">Directives →</span>
 				</a>
-				<a
-					href={GITHUB_URL}
-					target="_blank"
-					rel="noreferrer"
-					class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#ffffff2e] text-[#ffffff] font-semibold text-xs uppercase tracking-wider h-[42px] px-6 transition-all cursor-pointer"
-				>
-					<GithubLogo size={14} weight="bold" />
-					<span>Inspect Code on GitHub</span>
-				</a>
+
+				<!-- Main Headline -->
+				<h1 class="text-4xl sm:text-5xl lg:text-6xl font-normal tracking-[-0.035em] text-[#ffffff] leading-[1.08] mb-6">
+					The durable workforce &amp; payroll engine for Ethiopia.
+				</h1>
+
+				<!-- Subtext -->
+				<p class="text-base sm:text-lg text-[#b3b3b3] max-w-xl leading-relaxed mb-8">
+					Replace fragile Excel sheets and manual chat approvals with an audited, deterministic platform. Calculate progressive taxes, stream CBE wire batches, and empower staff over Telegram.
+				</p>
+
+				<!-- Action Buttons (No GitHub button here; only in top header) -->
+				<div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+					<a
+						href="/login"
+						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] bg-[#00C48C] hover:bg-[#00ab7a] text-[#0c0a09] font-bold text-xs uppercase tracking-wider h-[42px] px-6 transition-all cursor-pointer shadow-[rgb(28,28,28)_0px_0px_0px_2px]"
+					>
+						<span>Explore Pre-Seeded Company</span>
+						<ArrowRight size={14} weight="bold" />
+					</a>
+					<a
+						href="#engine"
+						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#ffffff2e] text-[#ffffff] font-semibold text-xs uppercase tracking-wider h-[42px] px-6 transition-all cursor-pointer"
+					>
+						<Sliders size={14} class="text-[#00C48C]" />
+						<span>Test Tax Simulator</span>
+					</a>
+				</div>
 			</div>
-		</div>
 
-		<!-- ── SIGNATURE FEATURE: INNGEST-STYLE PIPELINE OBSERVER ─────────── -->
-		<section class="rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-6 sm:p-8 mb-24 relative overflow-hidden shadow-[rgb(28,28,28)_0px_0px_0px_2px]">
-			<!-- Header & Mode Switcher (Visual Tree vs Code) -->
-			<div class="flex flex-col md:flex-row md:items-center justify-between pb-6 mb-6 border-b border-[#1f1e1d] gap-4">
-				<div>
-					<div class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#f65c4f] mb-1">
-						<GitBranch size={15} />
+			<!-- Hero Right Column: Inngest-Style Visual Workflow Pipeline (No Code) -->
+			<div id="pipeline" class="lg:col-span-6 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-5 sm:p-6 shadow-[rgb(28,28,28)_0px_0px_0px_2px] relative overflow-hidden">
+				<div class="flex items-center justify-between pb-4 mb-4 border-b border-[#1f1e1d]">
+					<div class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#00C48C]">
+						<Cpu size={15} />
 						<span>Workflow Execution Pipeline</span>
 					</div>
-					<h2 class="text-xl sm:text-2xl font-normal tracking-[-0.02em] text-[#ffffff]">How Rosterly Runs a Compliance Cycle</h2>
-					<p class="text-xs text-[#b3b3b3] mt-1">Deterministic state transitions from monthly cutoff to CBE bank batch release.</p>
+					<span class="text-[11px] font-mono text-[#b3b3b3] px-2 py-0.5 rounded-full border border-[#1f1e1d] bg-[#0c0a09]">
+						Cycle #2026-09
+					</span>
 				</div>
 
-				<!-- Visual vs Code Tab Switcher -->
-				<div class="inline-flex rounded-full border border-[#1f1e1d] bg-[#0c0a09] p-1 self-start md:self-auto">
-					<button
-						onclick={() => (pipelineMode = 'visual')}
-						class="flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-mono font-medium transition-all cursor-pointer
-							   {pipelineMode === 'visual' ? 'bg-[#f65c4f] text-white' : 'text-[#b3b3b3] hover:text-white'}"
-					>
-						<Cpu size={14} />
-						<span>Pipeline Tree</span>
-					</button>
-					<button
-						onclick={() => (pipelineMode = 'code')}
-						class="flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-mono font-medium transition-all cursor-pointer
-							   {pipelineMode === 'code' ? 'bg-[#f65c4f] text-white' : 'text-[#b3b3b3] hover:text-white'}"
-					>
-						<Code size={14} />
-						<span>Workflow Code</span>
-					</button>
-				</div>
-			</div>
-
-			{#if pipelineMode === 'visual'}
-				<!-- Inngest-style Step Node Graph -->
-				<div class="grid grid-cols-1 lg:grid-cols-5 gap-3 relative mb-6">
-					{#each workflowSteps as step, idx}
+				<!-- Step Cards List -->
+				<div class="space-y-2 mb-4">
+					{#each workflowSteps as step}
 						{@const isSelected = activePipelineStep === step.id}
 						<button
 							onclick={() => (activePipelineStep = step.id)}
-							class="text-left rounded-[6px] border p-4 transition-all duration-200 cursor-pointer relative group
+							class="w-full text-left rounded-[6px] border p-3 transition-all duration-200 cursor-pointer flex items-center justify-between
 								   {isSelected
-									 ? 'border-[#f65c4f] bg-[#0c0a09] shadow-[rgb(246,92,79)_2px_0px_0px_0px_inset]'
+									 ? 'border-[#00C48C] bg-[#0c0a09] shadow-[rgb(0,196,140)_2px_0px_0px_0px_inset]'
 									 : 'border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#ffffff2e]'}"
 						>
-							<!-- Step Number & Status Indicator -->
-							<div class="flex items-center justify-between mb-2">
-								<span class="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded-full border border-[#1f1e1d] bg-[#0c0a09] text-[#b3b3b3]">
-									{step.badge}
-								</span>
-								<span class="text-[10px] font-mono text-[#b3b3b3]">
-									{step.duration}
-								</span>
+							<div class="flex items-center gap-3">
+								<div class="h-2 w-2 rounded-full {isSelected ? 'bg-[#00C48C] animate-pulse' : 'bg-[#737373]'}"></div>
+								<div>
+									<div class="text-xs font-mono text-[#ffffff]">{step.name}</div>
+									<div class="text-[10px] text-[#b3b3b3] font-mono">{step.badge} &bull; {step.duration}</div>
+								</div>
 							</div>
-
-							<!-- Step Name -->
-							<div class="text-xs font-mono text-[#ffffff] line-clamp-1 mb-1">
-								{step.name}
-							</div>
-
-							<!-- Status pill -->
-							<div class="flex items-center gap-1.5 text-[11px] {isSelected ? 'text-[#f65c4f]' : 'text-[#b3b3b3]'}">
-								{#if step.status.includes('Completed')}
-									<CheckCircle size={12} weight="fill" class="text-[#f65c4f]" />
-								{:else if step.status.includes('Awaiting')}
-									<span class="h-2 w-2 rounded-full bg-[#f65c4f] animate-ping"></span>
-								{:else}
-									<Clock size={12} class="text-[#b3b3b3]" />
-								{/if}
-								<span class="truncate">{step.status}</span>
+							<div class="text-[11px] font-mono {isSelected ? 'text-[#00C48C]' : 'text-[#737373]'}">
+								{step.status}
 							</div>
 						</button>
 					{/each}
 				</div>
 
-				<!-- Step Detail Inspector (Inngest Log Inspection Panel) -->
-				{@const selectedStepObj = workflowSteps.find(s => s.id === activePipelineStep) || workflowSteps[0]}
-				<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4 sm:p-5 font-mono text-xs">
-					<div class="flex items-center justify-between pb-3 mb-3 border-b border-[#1f1e1d]">
+				<!-- Live Step Inspector (Visual Log Viewer) -->
+				<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4 font-mono text-xs">
+					<div class="flex items-center justify-between pb-2 mb-2 border-b border-[#1f1e1d]">
 						<div class="flex items-center gap-2">
-							<span class="h-2 w-2 rounded-full bg-[#f65c4f]"></span>
-							<span class="text-[#ffffff] font-bold">{selectedStepObj.name}</span>
+							<span class="h-2 w-2 rounded-full bg-[#00C48C]"></span>
+							<span class="text-[#ffffff] font-medium">{selectedStepObj.name}</span>
 						</div>
-						<span class="text-[#b3b3b3] text-[11px]">Step ID: #{selectedStepObj.id}</span>
+						<span class="text-[#b3b3b3] text-[10px]">ID: #{selectedStepObj.id}</span>
 					</div>
-
-					<p class="text-[#b3b3b3] text-xs mb-3 font-sans leading-relaxed">
+					<p class="text-[#b3b3b3] text-xs font-sans mb-3 leading-relaxed">
 						{selectedStepObj.description}
 					</p>
-
-					<div class="bg-[#1c1c1c] border border-[#1f1e1d] rounded-[6px] p-3 text-[11px] space-y-1 text-[#b3b3b3]">
+					<div class="bg-[#1c1c1c] border border-[#1f1e1d] rounded-[6px] p-2.5 text-[11px] space-y-1">
 						{#each Object.entries(selectedStepObj.meta) as [key, val]}
 							<div class="flex items-start gap-2">
-								<span class="text-[#b3b3b3] min-w-28 capitalize">{key}:</span>
-								<span class="text-[#ffffff] font-medium">{val}</span>
+								<span class="text-[#737373] min-w-24 capitalize">{key}:</span>
+								<span class="text-[#ffffff] font-mono">{val}</span>
 							</div>
 						{/each}
 					</div>
 				</div>
-			{:else}
-				<!-- Inngest Workflow Code Viewer -->
-				<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-5 font-mono text-xs text-[#b3b3b3] overflow-x-auto relative">
-					<div class="flex items-center justify-between pb-3 mb-3 border-b border-[#1f1e1d] text-[11px] text-[#b3b3b3]">
-						<span>TypeScript Workflow Definition</span>
-						<span>packages/payroll-engine/src/index.ts</span>
-					</div>
-					<pre class="leading-relaxed text-[11px]"><code class="text-[#f65c4f]">{sampleWorkflowCode}</code></pre>
-				</div>
-			{/if}
+			</div>
 		</section>
 
-		<!-- ── THE ASYMMETRIC BENTO GRID (INNGEST STYLE) ───────────────────── -->
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
-			<!-- BENTO CARD 1 (SPAN 2): Interactive Ethiopian Tax Simulator -->
-			<div class="md:col-span-2 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-6 sm:p-8 relative overflow-hidden shadow-[rgb(28,28,28)_0px_0px_0px_2px] hover:border-[#ffffff2e] transition-all">
-				<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-5 border-b border-[#1f1e1d] gap-3">
-					<div>
-						<div class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#f65c4f] mb-1">
-							<Terminal size={14} />
-							<span>Zero-Dependency Engine</span>
-						</div>
-						<h3 class="text-xl font-normal text-[#ffffff] tracking-[-0.02em]">Live Ethiopian Gross-to-Net Simulator</h3>
+		<!-- ── ENDLESS RAIL LOGO MARQUEE (Trust & Institutional Anchors) ────── -->
+		<section class="border-y border-[#1f1e1d] py-6 my-12 bg-[#0c0a09]/60 overflow-hidden relative">
+			<div class="animate-inngest-marquee flex items-center gap-12 text-xs font-mono uppercase tracking-wider text-[#b3b3b3]">
+				<span class="flex items-center gap-2"><Bank size={16} class="text-[#00C48C]" /> Commercial Bank of Ethiopia (CBE Direct)</span>
+				<span class="text-[#1f1e1d]">&bull;</span>
+				<span class="flex items-center gap-2"><Scales size={16} class="text-[#00C48C]" /> Ministry of Revenue (MoR Proclamation 979)</span>
+				<span class="text-[#1f1e1d]">&bull;</span>
+				<span class="flex items-center gap-2"><Shield size={16} class="text-[#00C48C]" /> Pension Agency (POESSA Directives)</span>
+				<span class="text-[#1f1e1d]">&bull;</span>
+				<span class="flex items-center gap-2"><FileText size={16} class="text-[#00C48C]" /> ISO 20022 Corporate Wire Standard</span>
+				<span class="text-[#1f1e1d]">&bull;</span>
+				<span class="flex items-center gap-2"><Coins size={16} class="text-[#00C48C]" /> Telebirr Corporate Batch Gateway</span>
+				<span class="text-[#1f1e1d]">&bull;</span>
+				<span class="flex items-center gap-2"><Bank size={16} class="text-[#00C48C]" /> Commercial Bank of Ethiopia (CBE Direct)</span>
+				<span class="text-[#1f1e1d]">&bull;</span>
+				<span class="flex items-center gap-2"><Scales size={16} class="text-[#00C48C]" /> Ministry of Revenue (MoR Proclamation 979)</span>
+				<span class="text-[#1f1e1d]">&bull;</span>
+				<span class="flex items-center gap-2"><Shield size={16} class="text-[#00C48C]" /> Pension Agency (POESSA Directives)</span>
+				<span class="text-[#1f1e1d]">&bull;</span>
+				<span class="flex items-center gap-2"><FileText size={16} class="text-[#00C48C]" /> ISO 20022 Corporate Wire Standard</span>
+				<span class="text-[#1f1e1d]">&bull;</span>
+				<span class="flex items-center gap-2"><Coins size={16} class="text-[#00C48C]" /> Telebirr Corporate Batch Gateway</span>
+			</div>
+		</section>
+
+		<!-- ── FULL-WIDTH SHOWCASE: LIVE ETHIOPIAN TAX SIMULATOR ─────────────── -->
+		<section id="engine" class="py-16 lg:py-24">
+			<div class="text-center max-w-2xl mx-auto mb-12">
+				<div class="flex items-center justify-center gap-2 text-xs font-mono uppercase tracking-wider text-[#00C48C] mb-2">
+					<Terminal size={14} />
+					<span>Zero-Dependency Statutory Engine</span>
+				</div>
+				<h2 class="text-3xl sm:text-4xl font-normal tracking-[-0.035em] text-[#ffffff] mb-3">
+					Deterministic statutory tax calculations
+				</h2>
+				<p class="text-sm text-[#b3b3b3]">
+					Live gross-to-net computation across Ethiopia’s 7 progressive tax brackets and mandatory 7% pension deduction.
+				</p>
+			</div>
+
+			<!-- Large Showcase Container (Matching Inngest frame center showcase) -->
+			<div class="rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-6 sm:p-10 shadow-[rgb(28,28,28)_0px_0px_0px_2px] relative overflow-hidden">
+				<!-- Header Controls: Presets & Period -->
+				<div class="flex flex-col lg:flex-row lg:items-center justify-between pb-6 mb-6 border-b border-[#1f1e1d] gap-4">
+					<!-- Presets -->
+					<div class="flex flex-wrap items-center gap-2">
+						<span class="text-xs text-[#b3b3b3] mr-1">Presets:</span>
+						{#each salaryPresets as p}
+							<button
+								onclick={() => (baseSalaryInput = p.amount)}
+								class="rounded-[6px] border px-3 py-1.5 text-xs font-mono transition-all cursor-pointer
+									   {baseSalaryInput === p.amount
+										 ? 'border-[#00C48C] bg-[#0c0a09] text-[#00C48C] font-semibold'
+										 : 'border-[#1f1e1d] bg-[#0c0a09] text-[#b3b3b3] hover:text-white hover:border-[#ffffff2e]'}"
+							>
+								{p.label} ({p.amount.toLocaleString()} ETB)
+							</button>
+						{/each}
 					</div>
 
-					<!-- Tier Badge & Period Toggle -->
-					<div class="flex items-center gap-2">
+					<!-- Period Switcher & Bracket Indicator -->
+					<div class="flex items-center gap-3">
 						<div class="inline-flex rounded-full border border-[#1f1e1d] bg-[#0c0a09] p-0.5 text-xs">
 							<button
 								onclick={() => (period = 'monthly')}
-								class="rounded-full px-3 py-1 font-semibold transition-all cursor-pointer {period === 'monthly' ? 'bg-[#f65c4f] text-white' : 'text-[#b3b3b3] hover:text-white'}"
+								class="rounded-full px-3 py-1 font-semibold transition-all cursor-pointer {period === 'monthly' ? 'bg-[#00C48C] text-[#0c0a09]' : 'text-[#b3b3b3] hover:text-white'}"
 							>
 								Monthly
 							</button>
 							<button
 								onclick={() => (period = 'annual')}
-								class="rounded-full px-3 py-1 font-semibold transition-all cursor-pointer {period === 'annual' ? 'bg-[#f65c4f] text-white' : 'text-[#b3b3b3] hover:text-white'}"
+								class="rounded-full px-3 py-1 font-semibold transition-all cursor-pointer {period === 'annual' ? 'bg-[#00C48C] text-[#0c0a09]' : 'text-[#b3b3b3] hover:text-white'}"
 							>
 								Annual
 							</button>
 						</div>
-
-						<div class="px-2.5 py-1 rounded-full border border-[#1f1e1d] bg-[#0c0a09] text-[11px] font-mono text-[#ffffff] font-medium">
+						<div class="px-3 py-1 rounded-full border border-[#1f1e1d] bg-[#0c0a09] text-xs font-mono text-[#00C48C] font-medium">
 							{calc.bracketLabel}
 						</div>
 					</div>
 				</div>
 
-				<!-- Quick Presets -->
-				<div class="mb-5 flex flex-wrap items-center gap-1.5">
-					<span class="text-xs text-[#b3b3b3] mr-1">Presets:</span>
-					{#each salaryPresets as p}
-						<button
-							onclick={() => (baseSalaryInput = p.amount)}
-							class="rounded-[6px] border px-3 py-1 text-xs font-mono transition-all cursor-pointer
-								   {baseSalaryInput === p.amount
-									 ? 'border-[#f65c4f] bg-[#0c0a09] text-[#f65c4f] font-semibold'
-									 : 'border-[#1f1e1d] bg-[#0c0a09] text-[#b3b3b3] hover:text-white hover:border-[#ffffff2e]'}"
-						>
-							{p.label} ({p.amount.toLocaleString()} ETB)
-						</button>
-					{/each}
-				</div>
-
-				<!-- Slider -->
-				<div class="mb-6">
-					<div class="flex items-center justify-between mb-2">
-						<label for="salary-slider" class="text-xs font-semibold text-[#ffffff] flex items-center gap-2">
-							<Sliders size={14} class="text-[#f65c4f]" />
+				<!-- Slider & Manual Input -->
+				<div class="mb-8">
+					<div class="flex items-center justify-between mb-3">
+						<label for="salary-slider" class="text-xs font-semibold text-[#ffffff] flex items-center gap-2 uppercase tracking-wider">
+							<Sliders size={14} class="text-[#00C48C]" />
 							<span>Monthly Base Gross Salary</span>
 						</label>
-						<div class="flex items-center gap-1 bg-[#0c0a09] border border-[#1f1e1d] rounded-[6px] px-3 py-1 font-mono text-sm font-semibold text-[#ffffff]">
+						<div class="flex items-center gap-1 bg-[#0c0a09] border border-[#1f1e1d] rounded-[6px] px-3.5 py-1.5 font-mono text-sm font-semibold text-[#ffffff]">
 							<span class="text-[#b3b3b3] text-xs">ETB</span>
 							<input
 								id="salary-number"
@@ -669,11 +669,10 @@ export const processPayrollCycle = inngest.createFunction(
 								min="0"
 								max="250000"
 								step="1000"
-								class="w-24 bg-transparent text-right text-white focus:outline-none"
+								class="w-28 bg-transparent text-right text-white focus:outline-none"
 							/>
 						</div>
 					</div>
-
 					<input
 						id="salary-slider"
 						type="range"
@@ -681,246 +680,453 @@ export const processPayrollCycle = inngest.createFunction(
 						min="1000"
 						max="150000"
 						step="1000"
-						class="w-full h-2 bg-[#0c0a09] rounded-lg appearance-none cursor-pointer accent-[#f65c4f]"
+						class="w-full h-2 bg-[#0c0a09] rounded-lg appearance-none cursor-pointer accent-[#00C48C]"
 					/>
 				</div>
 
 				<!-- Visual Distribution Bar -->
-				<div class="mb-6 p-4 rounded-[6px] bg-[#0c0a09] border border-[#1f1e1d]">
+				<div class="mb-8 p-4 rounded-[6px] bg-[#0c0a09] border border-[#1f1e1d]">
 					<div class="flex items-center justify-between text-xs font-mono mb-2">
-						<span class="text-[#b3b3b3] text-[11px]">Salary Split Breakdown</span>
-						<div class="flex items-center gap-3 text-[10px]">
-							<span class="flex items-center gap-1"><span class="h-2 w-2 rounded-full bg-[#ffffff]"></span>Net ({calc.netPercent}%)</span>
-							<span class="flex items-center gap-1"><span class="h-2 w-2 rounded-full bg-[#f65c4f]"></span>Tax ({calc.taxPercent}%)</span>
-							<span class="flex items-center gap-1"><span class="h-2 w-2 rounded-full bg-[#737373]"></span>Pension ({calc.pensionPercent}%)</span>
+						<span class="text-[#b3b3b3] text-[11px]">Deductions Distribution</span>
+						<div class="flex items-center gap-4 text-[10px]">
+							<span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-[#00C48C]"></span>Net Take-Home ({calc.netPercent}%)</span>
+							<span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-[#f59e0b]"></span>Income Tax ({calc.taxPercent}%)</span>
+							<span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-[#737373]"></span>Pension ({calc.pensionPercent}%)</span>
 						</div>
 					</div>
-					<div class="h-2.5 w-full rounded-full bg-[#1c1c1c] overflow-hidden flex">
-						<div class="h-full bg-[#ffffff] transition-all duration-300" style="width: {calc.netPercent}%"></div>
-						<div class="h-full bg-[#f65c4f] transition-all duration-300" style="width: {calc.taxPercent}%"></div>
+					<div class="h-3 w-full rounded-full bg-[#1c1c1c] overflow-hidden flex">
+						<div class="h-full bg-[#00C48C] transition-all duration-300" style="width: {calc.netPercent}%"></div>
+						<div class="h-full bg-[#f59e0b] transition-all duration-300" style="width: {calc.taxPercent}%"></div>
 						<div class="h-full bg-[#737373] transition-all duration-300" style="width: {calc.pensionPercent}%"></div>
 					</div>
 				</div>
 
-				<!-- 4 Stat Metrics -->
-				<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3.5">
-						<div class="text-[10px] text-[#b3b3b3] font-mono">7% Pension</div>
-						<div class="text-sm font-mono font-semibold text-white mt-1">{formatETB(calc.employeePension)}</div>
+				<!-- 4 Metric Cards -->
+				<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4">
+						<div class="text-[10px] text-[#b3b3b3] font-mono uppercase">7% Employee Pension</div>
+						<div class="text-base font-mono font-semibold text-white mt-1">{formatETB(calc.employeePension)}</div>
 					</div>
-					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3.5">
-						<div class="text-[10px] text-[#b3b3b3] font-mono">Taxable Base</div>
-						<div class="text-sm font-mono font-semibold text-[#b3b3b3] mt-1">{formatETB(calc.base - calc.employeePension)}</div>
+					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4">
+						<div class="text-[10px] text-[#b3b3b3] font-mono uppercase">Taxable Income Base</div>
+						<div class="text-base font-mono font-semibold text-[#b3b3b3] mt-1">{formatETB(calc.base - calc.employeePension)}</div>
 					</div>
-					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3.5">
-						<div class="text-[10px] text-[#f65c4f] font-mono">Income Tax</div>
-						<div class="text-sm font-mono font-semibold text-[#f65c4f] mt-1">{formatETB(calc.incomeTax)}</div>
+					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4">
+						<div class="text-[10px] text-[#f59e0b] font-mono uppercase">MoR Income Tax</div>
+						<div class="text-base font-mono font-semibold text-[#f59e0b] mt-1">{formatETB(calc.incomeTax)}</div>
 					</div>
-					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3.5">
-						<div class="text-[10px] text-[#ffffff] font-mono">Net Take-Home</div>
-						<div class="text-sm font-mono font-bold text-white mt-1">{formatETB(calc.netPay)}</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- BENTO CARD 2 (SPAN 1): CBE Bulk Wire Exporter -->
-			<div class="rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-6 sm:p-8 shadow-[rgb(28,28,28)_0px_0px_0px_2px] flex flex-col justify-between hover:border-[#ffffff2e] transition-all">
-				<div>
-					<div class="flex items-center justify-between mb-4">
-						<div class="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#0c0a09] border border-[#1f1e1d] text-white">
-							<Coins size={20} weight="duotone" />
-						</div>
-						<div class="flex items-center gap-1.5">
-							<button
-								onclick={copyBatchCSV}
-								class="text-[11px] font-mono text-[#b3b3b3] hover:text-white flex items-center gap-1 bg-[#0c0a09] px-2.5 py-1 rounded-[6px] border border-[#1f1e1d] transition-colors cursor-pointer"
-							>
-								{#if copiedBatch}
-									<Check size={12} class="text-[#f65c4f]" />
-									<span class="text-[#f65c4f]">Copied</span>
-								{:else}
-									<Copy size={12} />
-									<span>Copy</span>
-								{/if}
-							</button>
-							<button
-								onclick={downloadBatchCSV}
-								class="text-[11px] font-mono text-white hover:bg-[#d94a2b] flex items-center gap-1 bg-[#f65c4f] px-2.5 py-1 rounded-[6px] transition-colors cursor-pointer"
-								title="Download CSV"
-							>
-								<DownloadSimple size={12} />
-								<span>CSV</span>
-							</button>
-						</div>
-					</div>
-					<h3 class="text-lg font-normal text-white mb-1.5 tracking-[-0.02em]">CBE Wire Batch Exporter</h3>
-					<p class="text-xs text-[#b3b3b3] leading-relaxed mb-4">
-						Generates upload-ready CSV files for Commercial Bank of Ethiopia bulk portal disbursement.
-					</p>
-				</div>
-
-				<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3 font-mono text-[10px] text-[#b3b3b3] overflow-x-auto space-y-1">
-					<div class="text-[#737373]"># CBE Wire Transfer Batch</div>
-					<div class="text-[#f65c4f] font-semibold">Account,Beneficiary,ETB,Curr</div>
-					<div class="text-[#ffffff]">1000188923456,"Abebe Kebede",38200.00</div>
-					<div class="text-[#ffffff]">1000299481203,"Hana Mulugeta",22657.50</div>
-					<div class="text-[#ffffff]">1000344810294,"Yonas Alemu",17821.50</div>
-				</div>
-			</div>
-
-			<!-- BENTO CARD 3 (SPAN 1): Telegram Worker Self-Service -->
-			<div class="rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-6 sm:p-8 shadow-[rgb(28,28,28)_0px_0px_0px_2px] flex flex-col justify-between hover:border-[#ffffff2e] transition-all">
-				<div>
-					<div class="flex items-center justify-between mb-4">
-						<div class="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#0c0a09] border border-[#1f1e1d] text-white">
-							<PaperPlaneRight size={20} weight="duotone" />
-						</div>
-						<span class="text-[10px] font-mono text-[#b3b3b3] bg-[#0c0a09] px-2 py-0.5 rounded-full border border-[#1f1e1d]">Telegram API</span>
-					</div>
-					<h3 class="text-lg font-normal text-white mb-1.5 tracking-[-0.02em]">Telegram Mobile Worker</h3>
-					<p class="text-xs text-[#b3b3b3] leading-relaxed mb-3">
-						Interactive simulation: click command pills below to test bot responses:
-					</p>
-
-					<!-- Command Pills -->
-					<div class="flex flex-wrap gap-1.5 mb-3">
-						{#each (['/payslip', '/leave', '/status', '/letter'] as const) as cmd}
-							<button
-								onclick={() => (activeCommand = cmd)}
-								class="px-2.5 py-1 rounded-full font-mono text-[10px] transition-all cursor-pointer
-									   {activeCommand === cmd
-										 ? 'bg-[#f65c4f] text-white font-semibold'
-										 : 'bg-[#0c0a09] text-[#b3b3b3] hover:text-white border border-[#1f1e1d]'}"
-							>
-								{cmd}
-							</button>
-						{/each}
-					</div>
-				</div>
-
-				<!-- Simulated Bot Thread -->
-				<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3 space-y-2 text-xs">
-					<div class="bg-[#1c1c1c] border border-[#1f1e1d] text-white rounded-[6px] py-1 px-2.5 text-[11px] font-mono text-right">
-						{currentBot.cmd}
-					</div>
-					<div class="bg-[#1c1c1c] border border-[#1f1e1d] text-[#ffffff] rounded-[6px] p-2.5 text-[11px]">
-						<span class="font-medium text-white block mb-1 text-[11px]">{currentBot.replyTitle}</span>
-						{#each currentBot.details as d}
-							<div class="flex items-center justify-between text-[10px] py-0.5">
-								<span class="text-[#b3b3b3]">{d.label}:</span>
-								<span class="font-mono font-medium {d.highlight ? 'text-[#f65c4f]' : 'text-[#ffffff]'}">{d.val}</span>
-							</div>
-						{/each}
-						<div class="border-t border-[#1f1e1d] mt-1.5 pt-1 text-[9px] text-[#737373] font-mono">
-							{currentBot.footer}
-						</div>
+					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4">
+						<div class="text-[10px] text-[#00C48C] font-mono uppercase">Net Take-Home Pay</div>
+						<div class="text-base font-mono font-bold text-[#00C48C] mt-1">{formatETB(calc.netPay)}</div>
 					</div>
 				</div>
 			</div>
+		</section>
 
-			<!-- BENTO CARD 4 (SPAN 2): Separation of Duties Role Perspectives -->
-			<div class="md:col-span-2 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-6 sm:p-8 shadow-[rgb(28,28,28)_0px_0px_0px_2px] relative overflow-hidden group hover:border-[#ffffff2e] transition-all">
-				<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-5 border-b border-[#1f1e1d] gap-3">
+		<!-- ── VIBRANT ACCENT BAND (Matching Inngest's middle accent section) ── -->
+		<section class="rounded-[6px] border border-[#00C48C]/30 bg-gradient-to-r from-[#042f2e]/90 via-[#0a3d34]/70 to-[#042f2e]/90 p-8 sm:p-14 my-16 shadow-[rgb(28,28,28)_0px_0px_0px_2px]">
+			<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+				<div class="max-w-xl">
+					<span class="text-xs font-mono uppercase tracking-widest text-[#00C48C] font-semibold block mb-2">
+						Audited Compliance Architecture
+					</span>
+					<h3 class="text-2xl sm:text-3xl font-normal tracking-[-0.035em] text-[#ffffff] leading-snug">
+						From monthly attendance freeze to corporate bank wire release in seconds.
+					</h3>
+				</div>
+				<div class="grid grid-cols-2 sm:grid-cols-4 gap-6 font-mono">
 					<div>
-						<div class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#f65c4f] mb-1">
-							<Shield size={14} />
-							<span>Corporate Governance</span>
-						</div>
-						<h3 class="text-xl font-normal text-white tracking-[-0.02em]">Separation-of-Duties Role Perspectives</h3>
+						<div class="text-2xl font-bold text-[#00C48C]">100%</div>
+						<div class="text-[11px] text-[#b3b3b3] mt-1">Deterministic Pure TypeScript</div>
 					</div>
-
-					<button
-						onclick={() => launchAsRole(currentRole.email)}
-						disabled={isLoggingIn}
-						class="inline-flex items-center gap-2 rounded-[6px] bg-[#f65c4f] hover:bg-[#d94a2b] text-white font-semibold text-xs uppercase tracking-wider px-4 py-2.5 transition-all disabled:opacity-50 cursor-pointer self-start sm:self-auto"
-					>
-						<Lightning size={13} weight="fill" />
-						<span>{isLoggingIn ? 'Authenticating...' : currentRole.actionText}</span>
-						<ArrowRight size={13} weight="bold" />
-					</button>
+					<div>
+						<div class="text-2xl font-bold text-white">7 Brackets</div>
+						<div class="text-[11px] text-[#b3b3b3] mt-1">MoR Proclamation 979/2016</div>
+					</div>
+					<div>
+						<div class="text-2xl font-bold text-white">18 Staff</div>
+						<div class="text-[11px] text-[#b3b3b3] mt-1">Pre-Seeded Organization</div>
+					</div>
+					<div>
+						<div class="text-2xl font-bold text-[#00C48C]">CBE Ready</div>
+						<div class="text-[11px] text-[#b3b3b3] mt-1">ISO 20022 Wire Export</div>
+					</div>
 				</div>
+			</div>
+		</section>
 
-				<!-- Role Selector Pills -->
-				<div class="flex flex-wrap gap-2 mb-6">
-					{#each (['finance', 'owner', 'hr', 'manager', 'employee'] as RoleKey[]) as r}
+		<!-- ── ALTERNATING STEPPER TIMELINE (Matching Inngest left rail + right card) ── -->
+		<section id="timeline" class="py-16 lg:py-24">
+			<div class="text-center max-w-2xl mx-auto mb-16">
+				<div class="flex items-center justify-center gap-2 text-xs font-mono uppercase tracking-wider text-[#00C48C] mb-2">
+					<CheckCircle size={14} weight="fill" />
+					<span>End-to-End Compliance Pipeline</span>
+				</div>
+				<h2 class="text-3xl sm:text-4xl font-normal tracking-[-0.035em] text-[#ffffff] mb-3">
+					How Rosterly executes a compliance cycle
+				</h2>
+				<p class="text-sm text-[#b3b3b3]">
+					Click any phase along the stepper to inspect its statutory mechanics and operational artifacts.
+				</p>
+			</div>
+
+			<div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+				<!-- Left Vertical Timeline Stepper Rail -->
+				<div class="lg:col-span-5 relative pl-6 border-l-2 border-[#1f1e1d] space-y-10">
+					{#each timelineSteps as step}
+						{@const isCurrent = activeTimelineStep === step.id}
 						<button
-							onclick={() => (activeRole = r)}
-							class="flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium transition-all cursor-pointer
-								   {activeRole === r
-									 ? 'bg-[#f65c4f] text-white shadow-xs'
-									 : 'bg-[#0c0a09] text-[#b3b3b3] hover:text-white border border-[#1f1e1d]'}"
+							onclick={() => (activeTimelineStep = step.id)}
+							class="text-left w-full group cursor-pointer relative transition-all"
 						>
-							<span>{roleMeta[r].title}</span>
-							<span class="text-[9px] px-1.5 py-0.5 rounded-full font-mono uppercase {activeRole === r ? 'bg-black/20 text-white' : 'bg-[#1c1c1c] text-[#737373]'}">
-								{roleMeta[r].badge}
-							</span>
+							<!-- Stepper Node Dot -->
+							<div
+								class="absolute -left-[31px] top-1 h-3.5 w-3.5 rounded-full border-2 transition-all
+									   {isCurrent ? 'bg-[#00C48C] border-[#0c0a09] ring-4 ring-[#00C48C]/20' : 'bg-[#1c1c1c] border-[#1f1e1d] group-hover:border-[#00C48C]'}"
+							></div>
+
+							<div class="flex items-center gap-2 mb-1">
+								<span class="text-xs font-mono uppercase tracking-wider {isCurrent ? 'text-[#00C48C] font-semibold' : 'text-[#737373]'}">
+									{step.number} / {step.category}
+								</span>
+								<span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#1c1c1c] border border-[#1f1e1d] text-[#b3b3b3]">
+									{step.badge}
+								</span>
+							</div>
+							<h4 class="text-base font-normal tracking-tight text-white mb-1.5 {isCurrent ? 'text-[#00C48C]' : 'group-hover:text-white'}">
+								{step.title}
+							</h4>
+							<p class="text-xs text-[#b3b3b3] leading-relaxed">
+								{step.description}
+							</p>
 						</button>
 					{/each}
 				</div>
 
-				<!-- Role Preview Box -->
-				<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4">
-					<div class="flex items-center justify-between text-xs mb-3">
-						<span class="font-medium text-white">{currentRole.headline}</span>
-						<span class="font-mono text-[10px] text-[#f65c4f] bg-[#1c1c1c] px-2.5 py-0.5 rounded-full border border-[#1f1e1d]">
-							Scope: {currentRole.workflowState}
-						</span>
-					</div>
-					<div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-						{#each currentRole.stats as stat}
-							<div class="rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-3">
-								<div class="text-[10px] text-[#b3b3b3] uppercase font-mono">{stat.label}</div>
-								<div class="text-sm font-mono font-medium text-white mt-1">{stat.value}</div>
+				<!-- Right Interactive Showcase Card for Active Step -->
+				<div class="lg:col-span-7 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-6 sm:p-8 shadow-[rgb(28,28,28)_0px_0px_0px_2px]">
+					{#if activeTimelineStep === 1}
+						<!-- Step 1: 7-Tier Tax Schedule Inspector -->
+						<div>
+							<div class="flex items-center justify-between pb-4 mb-4 border-b border-[#1f1e1d]">
+								<div class="flex items-center gap-2 text-xs font-mono text-[#00C48C]">
+									<Scales size={16} />
+									<span>MoR 7-Tier Statutory Tax Schedule</span>
+								</div>
+								<span class="text-[10px] font-mono text-[#b3b3b3]">Proclamation 979/2016</span>
 							</div>
+							<p class="text-xs text-[#b3b3b3] leading-relaxed mb-4">
+								Every Birr is calculated deterministically with statutory deductibles applied per income bracket:
+							</p>
+							<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] overflow-hidden font-mono text-xs">
+								<div class="grid grid-cols-3 bg-[#1c1c1c] p-2.5 text-[11px] font-semibold text-[#b3b3b3] border-b border-[#1f1e1d]">
+									<span>Monthly Taxable Bracket</span>
+									<span class="text-center">Rate</span>
+									<span class="text-right">Deduction (ETB)</span>
+								</div>
+								<div class="divide-y divide-[#1f1e1d] text-[11px]">
+									<div class="grid grid-cols-3 p-2.5 text-[#b3b3b3]">
+										<span>0 – 600 ETB</span>
+										<span class="text-center text-[#00C48C]">0%</span>
+										<span class="text-right">0.00</span>
+									</div>
+									<div class="grid grid-cols-3 p-2.5 text-[#b3b3b3]">
+										<span>601 – 1,650 ETB</span>
+										<span class="text-center text-white">10%</span>
+										<span class="text-right">60.00</span>
+									</div>
+									<div class="grid grid-cols-3 p-2.5 text-[#b3b3b3]">
+										<span>1,651 – 3,200 ETB</span>
+										<span class="text-center text-white">15%</span>
+										<span class="text-right">142.50</span>
+									</div>
+									<div class="grid grid-cols-3 p-2.5 text-[#b3b3b3]">
+										<span>3,201 – 5,250 ETB</span>
+										<span class="text-center text-white">20%</span>
+										<span class="text-right">302.50</span>
+									</div>
+									<div class="grid grid-cols-3 p-2.5 text-[#b3b3b3]">
+										<span>5,251 – 7,800 ETB</span>
+										<span class="text-center text-white">25%</span>
+										<span class="text-right">565.00</span>
+									</div>
+									<div class="grid grid-cols-3 p-2.5 text-[#b3b3b3]">
+										<span>7,801 – 10,900 ETB</span>
+										<span class="text-center text-white">30%</span>
+										<span class="text-right">955.00</span>
+									</div>
+									<div class="grid grid-cols-3 p-2.5 text-[#b3b3b3] bg-[#042f2e]/20">
+										<span class="text-[#00C48C]">&gt; 10,900 ETB</span>
+										<span class="text-center text-[#00C48C] font-bold">35%</span>
+										<span class="text-right text-[#00C48C]">1,500.00</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					{:else if activeTimelineStep === 2}
+						<!-- Step 2: Pension Agency Remittance Voucher -->
+						<div>
+							<div class="flex items-center justify-between pb-4 mb-4 border-b border-[#1f1e1d]">
+								<div class="flex items-center gap-2 text-xs font-mono text-[#00C48C]">
+									<Shield size={16} />
+									<span>POESSA Mandatory Pension Remittance</span>
+								</div>
+								<span class="text-[10px] font-mono text-[#b3b3b3]">Private Org Pension</span>
+							</div>
+							<p class="text-xs text-[#b3b3b3] leading-relaxed mb-4">
+								Statutory split deposited to the Private Organization Employees’ Pension Agency:
+							</p>
+							<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+								<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4">
+									<div class="text-[10px] font-mono text-[#b3b3b3] uppercase">Employee 7% Deduction</div>
+									<div class="text-lg font-mono font-bold text-[#00C48C] mt-1">ETB 26,481.00</div>
+									<div class="text-[11px] text-[#737373] mt-1 font-sans">Exempt from monthly income tax base</div>
+								</div>
+								<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4">
+									<div class="text-[10px] font-mono text-[#b3b3b3] uppercase">Employer 11% Match</div>
+									<div class="text-lg font-mono font-bold text-white mt-1">ETB 41,613.00</div>
+									<div class="text-[11px] text-[#737373] mt-1 font-sans">Mandatory corporate social security</div>
+								</div>
+							</div>
+							<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3 text-xs font-mono flex items-center justify-between text-[#b3b3b3]">
+								<span>Total Remittance Voucher Due:</span>
+								<span class="text-white font-bold">ETB 68,094.00</span>
+							</div>
+						</div>
+					{:else if activeTimelineStep === 3}
+						<!-- Step 3: Governance Gate Sign-Off -->
+						<div>
+							<div class="flex items-center justify-between pb-4 mb-4 border-b border-[#1f1e1d]">
+								<div class="flex items-center gap-2 text-xs font-mono text-[#00C48C]">
+									<Shield size={16} />
+									<span>Fiduciary Separation of Duties Gate</span>
+								</div>
+								<span class="text-[10px] font-mono text-[#00C48C] bg-[#0c0a09] px-2 py-0.5 rounded-full border border-[#1f1e1d]">
+									Strict RBAC
+								</span>
+							</div>
+							<p class="text-xs text-[#b3b3b3] leading-relaxed mb-4">
+								Disbursement integrity prevents rogue or fraudulent wire executions:
+							</p>
+							<div class="space-y-3 font-mono text-xs">
+								<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3 flex items-center justify-between">
+									<div class="flex items-center gap-2">
+										<CheckCircle size={16} class="text-[#00C48C]" weight="fill" />
+										<span class="text-white">Finance & Treasury</span>
+									</div>
+									<span class="text-[11px] text-[#00C48C]">Drafted &amp; Audited</span>
+								</div>
+								<div class="rounded-[6px] border border-[#00C48C]/40 bg-[#042f2e]/20 p-3 flex items-center justify-between">
+									<div class="flex items-center gap-2">
+										<span class="h-2 w-2 rounded-full bg-[#00C48C] animate-ping"></span>
+										<span class="text-white">Managing Director (Owner)</span>
+									</div>
+									<span class="text-[11px] text-[#00C48C] font-semibold">Sole Authorization Authority</span>
+								</div>
+							</div>
+						</div>
+					{:else}
+						<!-- Step 4: CBE Direct Batch Exporter -->
+						<div>
+							<div class="flex items-center justify-between pb-4 mb-4 border-b border-[#1f1e1d]">
+								<div class="flex items-center gap-2 text-xs font-mono text-[#00C48C]">
+									<Bank size={16} />
+									<span>Commercial Bank of Ethiopia (CBE) Batch</span>
+								</div>
+								<div class="flex items-center gap-1.5">
+									<button
+										onclick={copyBatchCSV}
+										class="text-[11px] font-mono text-[#b3b3b3] hover:text-white flex items-center gap-1 bg-[#0c0a09] px-2.5 py-1 rounded-[6px] border border-[#1f1e1d] transition-colors cursor-pointer"
+									>
+										{#if copiedBatch}
+											<Check size={12} class="text-[#00C48C]" />
+											<span class="text-[#00C48C]">Copied</span>
+										{:else}
+											<Copy size={12} />
+											<span>Copy</span>
+										{/if}
+									</button>
+									<button
+										onclick={downloadBatchCSV}
+										class="text-[11px] font-mono text-[#0c0a09] font-bold hover:bg-[#00ab7a] flex items-center gap-1 bg-[#00C48C] px-2.5 py-1 rounded-[6px] transition-colors cursor-pointer"
+										title="Download CSV"
+									>
+										<DownloadSimple size={12} />
+										<span>CSV</span>
+									</button>
+								</div>
+							</div>
+							<p class="text-xs text-[#b3b3b3] leading-relaxed mb-3">
+								ISO 20022 compliant corporate batch file ready for upload to CBE Corporate Portal:
+							</p>
+							<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3 font-mono text-[11px] space-y-1 overflow-x-auto text-[#b3b3b3]">
+								<div class="text-[#737373]"># CBE Wire Transfer Batch (Cycle 2026-09)</div>
+								<div class="text-[#00C48C] font-semibold">Account,Beneficiary,Amount_ETB,Ref</div>
+								<div class="text-white">1000188923456,"Abebe Kebede",38200.00,SAL-09</div>
+								<div class="text-white">1000299481203,"Hana Mulugeta",22657.50,SAL-09</div>
+								<div class="text-white">1000344810294,"Yonas Alemu",17821.50,SAL-09</div>
+							</div>
+						</div>
+					{/if}
+				</div>
+			</div>
+		</section>
+
+		<!-- ── PERSONA PERSPECTIVES & TELEGRAM WORKER BENTO ──────────────────── -->
+		<section id="roles" class="py-16 lg:py-24">
+			<div class="text-center max-w-2xl mx-auto mb-14">
+				<div class="flex items-center justify-center gap-2 text-xs font-mono uppercase tracking-wider text-[#00C48C] mb-2">
+					<Shield size={14} />
+					<span>Role Perspectives &amp; Self-Service</span>
+				</div>
+				<h2 class="text-3xl sm:text-4xl font-normal tracking-[-0.035em] text-[#ffffff] mb-3">
+					Built for every stakeholder in the organization
+				</h2>
+				<p class="text-sm text-[#b3b3b3]">
+					Test authentic permission scopes with 1-click live demo logins or interact with the Telegram bot simulator.
+				</p>
+			</div>
+
+			<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+				<!-- BENTO CARD 1 (SPAN 2): Separation of Duties Role Switcher -->
+				<div class="lg:col-span-2 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-6 sm:p-8 shadow-[rgb(28,28,28)_0px_0px_0px_2px]">
+					<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-5 border-b border-[#1f1e1d] gap-3">
+						<div>
+							<span class="text-xs font-mono uppercase tracking-wider text-[#00C48C] block mb-1">Interactive RBAC</span>
+							<h3 class="text-xl font-normal text-white tracking-[-0.02em]">Role-Based Access Matrix</h3>
+						</div>
+
+						<button
+							onclick={() => launchAsRole(currentRole.email)}
+							disabled={isLoggingIn}
+							class="inline-flex items-center gap-2 rounded-[6px] bg-[#00C48C] hover:bg-[#00ab7a] text-[#0c0a09] font-bold text-xs uppercase tracking-wider px-4 py-2.5 transition-all disabled:opacity-50 cursor-pointer self-start sm:self-auto"
+						>
+							<Lightning size={13} weight="fill" />
+							<span>{isLoggingIn ? 'Authenticating...' : currentRole.actionText}</span>
+							<ArrowRight size={13} weight="bold" />
+						</button>
+					</div>
+
+					<!-- Role Selector Pills -->
+					<div class="flex flex-wrap gap-2 mb-6">
+						{#each (['finance', 'owner', 'hr', 'manager', 'employee'] as RoleKey[]) as r}
+							<button
+								onclick={() => (activeRole = r)}
+								class="flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium transition-all cursor-pointer
+									   {activeRole === r
+										 ? 'bg-[#00C48C] text-[#0c0a09] font-bold'
+										 : 'bg-[#0c0a09] text-[#b3b3b3] hover:text-white border border-[#1f1e1d]'}"
+							>
+								<span>{roleMeta[r].title}</span>
+								<span class="text-[9px] px-1.5 py-0.5 rounded-full font-mono uppercase {activeRole === r ? 'bg-black/20 text-[#0c0a09]' : 'bg-[#1c1c1c] text-[#737373]'}">
+									{roleMeta[r].badge}
+								</span>
+							</button>
 						{/each}
+					</div>
+
+					<!-- Role Preview Box -->
+					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4">
+						<div class="flex items-center justify-between text-xs mb-3">
+							<span class="font-medium text-white">{currentRole.headline}</span>
+							<span class="font-mono text-[10px] text-[#00C48C] bg-[#1c1c1c] px-2.5 py-0.5 rounded-full border border-[#1f1e1d]">
+								Scope: {currentRole.workflowState}
+							</span>
+						</div>
+						<div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+							{#each currentRole.stats as stat}
+								<div class="rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-3">
+									<div class="text-[10px] text-[#b3b3b3] uppercase font-mono">{stat.label}</div>
+									<div class="text-sm font-mono font-medium text-white mt-1">{stat.value}</div>
+								</div>
+							{/each}
+						</div>
+					</div>
+				</div>
+
+				<!-- BENTO CARD 2 (SPAN 1): Telegram Mobile Worker Simulator -->
+				<div class="rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-6 sm:p-8 shadow-[rgb(28,28,28)_0px_0px_0px_2px] flex flex-col justify-between">
+					<div>
+						<div class="flex items-center justify-between mb-4">
+							<div class="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#0c0a09] border border-[#1f1e1d] text-white">
+								<PaperPlaneRight size={20} weight="duotone" class="text-[#00C48C]" />
+							</div>
+							<span class="text-[10px] font-mono text-[#00C48C] bg-[#0c0a09] px-2 py-0.5 rounded-full border border-[#1f1e1d]">Telegram API</span>
+						</div>
+						<h3 class="text-lg font-normal text-white mb-1.5 tracking-[-0.02em]">Telegram Mobile Worker</h3>
+						<p class="text-xs text-[#b3b3b3] leading-relaxed mb-3">
+							Interactive bot simulator for staff self-service and payslip queries:
+						</p>
+
+						<!-- Command Pills -->
+						<div class="flex flex-wrap gap-1.5 mb-3">
+							{#each (['/payslip', '/leave', '/status', '/letter'] as const) as cmd}
+								<button
+									onclick={() => (activeCommand = cmd)}
+									class="px-2.5 py-1 rounded-full font-mono text-[10px] transition-all cursor-pointer
+										   {activeCommand === cmd
+											 ? 'bg-[#00C48C] text-[#0c0a09] font-bold'
+											 : 'bg-[#0c0a09] text-[#b3b3b3] hover:text-white border border-[#1f1e1d]'}"
+								>
+									{cmd}
+								</button>
+							{/each}
+						</div>
+					</div>
+
+					<!-- Simulated Bot Thread -->
+					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3 space-y-2 text-xs">
+						<div class="bg-[#1c1c1c] border border-[#1f1e1d] text-white rounded-[6px] py-1 px-2.5 text-[11px] font-mono text-right">
+							{currentBot.cmd}
+						</div>
+						<div class="bg-[#1c1c1c] border border-[#1f1e1d] text-[#ffffff] rounded-[6px] p-2.5 text-[11px]">
+							<span class="font-medium text-white block mb-1 text-[11px]">{currentBot.replyTitle}</span>
+							{#each currentBot.details as d}
+								<div class="flex items-center justify-between text-[10px] py-0.5">
+									<span class="text-[#b3b3b3]">{d.label}:</span>
+									<span class="font-mono font-medium {d.highlight ? 'text-[#00C48C]' : 'text-[#ffffff]'}">{d.val}</span>
+								</div>
+							{/each}
+							<div class="border-t border-[#1f1e1d] mt-1.5 pt-1 text-[9px] text-[#737373] font-mono">
+								{currentBot.footer}
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</section>
 
-		<!-- ── CALL TO ACTION BANNER ──────────────────────────────────────── -->
-		<section class="rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-8 sm:p-16 text-center relative overflow-hidden shadow-[rgb(28,28,28)_0px_0px_0px_2px]">
+		<!-- ── CALL TO ACTION BANNER (No duplicate GitHub buttons) ──────────── -->
+		<section class="rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-8 sm:p-16 text-center my-16 shadow-[rgb(28,28,28)_0px_0px_0px_2px]">
 			<div class="max-w-2xl mx-auto">
-				<h2 class="text-2xl sm:text-4xl font-normal text-white tracking-[-0.035em] mb-4">
+				<h2 class="text-3xl sm:text-4xl font-normal text-white tracking-[-0.035em] mb-4">
 					Test the complete workforce platform
 				</h2>
 				<p class="text-sm text-[#b3b3b3] mb-8 leading-relaxed">
 					All roles, progressive tax schedules, CBE export files, and pre-seeded mock employees are live and ready to explore in your browser.
 				</p>
-				<div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-					<a
-						href="/login"
-						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] bg-[#f65c4f] hover:bg-[#d94a2b] text-white font-semibold text-xs uppercase tracking-wider h-[42px] px-6 transition-all"
-					>
-						<span>Open Role Selector</span>
-						<ArrowRight size={14} weight="bold" />
-					</a>
-					<a
-						href={GITHUB_URL}
-						target="_blank"
-						rel="noreferrer"
-						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] hover:border-[#ffffff2e] text-white font-semibold text-xs uppercase tracking-wider h-[42px] px-6 transition-all"
-					>
-						<GithubLogo size={14} weight="bold" />
-						<span>View on GitHub</span>
-					</a>
-				</div>
+				<a
+					href="/login"
+					class="inline-flex items-center justify-center gap-2 rounded-[6px] bg-[#00C48C] hover:bg-[#00ab7a] text-[#0c0a09] font-bold text-xs uppercase tracking-wider h-[42px] px-8 transition-all shadow-[rgb(28,28,28)_0px_0px_0px_2px]"
+				>
+					<span>Open Role Selector</span>
+					<ArrowRight size={14} weight="bold" />
+				</a>
 			</div>
 		</section>
 	</main>
 
-	<!-- Inngest-style Footer -->
+	<!-- ── FOOTER ───────────────────────────────────────────────────────── -->
 	<footer class="border-t border-[#1f1e1d] bg-[#0c0a09] py-10 text-center text-xs text-[#b3b3b3] font-mono">
 		<div class="mx-auto max-w-[1440px] px-6 sm:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
 			<div class="flex items-center gap-2 text-[#b3b3b3]">
-				<TreeStructure size={16} class="text-[#f65c4f]" weight="fill" />
+				<TreeStructure size={16} class="text-[#00C48C]" weight="fill" />
 				<span class="font-medium text-white">Rosterly</span>
-				<span>·</span>
+				<span>&bull;</span>
 				<span>Ethiopian Compliance-First Payroll Engine</span>
 			</div>
 			<div>
-				Built with SvelteKit (Svelte 5), Drizzle ORM &bull;
-				<a href={GITHUB_URL} target="_blank" rel="noreferrer" class="text-white hover:text-[#f65c4f] underline ml-1">GitHub Repository</a>
+				Built with SvelteKit (Svelte 5) &bull; Drizzle ORM &bull; Proclamation 979/2016
 			</div>
 		</div>
 	</footer>
