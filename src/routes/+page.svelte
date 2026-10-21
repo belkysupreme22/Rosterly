@@ -103,6 +103,8 @@
 		}
 	];
 
+	const selectedStepObj = $derived(workflowSteps.find((s) => s.id === activePipelineStep) || workflowSteps[0]);
+
 	const sampleWorkflowCode = `// src/lib/server/payroll/workflow.ts
 import { inngest } from '$lib/server/inngest';
 import { calculatePayroll } from '@rosterly/payroll-engine';
@@ -401,27 +403,22 @@ export const processPayrollCycle = inngest.createFunction(
 	/>
 </svelte:head>
 
-<!-- Deep Matte Obsidian Canvas (#08090C) with Inngest-style Grid & Neon Accents -->
-<div class="min-h-screen bg-[#08090C] text-slate-100 selection:bg-[#00C48C]/30 selection:text-white relative overflow-hidden font-sans">
+<!-- Deep Matte Obsidian Canvas (#0c0a09) with Inngest Neutral Surfaces (#1c1c1c) and Accent (#f65c4f) -->
+<div class="min-h-screen bg-[#0c0a09] text-[#ffffff] selection:bg-[#f65c4f]/30 selection:text-white relative overflow-hidden font-sans">
 	<!-- Inngest Micro Grid Pattern -->
 	<div class="pointer-events-none absolute inset-0 [background-image:linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] [background-size:36px_36px]"></div>
-	
-	<!-- Top Radial Glow Beams -->
-	<div class="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[550px] bg-gradient-to-b from-[#00C48C]/20 via-sky-500/10 to-transparent blur-[160px] rounded-full"></div>
-	<div class="pointer-events-none absolute top-[800px] -right-32 w-[600px] h-[600px] bg-purple-600/10 blur-[170px] rounded-full"></div>
-	<div class="pointer-events-none absolute top-[1800px] -left-32 w-[550px] h-[550px] bg-emerald-600/10 blur-[160px] rounded-full"></div>
 
 	<!-- Top Bar -->
-	<header class="sticky top-0 z-50 border-b border-white/[0.08] bg-[#08090C]/85 backdrop-blur-xl">
-		<div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+	<header class="sticky top-0 z-50 border-b border-[#1f1e1d] bg-[#0c0a09]/90 backdrop-blur-xl h-[88px] flex items-center">
+		<div class="mx-auto flex w-full max-w-[1440px] items-center justify-between px-6 sm:px-12">
 			<!-- Logo -->
 			<a href="/" class="flex items-center gap-3 group">
-				<div class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#00C48C] via-teal-500 to-sky-600 text-white shadow-lg shadow-[#00C48C]/20 ring-1 ring-white/20 transition-transform group-hover:scale-105">
-					<TreeStructure size={18} weight="fill" />
+				<div class="flex h-9 w-9 items-center justify-center rounded-[6px] bg-[#1c1c1c] border border-[#1f1e1d] text-[#ffffff] shadow-[rgb(28,28,28)_0px_0px_0px_2px]">
+					<TreeStructure size={18} weight="fill" class="text-[#f65c4f]" />
 				</div>
 				<div class="flex items-center gap-2">
-					<span class="text-sm font-bold tracking-tight text-white">Rosterly</span>
-					<span class="text-[9px] uppercase tracking-widest font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 text-[#00C48C] border border-[#00C48C]/20">v2.4</span>
+					<span class="text-sm font-semibold tracking-tight text-[#ffffff]">Rosterly</span>
+					<span class="text-[10px] uppercase tracking-widest font-mono font-medium px-2 py-0.5 rounded-full bg-[#1c1c1c] text-[#b3b3b3] border border-[#1f1e1d]">v2.4</span>
 				</div>
 			</a>
 
@@ -431,14 +428,14 @@ export const processPayrollCycle = inngest.createFunction(
 					href={GITHUB_URL}
 					target="_blank"
 					rel="noreferrer"
-					class="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2 text-xs font-semibold text-slate-300 hover:border-white/20 hover:bg-white/10 hover:text-white transition-all"
+					class="hidden sm:inline-flex items-center gap-1.5 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#b3b3b3] hover:text-white hover:border-[#ffffff2e] transition-all"
 				>
-					<GithubLogo size={15} weight="bold" />
+					<GithubLogo size={14} weight="bold" />
 					<span>GitHub</span>
 				</a>
 				<a
 					href="/login"
-					class="inline-flex items-center gap-2 rounded-xl bg-[#00C48C] hover:bg-[#2ae0ab] text-[#08090C] px-4 py-2 text-xs font-bold shadow-md shadow-[#00C48C]/20 transition-all hover:scale-[1.02] active:scale-95"
+					class="inline-flex items-center gap-2 rounded-[6px] bg-[#f65c4f] hover:bg-[#d94a2b] text-white px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-all"
 				>
 					<span>Open Workspace</span>
 					<ArrowRight size={14} weight="bold" />
@@ -447,78 +444,78 @@ export const processPayrollCycle = inngest.createFunction(
 		</div>
 	</header>
 
-	<main class="relative z-10 mx-auto max-w-6xl px-6 pt-16 pb-28">
+	<main class="relative z-10 mx-auto max-w-[1440px] px-6 sm:px-12 pt-16 pb-36">
 		<!-- ── INNGEST-STYLE HERO ─────────────────────────────────────────── -->
-		<div class="text-center max-w-4xl mx-auto mb-16">
+		<div class="text-center max-w-4xl mx-auto mb-20">
 			<!-- Announcement Pill -->
 			<a
 				href="/login"
-				class="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/15 px-3.5 py-1 text-xs font-mono text-emerald-300 mb-6 backdrop-blur-sm transition-all"
+				class="inline-flex items-center gap-2 rounded-full border border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#ffffff2e] px-4 py-1.5 text-xs font-mono text-[#ffffff] mb-8 transition-all"
 			>
-				<span class="h-2 w-2 rounded-full bg-[#00C48C] animate-pulse"></span>
-				<span class="font-semibold text-white">Ethiopian MoR Proclamation 979/2016</span>
-				<span class="text-slate-500">|</span>
-				<span>Private Pension Directive →</span>
+				<span class="h-2 w-2 rounded-full bg-[#f65c4f] animate-pulse"></span>
+				<span class="font-medium text-[#ffffff]">Ethiopian MoR Proclamation 979/2016</span>
+				<span class="text-[#b3b3b3]">|</span>
+				<span class="text-[#b3b3b3]">Private Pension Directive →</span>
 			</a>
 
 			<!-- Main Headline -->
-			<h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.08] mb-6">
+			<h1 class="text-4xl sm:text-6xl lg:text-7xl font-normal tracking-[-0.035em] text-[#ffffff] leading-[1.08] mb-6">
 				The durable workforce &amp; payroll engine for Ethiopia.
 			</h1>
 
 			<!-- Subtext -->
-			<p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed mb-8">
+			<p class="text-base sm:text-lg text-[#b3b3b3] max-w-2xl mx-auto leading-relaxed mb-10">
 				Replace fragile Excel sheets and manual chat approvals with an audited, deterministic platform. Calculate progressive taxes, stream CBE wire batches, and empower staff over Telegram.
 			</p>
 
 			<!-- Action Buttons -->
-			<div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+			<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
 				<a
 					href="/login"
-					class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#00C48C] hover:bg-[#2ae0ab] text-[#08090C] font-bold text-sm px-6 py-3.5 shadow-lg shadow-[#00C48C]/25 transition-all hover:scale-[1.02] active:scale-95 cursor-pointer"
+					class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-[6px] bg-[#f65c4f] hover:bg-[#d94a2b] text-white font-semibold text-xs uppercase tracking-wider h-[42px] px-6 transition-all cursor-pointer"
 				>
 					<span>Explore Pre-Seeded Company</span>
-					<ArrowRight size={16} weight="bold" />
+					<ArrowRight size={14} weight="bold" />
 				</a>
 				<a
 					href={GITHUB_URL}
 					target="_blank"
 					rel="noreferrer"
-					class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/20 text-slate-300 hover:text-white font-semibold text-sm px-5 py-3.5 transition-all cursor-pointer"
+					class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#ffffff2e] text-[#ffffff] font-semibold text-xs uppercase tracking-wider h-[42px] px-6 transition-all cursor-pointer"
 				>
-					<GithubLogo size={16} weight="bold" />
+					<GithubLogo size={14} weight="bold" />
 					<span>Inspect Code on GitHub</span>
 				</a>
 			</div>
 		</div>
 
 		<!-- ── SIGNATURE FEATURE: INNGEST-STYLE PIPELINE OBSERVER ─────────── -->
-		<section class="rounded-3xl border border-white/[0.08] bg-[#101118]/90 backdrop-blur-2xl p-6 sm:p-8 mb-24 relative overflow-hidden shadow-2xl">
+		<section class="rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-6 sm:p-8 mb-24 relative overflow-hidden shadow-[rgb(28,28,28)_0px_0px_0px_2px]">
 			<!-- Header & Mode Switcher (Visual Tree vs Code) -->
-			<div class="flex flex-col md:flex-row md:items-center justify-between pb-6 mb-6 border-b border-white/[0.06] gap-4">
+			<div class="flex flex-col md:flex-row md:items-center justify-between pb-6 mb-6 border-b border-[#1f1e1d] gap-4">
 				<div>
-					<div class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-emerald-400 mb-1">
+					<div class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#f65c4f] mb-1">
 						<GitBranch size={15} />
 						<span>Workflow Execution Pipeline</span>
 					</div>
-					<h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">How Rosterly Runs a Compliance Cycle</h2>
-					<p class="text-xs text-slate-400 mt-1">Deterministic state transitions from monthly cutoff to CBE bank batch release.</p>
+					<h2 class="text-xl sm:text-2xl font-normal tracking-[-0.02em] text-[#ffffff]">How Rosterly Runs a Compliance Cycle</h2>
+					<p class="text-xs text-[#b3b3b3] mt-1">Deterministic state transitions from monthly cutoff to CBE bank batch release.</p>
 				</div>
 
 				<!-- Visual vs Code Tab Switcher -->
-				<div class="inline-flex rounded-xl border border-white/10 bg-black/50 p-1 self-start md:self-auto">
+				<div class="inline-flex rounded-full border border-[#1f1e1d] bg-[#0c0a09] p-1 self-start md:self-auto">
 					<button
 						onclick={() => (pipelineMode = 'visual')}
-						class="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-mono font-semibold transition-all cursor-pointer
-							   {pipelineMode === 'visual' ? 'bg-[#00C48C] text-[#08090C]' : 'text-slate-400 hover:text-white'}"
+						class="flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-mono font-medium transition-all cursor-pointer
+							   {pipelineMode === 'visual' ? 'bg-[#f65c4f] text-white' : 'text-[#b3b3b3] hover:text-white'}"
 					>
 						<Cpu size={14} />
 						<span>Pipeline Tree</span>
 					</button>
 					<button
 						onclick={() => (pipelineMode = 'code')}
-						class="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-mono font-semibold transition-all cursor-pointer
-							   {pipelineMode === 'code' ? 'bg-[#00C48C] text-[#08090C]' : 'text-slate-400 hover:text-white'}"
+						class="flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-mono font-medium transition-all cursor-pointer
+							   {pipelineMode === 'code' ? 'bg-[#f65c4f] text-white' : 'text-[#b3b3b3] hover:text-white'}"
 					>
 						<Code size={14} />
 						<span>Workflow Code</span>
@@ -533,34 +530,34 @@ export const processPayrollCycle = inngest.createFunction(
 						{@const isSelected = activePipelineStep === step.id}
 						<button
 							onclick={() => (activePipelineStep = step.id)}
-							class="text-left rounded-2xl border p-4 transition-all duration-200 cursor-pointer relative group
+							class="text-left rounded-[6px] border p-4 transition-all duration-200 cursor-pointer relative group
 								   {isSelected
-									 ? 'border-emerald-500/50 bg-[#161822] shadow-lg shadow-emerald-500/10 ring-1 ring-emerald-500/30'
-									 : 'border-white/5 bg-black/40 hover:border-white/20 hover:bg-[#14151E]'}"
+									 ? 'border-[#f65c4f] bg-[#0c0a09] shadow-[rgb(246,92,79)_2px_0px_0px_0px_inset]'
+									 : 'border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#ffffff2e]'}"
 						>
 							<!-- Step Number & Status Indicator -->
 							<div class="flex items-center justify-between mb-2">
-								<span class="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded border {step.badgeColor}">
+								<span class="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded-full border border-[#1f1e1d] bg-[#0c0a09] text-[#b3b3b3]">
 									{step.badge}
 								</span>
-								<span class="text-[10px] font-mono text-slate-500">
+								<span class="text-[10px] font-mono text-[#b3b3b3]">
 									{step.duration}
 								</span>
 							</div>
 
 							<!-- Step Name -->
-							<div class="text-xs font-mono font-bold text-white line-clamp-1 mb-1 group-hover:text-emerald-300 transition-colors">
+							<div class="text-xs font-mono text-[#ffffff] line-clamp-1 mb-1">
 								{step.name}
 							</div>
 
 							<!-- Status pill -->
-							<div class="flex items-center gap-1.5 text-[11px] {isSelected ? 'text-emerald-400' : 'text-slate-400'}">
+							<div class="flex items-center gap-1.5 text-[11px] {isSelected ? 'text-[#f65c4f]' : 'text-[#b3b3b3]'}">
 								{#if step.status.includes('Completed')}
-									<CheckCircle size={12} weight="fill" class="text-emerald-400" />
+									<CheckCircle size={12} weight="fill" class="text-[#f65c4f]" />
 								{:else if step.status.includes('Awaiting')}
-									<span class="h-2 w-2 rounded-full bg-amber-400 animate-ping"></span>
+									<span class="h-2 w-2 rounded-full bg-[#f65c4f] animate-ping"></span>
 								{:else}
-									<Clock size={12} class="text-slate-500" />
+									<Clock size={12} class="text-[#b3b3b3]" />
 								{/if}
 								<span class="truncate">{step.status}</span>
 							</div>
@@ -570,36 +567,36 @@ export const processPayrollCycle = inngest.createFunction(
 
 				<!-- Step Detail Inspector (Inngest Log Inspection Panel) -->
 				{@const selectedStepObj = workflowSteps.find(s => s.id === activePipelineStep) || workflowSteps[0]}
-				<div class="rounded-2xl border border-white/[0.08] bg-black/60 p-4 sm:p-5 font-mono text-xs">
-					<div class="flex items-center justify-between pb-3 mb-3 border-b border-white/5">
+				<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4 sm:p-5 font-mono text-xs">
+					<div class="flex items-center justify-between pb-3 mb-3 border-b border-[#1f1e1d]">
 						<div class="flex items-center gap-2">
-							<span class="h-2 w-2 rounded-full bg-emerald-400"></span>
-							<span class="text-white font-bold">{selectedStepObj.name}</span>
+							<span class="h-2 w-2 rounded-full bg-[#f65c4f]"></span>
+							<span class="text-[#ffffff] font-bold">{selectedStepObj.name}</span>
 						</div>
-						<span class="text-slate-500 text-[11px]">Step ID: #{selectedStepObj.id}</span>
+						<span class="text-[#b3b3b3] text-[11px]">Step ID: #{selectedStepObj.id}</span>
 					</div>
 
-					<p class="text-slate-300 text-xs mb-3 font-sans leading-relaxed">
+					<p class="text-[#b3b3b3] text-xs mb-3 font-sans leading-relaxed">
 						{selectedStepObj.description}
 					</p>
 
-					<div class="bg-white/[0.03] border border-white/5 rounded-xl p-3 text-[11px] space-y-1 text-slate-400">
+					<div class="bg-[#1c1c1c] border border-[#1f1e1d] rounded-[6px] p-3 text-[11px] space-y-1 text-[#b3b3b3]">
 						{#each Object.entries(selectedStepObj.meta) as [key, val]}
 							<div class="flex items-start gap-2">
-								<span class="text-slate-500 min-w-28 capitalize">{key}:</span>
-								<span class="text-emerald-300 font-semibold">{val}</span>
+								<span class="text-[#b3b3b3] min-w-28 capitalize">{key}:</span>
+								<span class="text-[#ffffff] font-medium">{val}</span>
 							</div>
 						{/each}
 					</div>
 				</div>
 			{:else}
 				<!-- Inngest Workflow Code Viewer -->
-				<div class="rounded-2xl border border-white/[0.08] bg-black/80 p-5 font-mono text-xs text-slate-300 overflow-x-auto relative">
-					<div class="flex items-center justify-between pb-3 mb-3 border-b border-white/5 text-[11px] text-slate-500">
+				<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-5 font-mono text-xs text-[#b3b3b3] overflow-x-auto relative">
+					<div class="flex items-center justify-between pb-3 mb-3 border-b border-[#1f1e1d] text-[11px] text-[#b3b3b3]">
 						<span>TypeScript Workflow Definition</span>
 						<span>packages/payroll-engine/src/index.ts</span>
 					</div>
-					<pre class="leading-relaxed text-[11px]"><code class="text-emerald-400">{sampleWorkflowCode}</code></pre>
+					<pre class="leading-relaxed text-[11px]"><code class="text-[#f65c4f]">{sampleWorkflowCode}</code></pre>
 				</div>
 			{/if}
 		</section>
@@ -607,34 +604,34 @@ export const processPayrollCycle = inngest.createFunction(
 		<!-- ── THE ASYMMETRIC BENTO GRID (INNGEST STYLE) ───────────────────── -->
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
 			<!-- BENTO CARD 1 (SPAN 2): Interactive Ethiopian Tax Simulator -->
-			<div class="md:col-span-2 rounded-3xl border border-white/[0.08] bg-[#101118]/90 p-6 sm:p-8 backdrop-blur-xl relative overflow-hidden group hover:border-emerald-500/30 transition-all">
-				<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-5 border-b border-white/[0.06] gap-3">
+			<div class="md:col-span-2 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-6 sm:p-8 relative overflow-hidden shadow-[rgb(28,28,28)_0px_0px_0px_2px] hover:border-[#ffffff2e] transition-all">
+				<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-5 border-b border-[#1f1e1d] gap-3">
 					<div>
-						<div class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#00C48C] mb-1">
+						<div class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#f65c4f] mb-1">
 							<Terminal size={14} />
 							<span>Zero-Dependency Engine</span>
 						</div>
-						<h3 class="text-xl font-bold text-white">Live Ethiopian Gross-to-Net Simulator</h3>
+						<h3 class="text-xl font-normal text-[#ffffff] tracking-[-0.02em]">Live Ethiopian Gross-to-Net Simulator</h3>
 					</div>
 
 					<!-- Tier Badge & Period Toggle -->
 					<div class="flex items-center gap-2">
-						<div class="inline-flex rounded-lg border border-white/10 bg-black/40 p-0.5 text-xs">
+						<div class="inline-flex rounded-full border border-[#1f1e1d] bg-[#0c0a09] p-0.5 text-xs">
 							<button
 								onclick={() => (period = 'monthly')}
-								class="rounded px-2.5 py-1 font-semibold transition-all {period === 'monthly' ? 'bg-[#00C48C] text-[#08090C]' : 'text-slate-400 hover:text-white'}"
+								class="rounded-full px-3 py-1 font-semibold transition-all cursor-pointer {period === 'monthly' ? 'bg-[#f65c4f] text-white' : 'text-[#b3b3b3] hover:text-white'}"
 							>
 								Monthly
 							</button>
 							<button
 								onclick={() => (period = 'annual')}
-								class="rounded px-2.5 py-1 font-semibold transition-all {period === 'annual' ? 'bg-[#00C48C] text-[#08090C]' : 'text-slate-400 hover:text-white'}"
+								class="rounded-full px-3 py-1 font-semibold transition-all cursor-pointer {period === 'annual' ? 'bg-[#f65c4f] text-white' : 'text-[#b3b3b3] hover:text-white'}"
 							>
 								Annual
 							</button>
 						</div>
 
-						<div class="px-2.5 py-1 rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-[11px] font-mono text-emerald-300 font-bold">
+						<div class="px-2.5 py-1 rounded-full border border-[#1f1e1d] bg-[#0c0a09] text-[11px] font-mono text-[#ffffff] font-medium">
 							{calc.bracketLabel}
 						</div>
 					</div>
@@ -642,14 +639,14 @@ export const processPayrollCycle = inngest.createFunction(
 
 				<!-- Quick Presets -->
 				<div class="mb-5 flex flex-wrap items-center gap-1.5">
-					<span class="text-xs text-slate-500 mr-1">Presets:</span>
+					<span class="text-xs text-[#b3b3b3] mr-1">Presets:</span>
 					{#each salaryPresets as p}
 						<button
 							onclick={() => (baseSalaryInput = p.amount)}
-							class="rounded-lg border px-2.5 py-1 text-xs font-mono transition-all cursor-pointer
+							class="rounded-[6px] border px-3 py-1 text-xs font-mono transition-all cursor-pointer
 								   {baseSalaryInput === p.amount
-									 ? 'border-[#00C48C] bg-[#00C48C]/15 text-[#00C48C] font-bold'
-									 : 'border-white/5 bg-white/5 text-slate-400 hover:text-white'}"
+									 ? 'border-[#f65c4f] bg-[#0c0a09] text-[#f65c4f] font-semibold'
+									 : 'border-[#1f1e1d] bg-[#0c0a09] text-[#b3b3b3] hover:text-white hover:border-[#ffffff2e]'}"
 						>
 							{p.label} ({p.amount.toLocaleString()} ETB)
 						</button>
@@ -659,12 +656,12 @@ export const processPayrollCycle = inngest.createFunction(
 				<!-- Slider -->
 				<div class="mb-6">
 					<div class="flex items-center justify-between mb-2">
-						<label for="salary-slider" class="text-xs font-semibold text-slate-300 flex items-center gap-2">
-							<Sliders size={14} class="text-[#00C48C]" />
+						<label for="salary-slider" class="text-xs font-semibold text-[#ffffff] flex items-center gap-2">
+							<Sliders size={14} class="text-[#f65c4f]" />
 							<span>Monthly Base Gross Salary</span>
 						</label>
-						<div class="flex items-center gap-1 bg-black/60 border border-white/10 rounded-xl px-3 py-1 font-mono text-sm font-bold text-[#00C48C]">
-							<span class="text-slate-500 text-xs">ETB</span>
+						<div class="flex items-center gap-1 bg-[#0c0a09] border border-[#1f1e1d] rounded-[6px] px-3 py-1 font-mono text-sm font-semibold text-[#ffffff]">
+							<span class="text-[#b3b3b3] text-xs">ETB</span>
 							<input
 								id="salary-number"
 								type="number"
@@ -684,63 +681,63 @@ export const processPayrollCycle = inngest.createFunction(
 						min="1000"
 						max="150000"
 						step="1000"
-						class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-[#00C48C]"
+						class="w-full h-2 bg-[#0c0a09] rounded-lg appearance-none cursor-pointer accent-[#f65c4f]"
 					/>
 				</div>
 
 				<!-- Visual Distribution Bar -->
-				<div class="mb-6 p-3.5 rounded-2xl bg-black/40 border border-white/5">
+				<div class="mb-6 p-4 rounded-[6px] bg-[#0c0a09] border border-[#1f1e1d]">
 					<div class="flex items-center justify-between text-xs font-mono mb-2">
-						<span class="text-slate-400 text-[11px]">Salary Split Breakdown</span>
+						<span class="text-[#b3b3b3] text-[11px]">Salary Split Breakdown</span>
 						<div class="flex items-center gap-3 text-[10px]">
-							<span class="flex items-center gap-1"><span class="h-2 w-2 rounded-full bg-[#00C48C]"></span>Net ({calc.netPercent}%)</span>
-							<span class="flex items-center gap-1"><span class="h-2 w-2 rounded-full bg-rose-400"></span>Tax ({calc.taxPercent}%)</span>
-							<span class="flex items-center gap-1"><span class="h-2 w-2 rounded-full bg-emerald-600"></span>Pension ({calc.pensionPercent}%)</span>
+							<span class="flex items-center gap-1"><span class="h-2 w-2 rounded-full bg-[#ffffff]"></span>Net ({calc.netPercent}%)</span>
+							<span class="flex items-center gap-1"><span class="h-2 w-2 rounded-full bg-[#f65c4f]"></span>Tax ({calc.taxPercent}%)</span>
+							<span class="flex items-center gap-1"><span class="h-2 w-2 rounded-full bg-[#737373]"></span>Pension ({calc.pensionPercent}%)</span>
 						</div>
 					</div>
-					<div class="h-2.5 w-full rounded-full bg-slate-800 overflow-hidden flex">
-						<div class="h-full bg-[#00C48C] transition-all duration-300" style="width: {calc.netPercent}%"></div>
-						<div class="h-full bg-rose-400 transition-all duration-300" style="width: {calc.taxPercent}%"></div>
-						<div class="h-full bg-emerald-600 transition-all duration-300" style="width: {calc.pensionPercent}%"></div>
+					<div class="h-2.5 w-full rounded-full bg-[#1c1c1c] overflow-hidden flex">
+						<div class="h-full bg-[#ffffff] transition-all duration-300" style="width: {calc.netPercent}%"></div>
+						<div class="h-full bg-[#f65c4f] transition-all duration-300" style="width: {calc.taxPercent}%"></div>
+						<div class="h-full bg-[#737373] transition-all duration-300" style="width: {calc.pensionPercent}%"></div>
 					</div>
 				</div>
 
 				<!-- 4 Stat Metrics -->
 				<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-					<div class="rounded-xl border border-white/5 bg-black/40 p-3">
-						<div class="text-[10px] text-slate-400 font-mono">7% Pension</div>
-						<div class="text-sm font-mono font-bold text-white mt-0.5">{formatETB(calc.employeePension)}</div>
+					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3.5">
+						<div class="text-[10px] text-[#b3b3b3] font-mono">7% Pension</div>
+						<div class="text-sm font-mono font-semibold text-white mt-1">{formatETB(calc.employeePension)}</div>
 					</div>
-					<div class="rounded-xl border border-white/5 bg-black/40 p-3">
-						<div class="text-[10px] text-slate-400 font-mono">Taxable Base</div>
-						<div class="text-sm font-mono font-bold text-slate-300 mt-0.5">{formatETB(calc.base - calc.employeePension)}</div>
+					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3.5">
+						<div class="text-[10px] text-[#b3b3b3] font-mono">Taxable Base</div>
+						<div class="text-sm font-mono font-semibold text-[#b3b3b3] mt-1">{formatETB(calc.base - calc.employeePension)}</div>
 					</div>
-					<div class="rounded-xl border border-rose-500/20 bg-rose-950/20 p-3">
-						<div class="text-[10px] text-rose-300 font-mono">Income Tax</div>
-						<div class="text-sm font-mono font-bold text-rose-200 mt-0.5">{formatETB(calc.incomeTax)}</div>
+					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3.5">
+						<div class="text-[10px] text-[#f65c4f] font-mono">Income Tax</div>
+						<div class="text-sm font-mono font-semibold text-[#f65c4f] mt-1">{formatETB(calc.incomeTax)}</div>
 					</div>
-					<div class="rounded-xl border border-[#00C48C]/30 bg-emerald-950/25 p-3">
-						<div class="text-[10px] text-emerald-300 font-mono">Net Take-Home</div>
-						<div class="text-sm font-mono font-bold text-[#00C48C] mt-0.5">{formatETB(calc.netPay)}</div>
+					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3.5">
+						<div class="text-[10px] text-[#ffffff] font-mono">Net Take-Home</div>
+						<div class="text-sm font-mono font-bold text-white mt-1">{formatETB(calc.netPay)}</div>
 					</div>
 				</div>
 			</div>
 
 			<!-- BENTO CARD 2 (SPAN 1): CBE Bulk Wire Exporter -->
-			<div class="rounded-3xl border border-white/[0.08] bg-[#101118]/90 p-6 sm:p-8 backdrop-blur-xl flex flex-col justify-between hover:border-emerald-500/30 transition-all">
+			<div class="rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-6 sm:p-8 shadow-[rgb(28,28,28)_0px_0px_0px_2px] flex flex-col justify-between hover:border-[#ffffff2e] transition-all">
 				<div>
 					<div class="flex items-center justify-between mb-4">
-						<div class="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400">
+						<div class="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#0c0a09] border border-[#1f1e1d] text-white">
 							<Coins size={20} weight="duotone" />
 						</div>
 						<div class="flex items-center gap-1.5">
 							<button
 								onclick={copyBatchCSV}
-								class="text-[11px] font-mono text-slate-400 hover:text-white flex items-center gap-1 bg-white/5 px-2.5 py-1 rounded-lg border border-white/5 transition-colors cursor-pointer"
+								class="text-[11px] font-mono text-[#b3b3b3] hover:text-white flex items-center gap-1 bg-[#0c0a09] px-2.5 py-1 rounded-[6px] border border-[#1f1e1d] transition-colors cursor-pointer"
 							>
 								{#if copiedBatch}
-									<Check size={12} class="text-emerald-400" />
-									<span class="text-emerald-400">Copied</span>
+									<Check size={12} class="text-[#f65c4f]" />
+									<span class="text-[#f65c4f]">Copied</span>
 								{:else}
 									<Copy size={12} />
 									<span>Copy</span>
@@ -748,7 +745,7 @@ export const processPayrollCycle = inngest.createFunction(
 							</button>
 							<button
 								onclick={downloadBatchCSV}
-								class="text-[11px] font-mono text-[#00C48C] hover:text-[#2ae0ab] flex items-center gap-1 bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-[#00C48C]/20 transition-colors cursor-pointer"
+								class="text-[11px] font-mono text-white hover:bg-[#d94a2b] flex items-center gap-1 bg-[#f65c4f] px-2.5 py-1 rounded-[6px] transition-colors cursor-pointer"
 								title="Download CSV"
 							>
 								<DownloadSimple size={12} />
@@ -756,32 +753,32 @@ export const processPayrollCycle = inngest.createFunction(
 							</button>
 						</div>
 					</div>
-					<h3 class="text-lg font-bold text-white mb-1.5">CBE Wire Batch Exporter</h3>
-					<p class="text-xs text-slate-400 leading-relaxed mb-4">
+					<h3 class="text-lg font-normal text-white mb-1.5 tracking-[-0.02em]">CBE Wire Batch Exporter</h3>
+					<p class="text-xs text-[#b3b3b3] leading-relaxed mb-4">
 						Generates upload-ready CSV files for Commercial Bank of Ethiopia bulk portal disbursement.
 					</p>
 				</div>
 
-				<div class="rounded-xl border border-white/5 bg-black/60 p-3 font-mono text-[10px] text-slate-400 overflow-x-auto space-y-1">
-					<div class="text-slate-500"># CBE Wire Transfer Batch</div>
-					<div class="text-purple-400 font-bold">Account,Beneficiary,ETB,Curr</div>
-					<div class="text-slate-300">1000188923456,"Abebe Kebede",38200.00</div>
-					<div class="text-slate-300">1000299481203,"Hana Mulugeta",22657.50</div>
-					<div class="text-slate-300">1000344810294,"Yonas Alemu",17821.50</div>
+				<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3 font-mono text-[10px] text-[#b3b3b3] overflow-x-auto space-y-1">
+					<div class="text-[#737373]"># CBE Wire Transfer Batch</div>
+					<div class="text-[#f65c4f] font-semibold">Account,Beneficiary,ETB,Curr</div>
+					<div class="text-[#ffffff]">1000188923456,"Abebe Kebede",38200.00</div>
+					<div class="text-[#ffffff]">1000299481203,"Hana Mulugeta",22657.50</div>
+					<div class="text-[#ffffff]">1000344810294,"Yonas Alemu",17821.50</div>
 				</div>
 			</div>
 
 			<!-- BENTO CARD 3 (SPAN 1): Telegram Worker Self-Service -->
-			<div class="rounded-3xl border border-white/[0.08] bg-[#101118]/90 p-6 sm:p-8 backdrop-blur-xl flex flex-col justify-between hover:border-emerald-500/30 transition-all">
+			<div class="rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-6 sm:p-8 shadow-[rgb(28,28,28)_0px_0px_0px_2px] flex flex-col justify-between hover:border-[#ffffff2e] transition-all">
 				<div>
 					<div class="flex items-center justify-between mb-4">
-						<div class="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-400">
+						<div class="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#0c0a09] border border-[#1f1e1d] text-white">
 							<PaperPlaneRight size={20} weight="duotone" />
 						</div>
-						<span class="text-[10px] font-mono text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">Telegram API</span>
+						<span class="text-[10px] font-mono text-[#b3b3b3] bg-[#0c0a09] px-2 py-0.5 rounded-full border border-[#1f1e1d]">Telegram API</span>
 					</div>
-					<h3 class="text-lg font-bold text-white mb-1.5">Telegram Mobile Worker</h3>
-					<p class="text-xs text-slate-400 leading-relaxed mb-3">
+					<h3 class="text-lg font-normal text-white mb-1.5 tracking-[-0.02em]">Telegram Mobile Worker</h3>
+					<p class="text-xs text-[#b3b3b3] leading-relaxed mb-3">
 						Interactive simulation: click command pills below to test bot responses:
 					</p>
 
@@ -790,10 +787,10 @@ export const processPayrollCycle = inngest.createFunction(
 						{#each (['/payslip', '/leave', '/status', '/letter'] as const) as cmd}
 							<button
 								onclick={() => (activeCommand = cmd)}
-								class="px-2 py-0.5 rounded font-mono text-[10px] transition-all cursor-pointer
+								class="px-2.5 py-1 rounded-full font-mono text-[10px] transition-all cursor-pointer
 									   {activeCommand === cmd
-										 ? 'bg-sky-500 text-white font-bold'
-										 : 'bg-white/5 text-slate-400 hover:text-white hover:bg-white/10'}"
+										 ? 'bg-[#f65c4f] text-white font-semibold'
+										 : 'bg-[#0c0a09] text-[#b3b3b3] hover:text-white border border-[#1f1e1d]'}"
 							>
 								{cmd}
 							</button>
@@ -802,19 +799,19 @@ export const processPayrollCycle = inngest.createFunction(
 				</div>
 
 				<!-- Simulated Bot Thread -->
-				<div class="rounded-xl border border-white/5 bg-black/60 p-3 space-y-2 text-xs">
-					<div class="bg-sky-600/30 border border-sky-500/40 text-sky-200 rounded-lg py-1 px-2 text-[11px] font-mono text-right">
+				<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3 space-y-2 text-xs">
+					<div class="bg-[#1c1c1c] border border-[#1f1e1d] text-white rounded-[6px] py-1 px-2.5 text-[11px] font-mono text-right">
 						{currentBot.cmd}
 					</div>
-					<div class="bg-white/5 border border-white/5 text-slate-300 rounded-lg p-2.5 text-[11px]">
-						<span class="font-bold text-white block mb-1 text-[11px]">{currentBot.replyTitle}</span>
+					<div class="bg-[#1c1c1c] border border-[#1f1e1d] text-[#ffffff] rounded-[6px] p-2.5 text-[11px]">
+						<span class="font-medium text-white block mb-1 text-[11px]">{currentBot.replyTitle}</span>
 						{#each currentBot.details as d}
 							<div class="flex items-center justify-between text-[10px] py-0.5">
-								<span class="text-slate-400">{d.label}:</span>
-								<span class="font-mono font-bold {d.highlight ? 'text-emerald-400' : 'text-slate-200'}">{d.val}</span>
+								<span class="text-[#b3b3b3]">{d.label}:</span>
+								<span class="font-mono font-medium {d.highlight ? 'text-[#f65c4f]' : 'text-[#ffffff]'}">{d.val}</span>
 							</div>
 						{/each}
-						<div class="border-t border-white/5 mt-1 pt-1 text-[9px] text-slate-500 font-mono">
+						<div class="border-t border-[#1f1e1d] mt-1.5 pt-1 text-[9px] text-[#737373] font-mono">
 							{currentBot.footer}
 						</div>
 					</div>
@@ -822,22 +819,22 @@ export const processPayrollCycle = inngest.createFunction(
 			</div>
 
 			<!-- BENTO CARD 4 (SPAN 2): Separation of Duties Role Perspectives -->
-			<div class="md:col-span-2 rounded-3xl border border-white/[0.08] bg-[#101118]/90 p-6 sm:p-8 backdrop-blur-xl relative overflow-hidden group hover:border-emerald-500/30 transition-all">
-				<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-5 border-b border-white/[0.06] gap-3">
+			<div class="md:col-span-2 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-6 sm:p-8 shadow-[rgb(28,28,28)_0px_0px_0px_2px] relative overflow-hidden group hover:border-[#ffffff2e] transition-all">
+				<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-5 border-b border-[#1f1e1d] gap-3">
 					<div>
-						<div class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-amber-400 mb-1">
+						<div class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#f65c4f] mb-1">
 							<Shield size={14} />
 							<span>Corporate Governance</span>
 						</div>
-						<h3 class="text-xl font-bold text-white">Separation-of-Duties Role Perspectives</h3>
+						<h3 class="text-xl font-normal text-white tracking-[-0.02em]">Separation-of-Duties Role Perspectives</h3>
 					</div>
 
 					<button
 						onclick={() => launchAsRole(currentRole.email)}
 						disabled={isLoggingIn}
-						class="inline-flex items-center gap-2 rounded-xl bg-white text-[#08090C] hover:bg-slate-200 font-bold text-xs px-4 py-2.5 transition-all active:scale-95 disabled:opacity-50 cursor-pointer self-start sm:self-auto"
+						class="inline-flex items-center gap-2 rounded-[6px] bg-[#f65c4f] hover:bg-[#d94a2b] text-white font-semibold text-xs uppercase tracking-wider px-4 py-2.5 transition-all disabled:opacity-50 cursor-pointer self-start sm:self-auto"
 					>
-						<Lightning size={14} weight="fill" class="text-emerald-600" />
+						<Lightning size={13} weight="fill" />
 						<span>{isLoggingIn ? 'Authenticating...' : currentRole.actionText}</span>
 						<ArrowRight size={13} weight="bold" />
 					</button>
@@ -848,13 +845,13 @@ export const processPayrollCycle = inngest.createFunction(
 					{#each (['finance', 'owner', 'hr', 'manager', 'employee'] as RoleKey[]) as r}
 						<button
 							onclick={() => (activeRole = r)}
-							class="flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-bold transition-all cursor-pointer
+							class="flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium transition-all cursor-pointer
 								   {activeRole === r
-									 ? 'bg-[#00C48C] text-[#08090C] shadow-md shadow-[#00C48C]/25'
-									 : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white border border-white/5'}"
+									 ? 'bg-[#f65c4f] text-white shadow-xs'
+									 : 'bg-[#0c0a09] text-[#b3b3b3] hover:text-white border border-[#1f1e1d]'}"
 						>
 							<span>{roleMeta[r].title}</span>
-							<span class="text-[9px] px-1 py-0.5 rounded font-mono uppercase {activeRole === r ? 'bg-black/20 text-[#08090C]' : 'bg-white/5 text-slate-400'}">
+							<span class="text-[9px] px-1.5 py-0.5 rounded-full font-mono uppercase {activeRole === r ? 'bg-black/20 text-white' : 'bg-[#1c1c1c] text-[#737373]'}">
 								{roleMeta[r].badge}
 							</span>
 						</button>
@@ -862,18 +859,18 @@ export const processPayrollCycle = inngest.createFunction(
 				</div>
 
 				<!-- Role Preview Box -->
-				<div class="rounded-2xl border border-white/5 bg-black/40 p-4">
+				<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4">
 					<div class="flex items-center justify-between text-xs mb-3">
-						<span class="font-bold text-white">{currentRole.headline}</span>
-						<span class="font-mono text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+						<span class="font-medium text-white">{currentRole.headline}</span>
+						<span class="font-mono text-[10px] text-[#f65c4f] bg-[#1c1c1c] px-2.5 py-0.5 rounded-full border border-[#1f1e1d]">
 							Scope: {currentRole.workflowState}
 						</span>
 					</div>
 					<div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
 						{#each currentRole.stats as stat}
-							<div class="rounded-xl border border-white/5 bg-[#12131C] p-3">
-								<div class="text-[10px] text-slate-400 uppercase font-mono">{stat.label}</div>
-								<div class="text-sm font-mono font-bold text-white mt-0.5">{stat.value}</div>
+							<div class="rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-3">
+								<div class="text-[10px] text-[#b3b3b3] uppercase font-mono">{stat.label}</div>
+								<div class="text-sm font-mono font-medium text-white mt-1">{stat.value}</div>
 							</div>
 						{/each}
 					</div>
@@ -882,29 +879,29 @@ export const processPayrollCycle = inngest.createFunction(
 		</div>
 
 		<!-- ── CALL TO ACTION BANNER ──────────────────────────────────────── -->
-		<section class="rounded-3xl border border-white/[0.08] bg-gradient-to-r from-emerald-950/30 via-[#101118] to-sky-950/30 p-8 sm:p-12 text-center relative overflow-hidden shadow-2xl">
+		<section class="rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-8 sm:p-16 text-center relative overflow-hidden shadow-[rgb(28,28,28)_0px_0px_0px_2px]">
 			<div class="max-w-2xl mx-auto">
-				<h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
+				<h2 class="text-2xl sm:text-4xl font-normal text-white tracking-[-0.035em] mb-4">
 					Test the complete workforce platform
 				</h2>
-				<p class="text-sm text-slate-400 mb-8 leading-relaxed">
+				<p class="text-sm text-[#b3b3b3] mb-8 leading-relaxed">
 					All roles, progressive tax schedules, CBE export files, and pre-seeded mock employees are live and ready to explore in your browser.
 				</p>
 				<div class="flex flex-col sm:flex-row items-center justify-center gap-3">
 					<a
 						href="/login"
-						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[#00C48C] hover:bg-[#2ae0ab] text-[#08090C] font-bold text-sm px-6 py-3.5 shadow-lg shadow-[#00C48C]/20 transition-all hover:scale-105 active:scale-95"
+						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] bg-[#f65c4f] hover:bg-[#d94a2b] text-white font-semibold text-xs uppercase tracking-wider h-[42px] px-6 transition-all"
 					>
 						<span>Open Role Selector</span>
-						<ArrowRight size={16} weight="bold" />
+						<ArrowRight size={14} weight="bold" />
 					</a>
 					<a
 						href={GITHUB_URL}
 						target="_blank"
 						rel="noreferrer"
-						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white font-semibold text-sm px-6 py-3.5 transition-all"
+						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] hover:border-[#ffffff2e] text-white font-semibold text-xs uppercase tracking-wider h-[42px] px-6 transition-all"
 					>
-						<GithubLogo size={16} weight="bold" />
+						<GithubLogo size={14} weight="bold" />
 						<span>View on GitHub</span>
 					</a>
 				</div>
@@ -913,17 +910,17 @@ export const processPayrollCycle = inngest.createFunction(
 	</main>
 
 	<!-- Inngest-style Footer -->
-	<footer class="border-t border-white/[0.08] bg-[#08090C] py-8 text-center text-xs text-slate-500 font-mono">
-		<div class="mx-auto max-w-6xl px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-			<div class="flex items-center gap-2 text-slate-400">
-				<TreeStructure size={16} class="text-[#00C48C]" weight="fill" />
-				<span class="font-bold text-slate-300">Rosterly</span>
+	<footer class="border-t border-[#1f1e1d] bg-[#0c0a09] py-10 text-center text-xs text-[#b3b3b3] font-mono">
+		<div class="mx-auto max-w-[1440px] px-6 sm:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
+			<div class="flex items-center gap-2 text-[#b3b3b3]">
+				<TreeStructure size={16} class="text-[#f65c4f]" weight="fill" />
+				<span class="font-medium text-white">Rosterly</span>
 				<span>·</span>
 				<span>Ethiopian Compliance-First Payroll Engine</span>
 			</div>
 			<div>
 				Built with SvelteKit (Svelte 5), Drizzle ORM &bull;
-				<a href={GITHUB_URL} target="_blank" rel="noreferrer" class="text-slate-400 hover:text-white underline ml-1">GitHub Repository</a>
+				<a href={GITHUB_URL} target="_blank" rel="noreferrer" class="text-white hover:text-[#f65c4f] underline ml-1">GitHub Repository</a>
 			</div>
 		</div>
 	</footer>
