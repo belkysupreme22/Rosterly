@@ -20,7 +20,6 @@
 		Bank,
 		Scales,
 		FileText,
-		Star,
 		CaretDown
 	} from 'phosphor-svelte';
 	import { authClient } from '$lib/auth-client';
@@ -444,24 +443,16 @@
 				</nav>
 			</div>
 
-			<!-- Inngest Style Actions: GitHub Star Pill + Sign In + Get Started Button -->
-			<div class="flex items-center gap-4">
+			<!-- Inngest Style Actions: GitHub Link + Open Workspace Button (No Fake Data) -->
+			<div class="flex items-center gap-3">
 				<a
 					href={GITHUB_URL}
 					target="_blank"
 					rel="noreferrer"
-					class="hidden sm:inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/[0.14] px-3.5 py-1.5 text-xs text-zinc-300 hover:text-white transition-inngest shadow-xs"
+					class="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/[0.14] px-3.5 py-1.5 text-xs text-zinc-300 hover:text-white transition-inngest shadow-xs"
 				>
 					<GithubLogo size={14} weight="bold" />
-					<span>Star</span>
-					<span class="text-[10px] text-zinc-400 font-mono pl-1.5 border-l border-white/[0.08]">★ 1.2k</span>
-				</a>
-
-				<a
-					href="/login"
-					class="text-xs text-zinc-400 hover:text-zinc-100 transition-colors hidden md:block"
-				>
-					Sign in
+					<span>GitHub</span>
 				</a>
 
 				<a
@@ -520,8 +511,8 @@
 				</div>
 			</div>
 
-			<!-- Hero Right Column: Inngest-Style Visual Workflow Pipeline (Integrated with Sandpaper Canvas) -->
-			<div id="pipeline" class="lg:col-span-6 inngest-card p-5 sm:p-6 relative overflow-hidden">
+			<!-- Hero Right Column: Inngest-Style Visual Workflow Pipeline (Tactile Sandpaper Card in Emerald Tint) -->
+			<div id="pipeline" class="lg:col-span-6 inngest-card sandpaper-card-emerald p-5 sm:p-6 relative overflow-hidden">
 				<div class="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.06]">
 					<div class="flex items-center gap-2 text-xs font-mono text-[#00C48C]">
 						<Cpu size={15} />
@@ -621,8 +612,8 @@
 				</p>
 			</div>
 
-			<!-- Large Showcase Container (Integrated Frosted Sandpaper Card) -->
-			<div class="inngest-card p-6 sm:p-10 relative overflow-hidden">
+			<!-- Large Showcase Container (Tactile Sandpaper Card in Warm Amber Tint) -->
+			<div class="inngest-card sandpaper-card-amber p-6 sm:p-10 relative overflow-hidden">
 				<!-- Header Controls: Presets & Period -->
 				<div class="flex flex-col lg:flex-row lg:items-center justify-between pb-6 mb-6 border-b border-white/[0.06] gap-4">
 					<!-- Presets -->
@@ -733,8 +724,8 @@
 			</div>
 		</section>
 
-		<!-- ── VIBRANT ACCENT BAND (Deep hard paper gradient with controlled contrast) ── -->
-		<section class="rounded-[6px] border border-[#00C48C]/15 bg-gradient-to-b from-[#0a1512]/60 via-[#070e0b]/50 to-[#070b0a]/70 backdrop-blur-md p-8 sm:p-12 my-16 shadow-[inset_0_1px_0_0_rgba(0,196,140,0.1)]">
+		<!-- ── VIBRANT ACCENT BAND (Seamlessly Blended Sandpaper Gradient) ── -->
+		<section class="rounded-[6px] border border-[#00C48C]/15 bg-gradient-to-b from-[#00C48C]/[0.03] to-transparent p-8 sm:p-12 my-16 shadow-[inset_0_1px_0_0_rgba(0,196,140,0.08)]">
 			<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
 				<div class="max-w-xl">
 					<span class="text-xs font-mono text-[#00C48C] font-medium block mb-2">
@@ -813,8 +804,8 @@
 					{/each}
 				</div>
 
-				<!-- Right Interactive Showcase Card for Active Step (Incorporated Frosted Card) -->
-				<div class="lg:col-span-7 inngest-card p-6 sm:p-8">
+				<!-- Right Interactive Showcase Card for Active Step (Tactile Sandpaper Card in Emerald Tint) -->
+				<div class="lg:col-span-7 inngest-card sandpaper-card-emerald p-6 sm:p-8">
 					{#if activeTimelineStep === 1}
 						<!-- Step 1: 7-Tier Tax Schedule Inspector -->
 						<div>
