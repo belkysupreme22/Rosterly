@@ -9,8 +9,30 @@
  */
 
 @theme {
+	/* inngest.com design kit tokens v1 */
+	--color-inngest-bg: #0c0a09;
+	--color-inngest-surface: #1c1c1c;
+	--color-inngest-surface-alt: #000000;
+	--color-inngest-border: #1f1e1d;
+	--color-inngest-accent: #f65c4f;
+	--color-inngest-accent-hover: #d94a2b;
+	--color-inngest-text: #ffffff;
+	--color-inngest-text-muted: #b3b3b3;
+
 	/* Typography */
-	--font-sans: 'Poppins', system-ui, -apple-system, sans-serif;
+	--font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+	--font-display: 'Inter', system-ui, -apple-system, sans-serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+	/* Inngest Scale Radii */
+	--radius-inngest-sm: 6px;
+	--radius-inngest-md: 8px;
+	--radius-inngest-lg: 10px;
+
+	/* Inngest Measured Shadows */
+	--shadow-inngest-ring: rgb(28, 28, 28) 0px 0px 0px 2px;
+	--shadow-inngest-inset: rgb(255, 255, 255) 0px 0px 0px 2px inset;
+	--shadow-inngest-card: rgba(0, 0, 0, 0.55) 0px 28px 60px -32px;
 
 	/* Brand — Teal accent scale (maps to #D7FEFA from reference image 2) */
 	--color-brand-50: #f0fdfa;
