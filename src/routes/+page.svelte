@@ -105,9 +105,9 @@
 	let period = $state<'monthly' | 'annual'>('monthly');
 
 	const salaryPresets = [
-		{ label: 'Junior Staff', amount: 14000 },
-		{ label: 'Mid Specialist', amount: 38000 },
-		{ label: 'Senior Lead', amount: 72000 },
+		{ label: 'Junior staff', amount: 14000 },
+		{ label: 'Mid specialist', amount: 38000 },
+		{ label: 'Senior lead', amount: 72000 },
 		{ label: 'Director', amount: 120000 }
 	];
 
@@ -187,7 +187,7 @@
 		{
 			id: 1,
 			number: '01',
-			category: 'STATUTORY TAXES',
+			category: 'Statutory Taxes',
 			title: 'Progressive Ministry of Revenue brackets',
 			description: 'Evaluates each employee across Ethiopia’s 7 progressive income tax brackets with zero rounding drift.',
 			badge: 'MoR Proclamation 979'
@@ -195,7 +195,7 @@
 		{
 			id: 2,
 			number: '02',
-			category: 'PENSION DIRECTIVE',
+			category: 'Pension Directive',
 			title: 'Mandatory private organization pension',
 			description: 'Calculates the 7% employee tax-exempt deduction alongside the mandatory 11% employer contribution.',
 			badge: 'POESSA Directive'
@@ -203,7 +203,7 @@
 		{
 			id: 3,
 			number: '03',
-			category: 'FIDUCIARY GOVERNANCE',
+			category: 'Governance Gate',
 			title: 'Strict separation of duties sign-off gate',
 			description: 'Finance prepares and audits the cycle. Managing Director holds sole authority to authorize disbursement.',
 			badge: 'Executive Gate'
@@ -211,7 +211,7 @@
 		{
 			id: 4,
 			number: '04',
-			category: 'BANKING DISBURSEMENT',
+			category: 'Banking Disbursement',
 			title: 'Commercial Bank of Ethiopia direct batch',
 			description: 'Generates ISO 20022 compliant corporate CSV batches directly uploadable to CBE Corporate Banking.',
 			badge: 'CBE Wire Batch'
@@ -241,13 +241,13 @@
 			email: 'finance@acme.com',
 			tagline: 'Drafts payroll cycles, computes progressive tax withholdings, and exports CBE batch transfers.',
 			workflowState: 'Pending Authorization',
-			headline: 'Payroll Run Cycle #2026-09 • 18 Employees',
+			headline: 'Payroll run cycle #2026-09 • 18 employees',
 			stats: [
-				{ label: 'Gross Disbursal', value: 'ETB 378,300.00' },
-				{ label: 'MoR Tax Withholding', value: 'ETB 68,410.00' },
-				{ label: 'Pension Pool (7%+11%)', value: 'ETB 68,094.00' }
+				{ label: 'Gross disbursal', value: 'ETB 378,300.00' },
+				{ label: 'MoR tax withholding', value: 'ETB 68,410.00' },
+				{ label: 'Pension pool (7%+11%)', value: 'ETB 68,094.00' }
 			],
-			actionText: 'Instant Launch as Finance',
+			actionText: 'Instant launch as Finance',
 			badge: 'Disbursement Controller'
 		},
 		owner: {
@@ -255,13 +255,13 @@
 			email: 'owner@acme.com',
 			tagline: 'Fiduciary sign-off authority. Sole role permitted to authorize bank disbursements.',
 			workflowState: 'Awaiting Authorization',
-			headline: 'Monthly Wire Disbursal Review',
+			headline: 'Monthly wire disbursal review',
 			stats: [
-				{ label: 'Authorized Runs', value: '12 / 12 Cycles' },
-				{ label: 'Compliance Status', value: '100% Certified' },
-				{ label: 'Pending Approval', value: '1 Cycle' }
+				{ label: 'Authorized runs', value: '12 / 12 Cycles' },
+				{ label: 'Compliance status', value: '100% Certified' },
+				{ label: 'Pending approval', value: '1 Cycle' }
 			],
-			actionText: 'Instant Launch as Owner',
+			actionText: 'Instant launch as Owner',
 			badge: 'Sole Authorization'
 		},
 		hr: {
@@ -269,13 +269,13 @@
 			email: 'hr@acme.com',
 			tagline: 'Staff directory, organizational hierarchy, leave quotas, and corporate announcements.',
 			workflowState: 'Directory Active',
-			headline: 'Workforce Roster & Department Units',
+			headline: 'Workforce roster & department units',
 			stats: [
-				{ label: 'Active Team', value: '18 Across 5 Depts' },
-				{ label: 'Leave Reviews', value: '4 Processed' },
-				{ label: 'Hardware Assets', value: '24 Tracked Units' }
+				{ label: 'Active team', value: '18 Across 5 Depts' },
+				{ label: 'Leave reviews', value: '4 Processed' },
+				{ label: 'Hardware assets', value: '24 Tracked Units' }
 			],
-			actionText: 'Instant Launch as HR Admin',
+			actionText: 'Instant launch as HR Admin',
 			badge: 'Directory & Policy'
 		},
 		manager: {
@@ -283,13 +283,13 @@
 			email: 'manager@acme.com',
 			tagline: 'Live attendance radar, department coverage calendar, and leave approvals.',
 			workflowState: 'Coverage Nominal',
-			headline: 'Engineering Team Board (8 Members)',
+			headline: 'Engineering team board (8 members)',
 			stats: [
-				{ label: 'On Leave Today', value: '1 Member' },
-				{ label: 'Pending Requests', value: '2 Leave Reviews' },
-				{ label: 'Coverage Rate', value: '94.2%' }
+				{ label: 'On leave today', value: '1 Member' },
+				{ label: 'Pending requests', value: '2 Leave Reviews' },
+				{ label: 'Coverage rate', value: '94.2%' }
 			],
-			actionText: 'Instant Launch as Manager',
+			actionText: 'Instant launch as Manager',
 			badge: 'Team Lead'
 		},
 		employee: {
@@ -299,11 +299,11 @@
 			workflowState: 'Portal Active',
 			headline: 'Hana Mulugeta • Software Engineer',
 			stats: [
-				{ label: 'Annual Leave Balance', value: '14 Days Left' },
-				{ label: 'Latest Net Take-Home', value: 'ETB 22,657.50' },
-				{ label: 'Verified Letters', value: '1 Document Issued' }
+				{ label: 'Annual leave balance', value: '14 Days Left' },
+				{ label: 'Latest net take-home', value: 'ETB 22,657.50' },
+				{ label: 'Verified letters', value: '1 Document Issued' }
 			],
-			actionText: 'Instant Launch as Employee',
+			actionText: 'Instant launch as Employee',
 			badge: 'Self-Service'
 		}
 	};
@@ -340,25 +340,25 @@
 				{ label: 'Income Tax (MoR)', val: '-ETB 8,265.00' },
 				{ label: 'Net Take-Home', val: 'ETB 27,075.00', highlight: true }
 			],
-			footer: 'Disbursal Reference: SAL-2026-09 via CBE'
+			footer: 'Disbursal reference: SAL-2026-09 via CBE'
 		},
 		'/leave': {
 			cmd: '/leave',
 			replyTitle: '🏖️ Personal Leave Balance',
 			details: [
-				{ label: 'Annual Quota', val: '20 Days' },
-				{ label: 'Days Utilized', val: '6 Days' },
-				{ label: 'Available Balance', val: '14 Days Remaining', highlight: true }
+				{ label: 'Annual quota', val: '20 Days' },
+				{ label: 'Days utilized', val: '6 Days' },
+				{ label: 'Available balance', val: '14 Days Remaining', highlight: true }
 			],
-			footer: 'Next Public Holiday: Enkutatash (Ethiopian New Year)'
+			footer: 'Next public holiday: Enkutatash (Ethiopian New Year)'
 		},
 		'/status': {
 			cmd: '/status',
 			replyTitle: '🟢 Real-time Work Status Updated',
 			details: [
-				{ label: 'Current State', val: 'IN OFFICE', highlight: true },
-				{ label: 'Office Location', val: 'Addis Ababa HQ (Bole)' },
-				{ label: 'Team Calendar', val: 'Synced Across Board' }
+				{ label: 'Current state', val: 'IN OFFICE', highlight: true },
+				{ label: 'Office location', val: 'Addis Ababa HQ (Bole)' },
+				{ label: 'Team calendar', val: 'Synced Across Board' }
 			],
 			footer: 'Status synced to department dashboard'
 		},
@@ -366,9 +366,9 @@
 			cmd: '/letter',
 			replyTitle: '📜 Official Employment Certificate',
 			details: [
-				{ label: 'Verification Code', val: 'ETH-VERIFY-2026-HANA', highlight: true },
+				{ label: 'Verification code', val: 'ETH-VERIFY-2026-HANA', highlight: true },
 				{ label: 'Recipient', val: 'To Whom It May Concern' },
-				{ label: 'Anti-Fraud Status', val: 'Cryptographically Signed' }
+				{ label: 'Anti-fraud status', val: 'Cryptographically Signed' }
 			],
 			footer: 'Scan QR or verify online: /verify/ETH-VERIFY-2026-HANA'
 		}
@@ -408,35 +408,35 @@
 	/>
 </svelte:head>
 
-<!-- Deep Matte Obsidian Canvas (#0c0a09) with Hard Paper Tactile Texture and Brand Accent (#00C48C) -->
-<div class="min-h-screen bg-[#0c0a09] inngest-paper text-[#ffffff] selection:bg-[#00C48C]/30 selection:text-white relative overflow-hidden font-sans">
-	<!-- Tactile Hard Paper Grain Noise Overlay -->
-	<div class="pointer-events-none fixed inset-0 inngest-grain z-0 opacity-40"></div>
+<!-- Deep Matte Obsidian Canvas (#0c0a09) with Hard Paper Tactile Texture and Controlled Brand Accent -->
+<div class="min-h-screen bg-[#0c0a09] inngest-paper text-[#f4f4f5] selection:bg-[#00C48C]/25 selection:text-white relative overflow-hidden font-sans">
+	<!-- Tactile Uncoated Paper Grain Noise Overlay (No Square Grids) -->
+	<div class="pointer-events-none fixed inset-0 inngest-grain z-0 opacity-45"></div>
 
-	<!-- Ambient Lighting Cones (Inngest Style) -->
-	<div class="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[550px] bg-[radial-gradient(ellipse_at_top,rgba(0,196,140,0.14),transparent_70%)] blur-3xl"></div>
-	<div class="pointer-events-none absolute top-[1600px] right-0 w-[700px] h-[600px] bg-[radial-gradient(circle,rgba(0,196,140,0.06),transparent_70%)] blur-3xl"></div>
+	<!-- Atmospheric Ambient Lighting (Controlled Soft Glows) -->
+	<div class="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(0,196,140,0.08),transparent_70%)] blur-3xl"></div>
+	<div class="pointer-events-none absolute top-[1800px] right-0 w-[600px] h-[500px] bg-[radial-gradient(circle,rgba(0,196,140,0.04),transparent_70%)] blur-3xl"></div>
 
-	<!-- ── STICKY HEADER (88px tall with hairline border) ─────────────────── -->
-	<header class="sticky top-0 z-50 border-b border-[#1f1e1d] bg-[#0c0a09]/90 backdrop-blur-xl h-[88px] flex items-center">
+	<!-- ── STICKY HEADER (Frosted matte paper background with hairline border) ── -->
+	<header class="sticky top-0 z-50 border-b border-white/[0.06] bg-[#0c0a09]/80 backdrop-blur-xl h-[78px] flex items-center shadow-[inset_0_-1px_0_0_rgba(255,255,255,0.02)] transition-inngest">
 		<div class="mx-auto flex w-full max-w-[1440px] items-center justify-between px-6 sm:px-12">
 			<!-- Logo -->
 			<a href="/" class="flex items-center gap-3 group">
-				<div class="flex h-9 w-9 items-center justify-center rounded-[6px] bg-[#1c1c1c] border border-[#1f1e1d] text-[#ffffff] shadow-[rgb(28,28,28)_0px_0px_0px_2px]">
+				<div class="flex h-9 w-9 items-center justify-center rounded-[6px] bg-[#16171a] border border-white/[0.08] text-white shadow-xs group-hover:border-[#00C48C]/40 transition-colors">
 					<TreeStructure size={18} weight="fill" class="text-[#00C48C]" />
 				</div>
 				<div class="flex items-center gap-2">
-					<span class="text-sm font-semibold tracking-tight text-[#ffffff]">Rosterly</span>
-					<span class="text-[10px] uppercase tracking-widest font-mono font-medium px-2 py-0.5 rounded-full bg-[#1c1c1c] text-[#00C48C] border border-[#00C48C]/20">v2.4</span>
+					<span class="text-sm font-semibold tracking-tight text-zinc-100">Rosterly</span>
+					<span class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#00C48C]/10 text-[#00C48C] border border-[#00C48C]/20">v2.4</span>
 				</div>
 			</a>
 
-			<!-- Center Nav Links -->
-			<nav class="hidden md:flex items-center gap-8 text-xs font-semibold uppercase tracking-wider text-[#b3b3b3]">
-				<a href="#pipeline" class="hover:text-white transition-colors">Pipeline</a>
-				<a href="#engine" class="hover:text-white transition-colors">Tax Engine</a>
-				<a href="#timeline" class="hover:text-white transition-colors">Compliance</a>
-				<a href="#roles" class="hover:text-white transition-colors">Roles</a>
+			<!-- Center Nav Links (Clean Sentence Case, Natural Contrast) -->
+			<nav class="hidden md:flex items-center gap-8 text-xs font-medium text-zinc-400">
+				<a href="#pipeline" class="hover:text-zinc-100 transition-colors">Pipeline</a>
+				<a href="#engine" class="hover:text-zinc-100 transition-colors">Tax engine</a>
+				<a href="#timeline" class="hover:text-zinc-100 transition-colors">Compliance</a>
+				<a href="#roles" class="hover:text-zinc-100 transition-colors">Roles</a>
 			</nav>
 
 			<!-- Actions: Sole Notable GitHub Link + Open Workspace CTA -->
@@ -445,21 +445,21 @@
 					href={GITHUB_URL}
 					target="_blank"
 					rel="noreferrer"
-					class="inline-flex items-center gap-2 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#ffffff2e] px-3.5 py-2 text-xs font-semibold uppercase tracking-wider text-[#ffffff] transition-inngest"
+					class="inline-flex items-center gap-2 rounded-[6px] border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.15] px-3.5 py-2 text-xs font-medium text-zinc-300 hover:text-white transition-inngest shadow-xs"
 				>
-					<GithubLogo size={15} weight="bold" />
+					<GithubLogo size={14} weight="bold" />
 					<span class="hidden sm:inline">GitHub</span>
-					<span class="flex items-center gap-0.5 text-[10px] text-[#00C48C] font-mono pl-1 border-l border-[#1f1e1d]">
-						<Star size={11} weight="fill" />
+					<span class="flex items-center gap-1 text-[10px] text-[#00C48C] font-mono pl-1 border-l border-white/[0.08]">
+						<Star size={10} weight="fill" />
 						<span>Repo</span>
 					</span>
 				</a>
 				<a
 					href="/login"
-					class="inline-flex items-center gap-2 rounded-[6px] bg-[#00C48C] hover:bg-[#00ab7a] text-[#0c0a09] font-bold px-5 py-2.5 text-xs uppercase tracking-wider transition-inngest shadow-[rgb(28,28,28)_0px_0px_0px_2px]"
+					class="inline-flex items-center gap-2 rounded-[6px] bg-gradient-to-r from-[#00C48C] to-[#00a876] hover:brightness-105 active:scale-[0.99] text-[#051a14] font-semibold px-4.5 py-2 text-xs transition-inngest shadow-sm"
 				>
-					<span>Open Workspace</span>
-					<ArrowRight size={14} weight="bold" />
+					<span>Open workspace</span>
+					<ArrowRight size={13} weight="bold" />
 				</a>
 			</div>
 		</div>
@@ -473,51 +473,51 @@
 				<!-- Announcement Pill -->
 				<a
 					href="#timeline"
-					class="inline-flex items-center gap-2 rounded-full border border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#00C48C]/40 px-3.5 py-1 text-xs font-mono text-[#ffffff] mb-6 transition-inngest"
+					class="inline-flex items-center gap-2 rounded-full border border-[#00C48C]/25 bg-[#00C48C]/[0.06] hover:bg-[#00C48C]/[0.10] px-3.5 py-1 text-xs font-mono text-zinc-200 mb-6 transition-inngest"
 				>
-					<span class="h-2 w-2 rounded-full bg-[#00C48C] animate-pulse"></span>
-					<span class="font-medium text-[#ffffff]">Ethiopian MoR Proclamation 979/2016</span>
-					<span class="text-[#b3b3b3]">|</span>
-					<span class="text-[#00C48C]">Directives →</span>
+					<span class="h-1.5 w-1.5 rounded-full bg-[#00C48C] animate-pulse"></span>
+					<span class="font-medium text-zinc-200">Ethiopian MoR Proclamation 979/2016</span>
+					<span class="text-zinc-600">&bull;</span>
+					<span class="text-[#00C48C]">Directives &rarr;</span>
 				</a>
 
 				<!-- Main Headline -->
-				<h1 class="text-4xl sm:text-5xl lg:text-6xl font-normal tracking-[-0.035em] text-[#ffffff] leading-[1.08] mb-6">
+				<h1 class="text-4xl sm:text-5xl lg:text-[56px] font-normal tracking-[-0.035em] text-zinc-100 leading-[1.1] mb-6">
 					The durable workforce &amp; payroll engine for Ethiopia.
 				</h1>
 
 				<!-- Subtext -->
-				<p class="text-base sm:text-lg text-[#b3b3b3] max-w-xl leading-relaxed mb-8">
+				<p class="text-base sm:text-lg text-zinc-400 max-w-xl leading-relaxed mb-8">
 					Replace fragile Excel sheets and manual chat approvals with an audited, deterministic platform. Calculate progressive taxes, stream CBE wire batches, and empower staff over Telegram.
 				</p>
 
-				<!-- Action Buttons (No GitHub button here; only in top header) -->
+				<!-- Action Buttons (Controlled contrast, soft gradients) -->
 				<div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
 					<a
 						href="/login"
-						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] bg-[#00C48C] hover:bg-[#00ab7a] text-[#0c0a09] font-bold text-xs uppercase tracking-wider h-[42px] px-6 transition-inngest cursor-pointer shadow-[rgb(28,28,28)_0px_0px_0px_2px]"
+						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] bg-gradient-to-r from-[#00C48C] to-[#00a876] hover:brightness-105 active:scale-[0.99] text-[#051a14] font-semibold text-xs h-[42px] px-6 transition-inngest cursor-pointer shadow-sm"
 					>
-						<span>Explore Pre-Seeded Company</span>
-						<ArrowRight size={14} weight="bold" />
+						<span>Explore pre-seeded company</span>
+						<ArrowRight size={13} weight="bold" />
 					</a>
 					<a
 						href="#engine"
-						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#ffffff2e] text-[#ffffff] font-semibold text-xs uppercase tracking-wider h-[42px] px-6 transition-inngest cursor-pointer"
+						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.15] text-zinc-200 font-medium text-xs h-[42px] px-5 transition-inngest cursor-pointer"
 					>
-						<Sliders size={14} class="text-[#00C48C]" />
-						<span>Test Tax Simulator</span>
+						<Sliders size={13} class="text-[#00C48C]" />
+						<span>Test tax simulator</span>
 					</a>
 				</div>
 			</div>
 
 			<!-- Hero Right Column: Inngest-Style Visual Workflow Pipeline (No Code) -->
-			<div id="pipeline" class="lg:col-span-6 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-5 sm:p-6 shadow-[rgb(28,28,28)_0px_0px_0px_2px] relative overflow-hidden">
-				<div class="flex items-center justify-between pb-4 mb-4 border-b border-[#1f1e1d]">
-					<div class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#00C48C]">
+			<div id="pipeline" class="lg:col-span-6 rounded-[6px] border border-white/[0.07] bg-gradient-to-b from-[#161619]/80 to-[#101012]/95 p-5 sm:p-6 shadow-xl backdrop-blur-sm relative overflow-hidden">
+				<div class="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.06]">
+					<div class="flex items-center gap-2 text-xs font-mono text-[#00C48C]">
 						<Cpu size={15} />
-						<span>Workflow Execution Pipeline</span>
+						<span class="font-medium">Workflow execution pipeline</span>
 					</div>
-					<span class="text-[11px] font-mono text-[#b3b3b3] px-2 py-0.5 rounded-full border border-[#1f1e1d] bg-[#0c0a09]">
+					<span class="text-[11px] font-mono text-zinc-400 px-2.5 py-0.5 rounded-full border border-white/[0.06] bg-white/[0.02]">
 						Cycle #2026-09
 					</span>
 				</div>
@@ -530,17 +530,17 @@
 							onclick={() => (activePipelineStep = step.id)}
 							class="w-full text-left rounded-[6px] border p-3 transition-inngest cursor-pointer flex items-center justify-between
 								   {isSelected
-									 ? 'border-[#00C48C] bg-[#0c0a09] shadow-[rgb(0,196,140)_2px_0px_0px_0px_inset]'
-									 : 'border-[#1f1e1d] bg-[#1c1c1c] hover:border-[#ffffff2e]'}"
+									 ? 'border-[#00C48C]/40 bg-[#00C48C]/[0.06] shadow-[inset_2px_0_0_0_#00C48C]'
+									 : 'border-white/[0.05] bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/[0.1]'}"
 						>
 							<div class="flex items-center gap-3">
-								<div class="h-2 w-2 rounded-full {isSelected ? 'bg-[#00C48C] animate-pulse' : 'bg-[#737373]'}"></div>
+								<div class="h-2 w-2 rounded-full {isSelected ? 'bg-[#00C48C] animate-pulse' : 'bg-zinc-600'}"></div>
 								<div>
-									<div class="text-xs font-mono text-[#ffffff]">{step.name}</div>
-									<div class="text-[10px] text-[#b3b3b3] font-mono">{step.badge} &bull; {step.duration}</div>
+									<div class="text-xs font-mono text-zinc-200">{step.name}</div>
+									<div class="text-[10px] text-zinc-400 font-mono">{step.badge} &bull; {step.duration}</div>
 								</div>
 							</div>
-							<div class="text-[11px] font-mono {isSelected ? 'text-[#00C48C]' : 'text-[#737373]'}">
+							<div class="text-[11px] font-mono {isSelected ? 'text-[#00C48C]' : 'text-zinc-500'}">
 								{step.status}
 							</div>
 						</button>
@@ -548,22 +548,22 @@
 				</div>
 
 				<!-- Live Step Inspector (Visual Log Viewer) -->
-				<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4 font-mono text-xs">
-					<div class="flex items-center justify-between pb-2 mb-2 border-b border-[#1f1e1d]">
+				<div class="rounded-[6px] border border-white/[0.06] bg-[#0c0a09]/80 p-4 font-mono text-xs">
+					<div class="flex items-center justify-between pb-2 mb-2 border-b border-white/[0.06]">
 						<div class="flex items-center gap-2">
-							<span class="h-2 w-2 rounded-full bg-[#00C48C]"></span>
-							<span class="text-[#ffffff] font-medium">{selectedStepObj.name}</span>
+							<span class="h-1.5 w-1.5 rounded-full bg-[#00C48C]"></span>
+							<span class="text-zinc-200 font-medium">{selectedStepObj.name}</span>
 						</div>
-						<span class="text-[#b3b3b3] text-[10px]">ID: #{selectedStepObj.id}</span>
+						<span class="text-zinc-500 text-[10px]">ID: #{selectedStepObj.id}</span>
 					</div>
-					<p class="text-[#b3b3b3] text-xs font-sans mb-3 leading-relaxed">
+					<p class="text-zinc-400 text-xs font-sans mb-3 leading-relaxed">
 						{selectedStepObj.description}
 					</p>
-					<div class="bg-[#1c1c1c] border border-[#1f1e1d] rounded-[6px] p-2.5 text-[11px] space-y-1">
+					<div class="bg-white/[0.02] border border-white/[0.06] rounded-[6px] p-2.5 text-[11px] space-y-1">
 						{#each Object.entries(selectedStepObj.meta) as [key, val]}
 							<div class="flex items-start gap-2">
-								<span class="text-[#737373] min-w-24 capitalize">{key}:</span>
-								<span class="text-[#ffffff] font-mono">{val}</span>
+								<span class="text-zinc-500 min-w-24 capitalize">{key}:</span>
+								<span class="text-zinc-300 font-mono">{val}</span>
 							</div>
 						{/each}
 					</div>
@@ -572,59 +572,59 @@
 		</section>
 
 		<!-- ── ENDLESS RAIL LOGO MARQUEE (Trust & Institutional Anchors) ────── -->
-		<section class="border-y border-[#1f1e1d] py-6 my-12 bg-[#0c0a09]/60 overflow-hidden relative">
-			<div class="animate-inngest-marquee flex items-center gap-12 text-xs font-mono uppercase tracking-wider text-[#b3b3b3]">
-				<span class="flex items-center gap-2"><Bank size={16} class="text-[#00C48C]" /> Commercial Bank of Ethiopia (CBE Direct)</span>
-				<span class="text-[#1f1e1d]">&bull;</span>
-				<span class="flex items-center gap-2"><Scales size={16} class="text-[#00C48C]" /> Ministry of Revenue (MoR Proclamation 979)</span>
-				<span class="text-[#1f1e1d]">&bull;</span>
-				<span class="flex items-center gap-2"><Shield size={16} class="text-[#00C48C]" /> Pension Agency (POESSA Directives)</span>
-				<span class="text-[#1f1e1d]">&bull;</span>
-				<span class="flex items-center gap-2"><FileText size={16} class="text-[#00C48C]" /> ISO 20022 Corporate Wire Standard</span>
-				<span class="text-[#1f1e1d]">&bull;</span>
-				<span class="flex items-center gap-2"><Coins size={16} class="text-[#00C48C]" /> Telebirr Corporate Batch Gateway</span>
-				<span class="text-[#1f1e1d]">&bull;</span>
-				<span class="flex items-center gap-2"><Bank size={16} class="text-[#00C48C]" /> Commercial Bank of Ethiopia (CBE Direct)</span>
-				<span class="text-[#1f1e1d]">&bull;</span>
-				<span class="flex items-center gap-2"><Scales size={16} class="text-[#00C48C]" /> Ministry of Revenue (MoR Proclamation 979)</span>
-				<span class="text-[#1f1e1d]">&bull;</span>
-				<span class="flex items-center gap-2"><Shield size={16} class="text-[#00C48C]" /> Pension Agency (POESSA Directives)</span>
-				<span class="text-[#1f1e1d]">&bull;</span>
-				<span class="flex items-center gap-2"><FileText size={16} class="text-[#00C48C]" /> ISO 20022 Corporate Wire Standard</span>
-				<span class="text-[#1f1e1d]">&bull;</span>
-				<span class="flex items-center gap-2"><Coins size={16} class="text-[#00C48C]" /> Telebirr Corporate Batch Gateway</span>
+		<section class="border-y border-white/[0.06] py-5 my-12 bg-white/[0.015] overflow-hidden relative">
+			<div class="animate-inngest-marquee flex items-center gap-12 text-xs font-mono text-zinc-400">
+				<span class="flex items-center gap-2"><Bank size={15} class="text-[#00C48C]/80" /> Commercial Bank of Ethiopia (CBE Direct)</span>
+				<span class="text-zinc-700">&bull;</span>
+				<span class="flex items-center gap-2"><Scales size={15} class="text-[#00C48C]/80" /> Ministry of Revenue (MoR Proclamation 979)</span>
+				<span class="text-zinc-700">&bull;</span>
+				<span class="flex items-center gap-2"><Shield size={15} class="text-[#00C48C]/80" /> Pension Agency (POESSA Directives)</span>
+				<span class="text-zinc-700">&bull;</span>
+				<span class="flex items-center gap-2"><FileText size={15} class="text-[#00C48C]/80" /> ISO 20022 Corporate Wire Standard</span>
+				<span class="text-zinc-700">&bull;</span>
+				<span class="flex items-center gap-2"><Coins size={15} class="text-[#00C48C]/80" /> Telebirr Corporate Batch Gateway</span>
+				<span class="text-zinc-700">&bull;</span>
+				<span class="flex items-center gap-2"><Bank size={15} class="text-[#00C48C]/80" /> Commercial Bank of Ethiopia (CBE Direct)</span>
+				<span class="text-zinc-700">&bull;</span>
+				<span class="flex items-center gap-2"><Scales size={15} class="text-[#00C48C]/80" /> Ministry of Revenue (MoR Proclamation 979)</span>
+				<span class="text-zinc-700">&bull;</span>
+				<span class="flex items-center gap-2"><Shield size={15} class="text-[#00C48C]/80" /> Pension Agency (POESSA Directives)</span>
+				<span class="text-zinc-700">&bull;</span>
+				<span class="flex items-center gap-2"><FileText size={15} class="text-[#00C48C]/80" /> ISO 20022 Corporate Wire Standard</span>
+				<span class="text-zinc-700">&bull;</span>
+				<span class="flex items-center gap-2"><Coins size={15} class="text-[#00C48C]/80" /> Telebirr Corporate Batch Gateway</span>
 			</div>
 		</section>
 
 		<!-- ── FULL-WIDTH SHOWCASE: LIVE ETHIOPIAN TAX SIMULATOR ─────────────── -->
 		<section id="engine" class="py-16 lg:py-24">
 			<div class="text-center max-w-2xl mx-auto mb-12">
-				<div class="flex items-center justify-center gap-2 text-xs font-mono uppercase tracking-wider text-[#00C48C] mb-2">
+				<div class="flex items-center justify-center gap-2 text-xs font-mono text-[#00C48C] mb-2">
 					<Terminal size={14} />
-					<span>Zero-Dependency Statutory Engine</span>
+					<span class="font-medium">Zero-dependency statutory engine</span>
 				</div>
-				<h2 class="text-3xl sm:text-4xl font-normal tracking-[-0.035em] text-[#ffffff] mb-3">
+				<h2 class="text-3xl sm:text-4xl font-normal tracking-[-0.035em] text-zinc-100 mb-3">
 					Deterministic statutory tax calculations
 				</h2>
-				<p class="text-sm text-[#b3b3b3]">
+				<p class="text-sm text-zinc-400">
 					Live gross-to-net computation across Ethiopia’s 7 progressive tax brackets and mandatory 7% pension deduction.
 				</p>
 			</div>
 
 			<!-- Large Showcase Container (Matching Inngest frame center showcase) -->
-			<div class="rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-6 sm:p-10 shadow-[rgb(28,28,28)_0px_0px_0px_2px] relative overflow-hidden">
+			<div class="rounded-[6px] border border-white/[0.07] bg-gradient-to-b from-[#161619]/90 to-[#101012]/95 p-6 sm:p-10 shadow-xl backdrop-blur-sm relative overflow-hidden">
 				<!-- Header Controls: Presets & Period -->
-				<div class="flex flex-col lg:flex-row lg:items-center justify-between pb-6 mb-6 border-b border-[#1f1e1d] gap-4">
+				<div class="flex flex-col lg:flex-row lg:items-center justify-between pb-6 mb-6 border-b border-white/[0.06] gap-4">
 					<!-- Presets -->
 					<div class="flex flex-wrap items-center gap-2">
-						<span class="text-xs text-[#b3b3b3] mr-1">Presets:</span>
+						<span class="text-xs text-zinc-400 mr-1">Presets:</span>
 						{#each salaryPresets as p}
 							<button
 								onclick={() => (baseSalaryInput = p.amount)}
 								class="rounded-[6px] border px-3 py-1.5 text-xs font-mono transition-inngest cursor-pointer
 									   {baseSalaryInput === p.amount
-										 ? 'border-[#00C48C] bg-[#0c0a09] text-[#00C48C] font-semibold'
-										 : 'border-[#1f1e1d] bg-[#0c0a09] text-[#b3b3b3] hover:text-white hover:border-[#ffffff2e]'}"
+										 ? 'border-[#00C48C]/40 bg-[#00C48C]/[0.08] text-[#00C48C] font-medium'
+										 : 'border-white/[0.06] bg-white/[0.02] text-zinc-400 hover:text-zinc-200 hover:border-white/[0.12]'}"
 							>
 								{p.label} ({p.amount.toLocaleString()} ETB)
 							</button>
@@ -633,21 +633,21 @@
 
 					<!-- Period Switcher & Bracket Indicator -->
 					<div class="flex items-center gap-3">
-						<div class="inline-flex rounded-full border border-[#1f1e1d] bg-[#0c0a09] p-0.5 text-xs">
+						<div class="inline-flex rounded-full border border-white/[0.06] bg-white/[0.02] p-0.5 text-xs">
 							<button
 								onclick={() => (period = 'monthly')}
-								class="rounded-full px-3 py-1 font-semibold transition-inngest cursor-pointer {period === 'monthly' ? 'bg-[#00C48C] text-[#0c0a09]' : 'text-[#b3b3b3] hover:text-white'}"
+								class="rounded-full px-3 py-1 font-medium transition-inngest cursor-pointer {period === 'monthly' ? 'bg-[#00C48C]/20 text-[#00C48C] border border-[#00C48C]/30' : 'text-zinc-400 hover:text-zinc-200'}"
 							>
 								Monthly
 							</button>
 							<button
 								onclick={() => (period = 'annual')}
-								class="rounded-full px-3 py-1 font-semibold transition-inngest cursor-pointer {period === 'annual' ? 'bg-[#00C48C] text-[#0c0a09]' : 'text-[#b3b3b3] hover:text-white'}"
+								class="rounded-full px-3 py-1 font-medium transition-inngest cursor-pointer {period === 'annual' ? 'bg-[#00C48C]/20 text-[#00C48C] border border-[#00C48C]/30' : 'text-zinc-400 hover:text-zinc-200'}"
 							>
 								Annual
 							</button>
 						</div>
-						<div class="px-3 py-1 rounded-full border border-[#1f1e1d] bg-[#0c0a09] text-xs font-mono text-[#00C48C] font-medium">
+						<div class="px-3 py-1 rounded-full border border-white/[0.06] bg-white/[0.02] text-xs font-mono text-[#00C48C] font-medium">
 							{calc.bracketLabel}
 						</div>
 					</div>
@@ -656,12 +656,12 @@
 				<!-- Slider & Manual Input -->
 				<div class="mb-8">
 					<div class="flex items-center justify-between mb-3">
-						<label for="salary-slider" class="text-xs font-semibold text-[#ffffff] flex items-center gap-2 uppercase tracking-wider">
+						<label for="salary-slider" class="text-xs font-medium text-zinc-300 flex items-center gap-2">
 							<Sliders size={14} class="text-[#00C48C]" />
-							<span>Monthly Base Gross Salary</span>
+							<span>Monthly base gross salary</span>
 						</label>
-						<div class="flex items-center gap-1 bg-[#0c0a09] border border-[#1f1e1d] rounded-[6px] px-3.5 py-1.5 font-mono text-sm font-semibold text-[#ffffff]">
-							<span class="text-[#b3b3b3] text-xs">ETB</span>
+						<div class="flex items-center gap-1.5 bg-[#0c0a09] border border-white/[0.08] rounded-[6px] px-3.5 py-1.5 font-mono text-sm font-semibold text-zinc-200">
+							<span class="text-zinc-500 text-xs">ETB</span>
 							<input
 								id="salary-number"
 								type="number"
@@ -669,7 +669,7 @@
 								min="0"
 								max="250000"
 								step="1000"
-								class="w-28 bg-transparent text-right text-white focus:outline-none"
+								class="w-28 bg-transparent text-right text-zinc-100 focus:outline-none"
 							/>
 						</div>
 					</div>
@@ -685,71 +685,71 @@
 				</div>
 
 				<!-- Visual Distribution Bar -->
-				<div class="mb-8 p-4 rounded-[6px] bg-[#0c0a09] border border-[#1f1e1d]">
-					<div class="flex items-center justify-between text-xs font-mono mb-2">
-						<span class="text-[#b3b3b3] text-[11px]">Deductions Distribution</span>
+				<div class="mb-8 p-4 rounded-[6px] bg-[#0c0a09]/80 border border-white/[0.06]">
+					<div class="flex items-center justify-between text-xs font-mono mb-2.5">
+						<span class="text-zinc-400 text-[11px]">Deductions distribution</span>
 						<div class="flex items-center gap-4 text-[10px]">
-							<span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-[#00C48C]"></span>Net Take-Home ({calc.netPercent}%)</span>
-							<span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-[#f59e0b]"></span>Income Tax ({calc.taxPercent}%)</span>
-							<span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-[#737373]"></span>Pension ({calc.pensionPercent}%)</span>
+							<span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-[#00C48C]"></span>Net take-home ({calc.netPercent}%)</span>
+							<span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-amber-400/90"></span>Income tax ({calc.taxPercent}%)</span>
+							<span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-zinc-600"></span>Pension ({calc.pensionPercent}%)</span>
 						</div>
 					</div>
-					<div class="h-3 w-full rounded-full bg-[#1c1c1c] overflow-hidden flex">
-						<div class="h-full bg-[#00C48C] transition-all duration-300" style="width: {calc.netPercent}%"></div>
-						<div class="h-full bg-[#f59e0b] transition-all duration-300" style="width: {calc.taxPercent}%"></div>
-						<div class="h-full bg-[#737373] transition-all duration-300" style="width: {calc.pensionPercent}%"></div>
+					<div class="h-2.5 w-full rounded-full bg-zinc-800/80 overflow-hidden flex">
+						<div class="h-full bg-gradient-to-r from-[#00C48C] to-[#00b07d] transition-inngest" style="width: {calc.netPercent}%"></div>
+						<div class="h-full bg-gradient-to-r from-amber-400/90 to-amber-500/80 transition-inngest" style="width: {calc.taxPercent}%"></div>
+						<div class="h-full bg-zinc-600 transition-inngest" style="width: {calc.pensionPercent}%"></div>
 					</div>
 				</div>
 
 				<!-- 4 Metric Cards -->
 				<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4">
-						<div class="text-[10px] text-[#b3b3b3] font-mono uppercase">7% Employee Pension</div>
-						<div class="text-base font-mono font-semibold text-white mt-1">{formatETB(calc.employeePension)}</div>
+					<div class="rounded-[6px] border border-white/[0.06] bg-white/[0.02] p-4">
+						<div class="text-[10px] text-zinc-400 font-mono">7% Employee pension</div>
+						<div class="text-base font-mono font-medium text-zinc-100 mt-1">{formatETB(calc.employeePension)}</div>
 					</div>
-					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4">
-						<div class="text-[10px] text-[#b3b3b3] font-mono uppercase">Taxable Income Base</div>
-						<div class="text-base font-mono font-semibold text-[#b3b3b3] mt-1">{formatETB(calc.base - calc.employeePension)}</div>
+					<div class="rounded-[6px] border border-white/[0.06] bg-white/[0.02] p-4">
+						<div class="text-[10px] text-zinc-400 font-mono">Taxable income base</div>
+						<div class="text-base font-mono font-medium text-zinc-300 mt-1">{formatETB(calc.base - calc.employeePension)}</div>
 					</div>
-					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4">
-						<div class="text-[10px] text-[#f59e0b] font-mono uppercase">MoR Income Tax</div>
-						<div class="text-base font-mono font-semibold text-[#f59e0b] mt-1">{formatETB(calc.incomeTax)}</div>
+					<div class="rounded-[6px] border border-white/[0.06] bg-white/[0.02] p-4">
+						<div class="text-[10px] text-amber-400/90 font-mono">MoR income tax</div>
+						<div class="text-base font-mono font-medium text-amber-400/90 mt-1">{formatETB(calc.incomeTax)}</div>
 					</div>
-					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4">
-						<div class="text-[10px] text-[#00C48C] font-mono uppercase">Net Take-Home Pay</div>
-						<div class="text-base font-mono font-bold text-[#00C48C] mt-1">{formatETB(calc.netPay)}</div>
+					<div class="rounded-[6px] border border-white/[0.06] bg-white/[0.02] p-4">
+						<div class="text-[10px] text-[#00C48C] font-mono">Net take-home pay</div>
+						<div class="text-base font-mono font-semibold text-[#00C48C] mt-1">{formatETB(calc.netPay)}</div>
 					</div>
 				</div>
 			</div>
 		</section>
 
-		<!-- ── VIBRANT ACCENT BAND (Matching Inngest's middle accent section) ── -->
-		<section class="rounded-[6px] border border-[#00C48C]/30 bg-gradient-to-r from-[#042f2e]/90 via-[#0a3d34]/70 to-[#042f2e]/90 p-8 sm:p-14 my-16 shadow-[rgb(28,28,28)_0px_0px_0px_2px]">
+		<!-- ── VIBRANT ACCENT BAND (Deep hard paper gradient with controlled contrast) ── -->
+		<section class="rounded-[6px] border border-[#00C48C]/20 bg-gradient-to-r from-[#0d1c17]/90 via-[#0a1813]/80 to-[#0d1c17]/90 p-8 sm:p-12 my-16 shadow-[inset_0_1px_0_0_rgba(0,196,140,0.12)]">
 			<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
 				<div class="max-w-xl">
-					<span class="text-xs font-mono uppercase tracking-widest text-[#00C48C] font-semibold block mb-2">
-						Audited Compliance Architecture
+					<span class="text-xs font-mono text-[#00C48C] font-medium block mb-2">
+						Audited compliance architecture
 					</span>
-					<h3 class="text-2xl sm:text-3xl font-normal tracking-[-0.035em] text-[#ffffff] leading-snug">
+					<h3 class="text-2xl sm:text-3xl font-normal tracking-[-0.035em] text-zinc-100 leading-snug">
 						From monthly attendance freeze to corporate bank wire release in seconds.
 					</h3>
 				</div>
 				<div class="grid grid-cols-2 sm:grid-cols-4 gap-6 font-mono">
 					<div>
 						<div class="text-2xl font-bold text-[#00C48C]">100%</div>
-						<div class="text-[11px] text-[#b3b3b3] mt-1">Deterministic Pure TypeScript</div>
+						<div class="text-[11px] text-zinc-400 mt-1">Deterministic TypeScript</div>
 					</div>
 					<div>
-						<div class="text-2xl font-bold text-white">7 Brackets</div>
-						<div class="text-[11px] text-[#b3b3b3] mt-1">MoR Proclamation 979/2016</div>
+						<div class="text-2xl font-bold text-zinc-100">7 Brackets</div>
+						<div class="text-[11px] text-zinc-400 mt-1">MoR Proclamation 979/2016</div>
 					</div>
 					<div>
-						<div class="text-2xl font-bold text-white">18 Staff</div>
-						<div class="text-[11px] text-[#b3b3b3] mt-1">Pre-Seeded Organization</div>
+						<div class="text-2xl font-bold text-zinc-100">18 Staff</div>
+						<div class="text-[11px] text-zinc-400 mt-1">Pre-seeded organization</div>
 					</div>
 					<div>
 						<div class="text-2xl font-bold text-[#00C48C]">CBE Ready</div>
-						<div class="text-[11px] text-[#b3b3b3] mt-1">ISO 20022 Wire Export</div>
+						<div class="text-[11px] text-zinc-400 mt-1">ISO 20022 wire export</div>
 					</div>
 				</div>
 			</div>
@@ -758,21 +758,21 @@
 		<!-- ── ALTERNATING STEPPER TIMELINE (Matching Inngest left rail + right card) ── -->
 		<section id="timeline" class="py-16 lg:py-24">
 			<div class="text-center max-w-2xl mx-auto mb-16">
-				<div class="flex items-center justify-center gap-2 text-xs font-mono uppercase tracking-wider text-[#00C48C] mb-2">
+				<div class="flex items-center justify-center gap-2 text-xs font-mono text-[#00C48C] mb-2">
 					<CheckCircle size={14} weight="fill" />
-					<span>End-to-End Compliance Pipeline</span>
+					<span class="font-medium">End-to-end compliance pipeline</span>
 				</div>
-				<h2 class="text-3xl sm:text-4xl font-normal tracking-[-0.035em] text-[#ffffff] mb-3">
+				<h2 class="text-3xl sm:text-4xl font-normal tracking-[-0.035em] text-zinc-100 mb-3">
 					How Rosterly executes a compliance cycle
 				</h2>
-				<p class="text-sm text-[#b3b3b3]">
+				<p class="text-sm text-zinc-400">
 					Click any phase along the stepper to inspect its statutory mechanics and operational artifacts.
 				</p>
 			</div>
 
 			<div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
 				<!-- Left Vertical Timeline Stepper Rail -->
-				<div class="lg:col-span-5 relative pl-6 border-l-2 border-[#1f1e1d] space-y-10">
+				<div class="lg:col-span-5 relative pl-6 border-l-2 border-white/[0.08] space-y-10">
 					{#each timelineSteps as step}
 						{@const isCurrent = activeTimelineStep === step.id}
 						<button
@@ -782,21 +782,21 @@
 							<!-- Stepper Node Dot -->
 							<div
 								class="absolute -left-[31px] top-1 h-3.5 w-3.5 rounded-full border-2 transition-inngest
-									   {isCurrent ? 'bg-[#00C48C] border-[#0c0a09] ring-4 ring-[#00C48C]/20' : 'bg-[#1c1c1c] border-[#1f1e1d] group-hover:border-[#00C48C]'}"
+									   {isCurrent ? 'bg-[#00C48C] border-[#0c0a09] ring-4 ring-[#00C48C]/15' : 'bg-zinc-800 border-zinc-700 group-hover:border-[#00C48C]'}"
 							></div>
 
 							<div class="flex items-center gap-2 mb-1">
-								<span class="text-xs font-mono uppercase tracking-wider {isCurrent ? 'text-[#00C48C] font-semibold' : 'text-[#737373]'}">
-									{step.number} / {step.category}
+								<span class="text-xs font-mono {isCurrent ? 'text-[#00C48C] font-medium' : 'text-zinc-500'}">
+									{step.number} &bull; {step.category}
 								</span>
-								<span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#1c1c1c] border border-[#1f1e1d] text-[#b3b3b3]">
+								<span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-zinc-400">
 									{step.badge}
 								</span>
 							</div>
-							<h4 class="text-base font-normal tracking-tight text-white mb-1.5 {isCurrent ? 'text-[#00C48C]' : 'group-hover:text-white'}">
+							<h4 class="text-base font-normal tracking-tight text-zinc-100 mb-1.5 {isCurrent ? 'text-[#00C48C]' : 'group-hover:text-white'}">
 								{step.title}
 							</h4>
-							<p class="text-xs text-[#b3b3b3] leading-relaxed">
+							<p class="text-xs text-zinc-400 leading-relaxed">
 								{step.description}
 							</p>
 						</button>
@@ -804,60 +804,60 @@
 				</div>
 
 				<!-- Right Interactive Showcase Card for Active Step -->
-				<div class="lg:col-span-7 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-6 sm:p-8 shadow-[rgb(28,28,28)_0px_0px_0px_2px]">
+				<div class="lg:col-span-7 rounded-[6px] border border-white/[0.07] bg-gradient-to-b from-[#161619]/90 to-[#101012]/95 p-6 sm:p-8 shadow-xl">
 					{#if activeTimelineStep === 1}
 						<!-- Step 1: 7-Tier Tax Schedule Inspector -->
 						<div>
-							<div class="flex items-center justify-between pb-4 mb-4 border-b border-[#1f1e1d]">
+							<div class="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.06]">
 								<div class="flex items-center gap-2 text-xs font-mono text-[#00C48C]">
 									<Scales size={16} />
-									<span>MoR 7-Tier Statutory Tax Schedule</span>
+									<span class="font-medium">MoR 7-tier statutory tax schedule</span>
 								</div>
-								<span class="text-[10px] font-mono text-[#b3b3b3]">Proclamation 979/2016</span>
+								<span class="text-[10px] font-mono text-zinc-500">Proclamation 979/2016</span>
 							</div>
-							<p class="text-xs text-[#b3b3b3] leading-relaxed mb-4">
+							<p class="text-xs text-zinc-400 leading-relaxed mb-4">
 								Every Birr is calculated deterministically with statutory deductibles applied per income bracket:
 							</p>
-							<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] overflow-hidden font-mono text-xs">
-								<div class="grid grid-cols-3 bg-[#1c1c1c] p-2.5 text-[11px] font-semibold text-[#b3b3b3] border-b border-[#1f1e1d]">
-									<span>Monthly Taxable Bracket</span>
+							<div class="rounded-[6px] border border-white/[0.06] bg-[#0c0a09] overflow-hidden font-mono text-xs">
+								<div class="grid grid-cols-3 bg-white/[0.02] p-2.5 text-[11px] font-medium text-zinc-400 border-b border-white/[0.06]">
+									<span>Monthly taxable bracket</span>
 									<span class="text-center">Rate</span>
 									<span class="text-right">Deduction (ETB)</span>
 								</div>
-								<div class="divide-y divide-[#1f1e1d] text-[11px]">
-									<div class="grid grid-cols-3 p-2.5 text-[#b3b3b3]">
+								<div class="divide-y divide-white/[0.04] text-[11px]">
+									<div class="grid grid-cols-3 p-2.5 text-zinc-400">
 										<span>0 – 600 ETB</span>
 										<span class="text-center text-[#00C48C]">0%</span>
 										<span class="text-right">0.00</span>
 									</div>
-									<div class="grid grid-cols-3 p-2.5 text-[#b3b3b3]">
+									<div class="grid grid-cols-3 p-2.5 text-zinc-400">
 										<span>601 – 1,650 ETB</span>
-										<span class="text-center text-white">10%</span>
+										<span class="text-center text-zinc-200">10%</span>
 										<span class="text-right">60.00</span>
 									</div>
-									<div class="grid grid-cols-3 p-2.5 text-[#b3b3b3]">
+									<div class="grid grid-cols-3 p-2.5 text-zinc-400">
 										<span>1,651 – 3,200 ETB</span>
-										<span class="text-center text-white">15%</span>
+										<span class="text-center text-zinc-200">15%</span>
 										<span class="text-right">142.50</span>
 									</div>
-									<div class="grid grid-cols-3 p-2.5 text-[#b3b3b3]">
+									<div class="grid grid-cols-3 p-2.5 text-zinc-400">
 										<span>3,201 – 5,250 ETB</span>
-										<span class="text-center text-white">20%</span>
+										<span class="text-center text-zinc-200">20%</span>
 										<span class="text-right">302.50</span>
 									</div>
-									<div class="grid grid-cols-3 p-2.5 text-[#b3b3b3]">
+									<div class="grid grid-cols-3 p-2.5 text-zinc-400">
 										<span>5,251 – 7,800 ETB</span>
-										<span class="text-center text-white">25%</span>
+										<span class="text-center text-zinc-200">25%</span>
 										<span class="text-right">565.00</span>
 									</div>
-									<div class="grid grid-cols-3 p-2.5 text-[#b3b3b3]">
+									<div class="grid grid-cols-3 p-2.5 text-zinc-400">
 										<span>7,801 – 10,900 ETB</span>
-										<span class="text-center text-white">30%</span>
+										<span class="text-center text-zinc-200">30%</span>
 										<span class="text-right">955.00</span>
 									</div>
-									<div class="grid grid-cols-3 p-2.5 text-[#b3b3b3] bg-[#042f2e]/20">
+									<div class="grid grid-cols-3 p-2.5 text-zinc-300 bg-[#00C48C]/[0.04]">
 										<span class="text-[#00C48C]">&gt; 10,900 ETB</span>
-										<span class="text-center text-[#00C48C] font-bold">35%</span>
+										<span class="text-center text-[#00C48C] font-semibold">35%</span>
 										<span class="text-right text-[#00C48C]">1,500.00</span>
 									</div>
 								</div>
@@ -866,77 +866,77 @@
 					{:else if activeTimelineStep === 2}
 						<!-- Step 2: Pension Agency Remittance Voucher -->
 						<div>
-							<div class="flex items-center justify-between pb-4 mb-4 border-b border-[#1f1e1d]">
+							<div class="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.06]">
 								<div class="flex items-center gap-2 text-xs font-mono text-[#00C48C]">
 									<Shield size={16} />
-									<span>POESSA Mandatory Pension Remittance</span>
+									<span class="font-medium">POESSA mandatory pension remittance</span>
 								</div>
-								<span class="text-[10px] font-mono text-[#b3b3b3]">Private Org Pension</span>
+								<span class="text-[10px] font-mono text-zinc-500">Private org pension</span>
 							</div>
-							<p class="text-xs text-[#b3b3b3] leading-relaxed mb-4">
+							<p class="text-xs text-zinc-400 leading-relaxed mb-4">
 								Statutory split deposited to the Private Organization Employees’ Pension Agency:
 							</p>
 							<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-								<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4">
-									<div class="text-[10px] font-mono text-[#b3b3b3] uppercase">Employee 7% Deduction</div>
-									<div class="text-lg font-mono font-bold text-[#00C48C] mt-1">ETB 26,481.00</div>
-									<div class="text-[11px] text-[#737373] mt-1 font-sans">Exempt from monthly income tax base</div>
+								<div class="rounded-[6px] border border-white/[0.06] bg-[#0c0a09] p-4">
+									<div class="text-[10px] font-mono text-zinc-400">Employee 7% deduction</div>
+									<div class="text-lg font-mono font-semibold text-[#00C48C] mt-1">ETB 26,481.00</div>
+									<div class="text-[11px] text-zinc-500 mt-1 font-sans">Exempt from monthly income tax base</div>
 								</div>
-								<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4">
-									<div class="text-[10px] font-mono text-[#b3b3b3] uppercase">Employer 11% Match</div>
-									<div class="text-lg font-mono font-bold text-white mt-1">ETB 41,613.00</div>
-									<div class="text-[11px] text-[#737373] mt-1 font-sans">Mandatory corporate social security</div>
+								<div class="rounded-[6px] border border-white/[0.06] bg-[#0c0a09] p-4">
+									<div class="text-[10px] font-mono text-zinc-400">Employer 11% match</div>
+									<div class="text-lg font-mono font-semibold text-zinc-100 mt-1">ETB 41,613.00</div>
+									<div class="text-[11px] text-zinc-500 mt-1 font-sans">Mandatory corporate social security</div>
 								</div>
 							</div>
-							<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3 text-xs font-mono flex items-center justify-between text-[#b3b3b3]">
-								<span>Total Remittance Voucher Due:</span>
-								<span class="text-white font-bold">ETB 68,094.00</span>
+							<div class="rounded-[6px] border border-white/[0.06] bg-[#0c0a09] p-3 text-xs font-mono flex items-center justify-between text-zinc-400">
+								<span>Total remittance voucher due:</span>
+								<span class="text-zinc-100 font-semibold">ETB 68,094.00</span>
 							</div>
 						</div>
 					{:else if activeTimelineStep === 3}
 						<!-- Step 3: Governance Gate Sign-Off -->
 						<div>
-							<div class="flex items-center justify-between pb-4 mb-4 border-b border-[#1f1e1d]">
+							<div class="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.06]">
 								<div class="flex items-center gap-2 text-xs font-mono text-[#00C48C]">
 									<Shield size={16} />
-									<span>Fiduciary Separation of Duties Gate</span>
+									<span class="font-medium">Fiduciary separation of duties gate</span>
 								</div>
-								<span class="text-[10px] font-mono text-[#00C48C] bg-[#0c0a09] px-2 py-0.5 rounded-full border border-[#1f1e1d]">
+								<span class="text-[10px] font-mono text-[#00C48C] bg-[#00C48C]/10 px-2.5 py-0.5 rounded-full border border-[#00C48C]/20">
 									Strict RBAC
 								</span>
 							</div>
-							<p class="text-xs text-[#b3b3b3] leading-relaxed mb-4">
+							<p class="text-xs text-zinc-400 leading-relaxed mb-4">
 								Disbursement integrity prevents rogue or fraudulent wire executions:
 							</p>
 							<div class="space-y-3 font-mono text-xs">
-								<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3 flex items-center justify-between">
+								<div class="rounded-[6px] border border-white/[0.06] bg-[#0c0a09] p-3 flex items-center justify-between">
 									<div class="flex items-center gap-2">
 										<CheckCircle size={16} class="text-[#00C48C]" weight="fill" />
-										<span class="text-white">Finance & Treasury</span>
+										<span class="text-zinc-200">Finance &amp; Treasury</span>
 									</div>
-									<span class="text-[11px] text-[#00C48C]">Drafted &amp; Audited</span>
+									<span class="text-[11px] text-[#00C48C]">Drafted &amp; audited</span>
 								</div>
-								<div class="rounded-[6px] border border-[#00C48C]/40 bg-[#042f2e]/20 p-3 flex items-center justify-between">
+								<div class="rounded-[6px] border border-[#00C48C]/30 bg-[#00C48C]/[0.05] p-3 flex items-center justify-between">
 									<div class="flex items-center gap-2">
 										<span class="h-2 w-2 rounded-full bg-[#00C48C] animate-ping"></span>
-										<span class="text-white">Managing Director (Owner)</span>
+										<span class="text-zinc-100">Managing Director (Owner)</span>
 									</div>
-									<span class="text-[11px] text-[#00C48C] font-semibold">Sole Authorization Authority</span>
+									<span class="text-[11px] text-[#00C48C] font-semibold">Sole authorization authority</span>
 								</div>
 							</div>
 						</div>
 					{:else}
 						<!-- Step 4: CBE Direct Batch Exporter -->
 						<div>
-							<div class="flex items-center justify-between pb-4 mb-4 border-b border-[#1f1e1d]">
+							<div class="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.06]">
 								<div class="flex items-center gap-2 text-xs font-mono text-[#00C48C]">
 									<Bank size={16} />
-									<span>Commercial Bank of Ethiopia (CBE) Batch</span>
+									<span class="font-medium">Commercial Bank of Ethiopia (CBE) batch</span>
 								</div>
 								<div class="flex items-center gap-1.5">
 									<button
 										onclick={copyBatchCSV}
-										class="text-[11px] font-mono text-[#b3b3b3] hover:text-white flex items-center gap-1 bg-[#0c0a09] px-2.5 py-1 rounded-[6px] border border-[#1f1e1d] transition-colors cursor-pointer"
+										class="text-[11px] font-mono text-zinc-300 hover:text-white flex items-center gap-1 bg-[#0c0a09] px-2.5 py-1 rounded-[6px] border border-white/[0.08] transition-colors cursor-pointer"
 									>
 										{#if copiedBatch}
 											<Check size={12} class="text-[#00C48C]" />
@@ -948,7 +948,7 @@
 									</button>
 									<button
 										onclick={downloadBatchCSV}
-										class="text-[11px] font-mono text-[#0c0a09] font-bold hover:bg-[#00ab7a] flex items-center gap-1 bg-[#00C48C] px-2.5 py-1 rounded-[6px] transition-colors cursor-pointer"
+										class="text-[11px] font-mono text-[#051a14] font-semibold hover:brightness-105 flex items-center gap-1 bg-gradient-to-r from-[#00C48C] to-[#00a876] px-2.5 py-1 rounded-[6px] transition-colors cursor-pointer"
 										title="Download CSV"
 									>
 										<DownloadSimple size={12} />
@@ -956,15 +956,15 @@
 									</button>
 								</div>
 							</div>
-							<p class="text-xs text-[#b3b3b3] leading-relaxed mb-3">
+							<p class="text-xs text-zinc-400 leading-relaxed mb-3">
 								ISO 20022 compliant corporate batch file ready for upload to CBE Corporate Portal:
 							</p>
-							<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3 font-mono text-[11px] space-y-1 overflow-x-auto text-[#b3b3b3]">
-								<div class="text-[#737373]"># CBE Wire Transfer Batch (Cycle 2026-09)</div>
-								<div class="text-[#00C48C] font-semibold">Account,Beneficiary,Amount_ETB,Ref</div>
-								<div class="text-white">1000188923456,"Abebe Kebede",38200.00,SAL-09</div>
-								<div class="text-white">1000299481203,"Hana Mulugeta",22657.50,SAL-09</div>
-								<div class="text-white">1000344810294,"Yonas Alemu",17821.50,SAL-09</div>
+							<div class="rounded-[6px] border border-white/[0.06] bg-[#0c0a09] p-3 font-mono text-[11px] space-y-1 overflow-x-auto text-zinc-400">
+								<div class="text-zinc-500"># CBE Wire Transfer Batch (Cycle 2026-09)</div>
+								<div class="text-[#00C48C] font-medium">Account,Beneficiary,Amount_ETB,Ref</div>
+								<div class="text-zinc-200">1000188923456,"Abebe Kebede",38200.00,SAL-09</div>
+								<div class="text-zinc-200">1000299481203,"Hana Mulugeta",22657.50,SAL-09</div>
+								<div class="text-zinc-200">1000344810294,"Yonas Alemu",17821.50,SAL-09</div>
 							</div>
 						</div>
 					{/if}
@@ -975,31 +975,31 @@
 		<!-- ── PERSONA PERSPECTIVES & TELEGRAM WORKER BENTO ──────────────────── -->
 		<section id="roles" class="py-16 lg:py-24">
 			<div class="text-center max-w-2xl mx-auto mb-14">
-				<div class="flex items-center justify-center gap-2 text-xs font-mono uppercase tracking-wider text-[#00C48C] mb-2">
+				<div class="flex items-center justify-center gap-2 text-xs font-mono text-[#00C48C] mb-2">
 					<Shield size={14} />
-					<span>Role Perspectives &amp; Self-Service</span>
+					<span class="font-medium">Role perspectives &amp; self-service</span>
 				</div>
-				<h2 class="text-3xl sm:text-4xl font-normal tracking-[-0.035em] text-[#ffffff] mb-3">
+				<h2 class="text-3xl sm:text-4xl font-normal tracking-[-0.035em] text-zinc-100 mb-3">
 					Built for every stakeholder in the organization
 				</h2>
-				<p class="text-sm text-[#b3b3b3]">
+				<p class="text-sm text-zinc-400">
 					Test authentic permission scopes with 1-click live demo logins or interact with the Telegram bot simulator.
 				</p>
 			</div>
 
 			<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 				<!-- BENTO CARD 1 (SPAN 2): Separation of Duties Role Switcher -->
-				<div class="lg:col-span-2 rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-6 sm:p-8 shadow-[rgb(28,28,28)_0px_0px_0px_2px]">
-					<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-5 border-b border-[#1f1e1d] gap-3">
+				<div class="lg:col-span-2 rounded-[6px] border border-white/[0.07] bg-gradient-to-b from-[#161619]/90 to-[#101012]/95 p-6 sm:p-8 shadow-xl">
+					<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-5 border-b border-white/[0.06] gap-3">
 						<div>
-							<span class="text-xs font-mono uppercase tracking-wider text-[#00C48C] block mb-1">Interactive RBAC</span>
-							<h3 class="text-xl font-normal text-white tracking-[-0.02em]">Role-Based Access Matrix</h3>
+							<span class="text-xs font-mono text-[#00C48C] block mb-1">Interactive RBAC</span>
+							<h3 class="text-xl font-normal text-zinc-100 tracking-[-0.02em]">Role-based access matrix</h3>
 						</div>
 
 						<button
 							onclick={() => launchAsRole(currentRole.email)}
 							disabled={isLoggingIn}
-							class="inline-flex items-center gap-2 rounded-[6px] bg-[#00C48C] hover:bg-[#00ab7a] text-[#0c0a09] font-bold text-xs uppercase tracking-wider px-4 py-2.5 transition-inngest disabled:opacity-50 cursor-pointer self-start sm:self-auto"
+							class="inline-flex items-center gap-2 rounded-[6px] bg-gradient-to-r from-[#00C48C] to-[#00a876] hover:brightness-105 active:scale-[0.99] text-[#051a14] font-semibold text-xs px-4 py-2 transition-inngest disabled:opacity-50 cursor-pointer self-start sm:self-auto shadow-sm"
 						>
 							<Lightning size={13} weight="fill" />
 							<span>{isLoggingIn ? 'Authenticating...' : currentRole.actionText}</span>
@@ -1014,11 +1014,11 @@
 								onclick={() => (activeRole = r)}
 								class="flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium transition-inngest cursor-pointer
 									   {activeRole === r
-										 ? 'bg-[#00C48C] text-[#0c0a09] font-bold'
-										 : 'bg-[#0c0a09] text-[#b3b3b3] hover:text-white border border-[#1f1e1d]'}"
+										 ? 'bg-gradient-to-r from-[#00C48C] to-[#00a876] text-[#051a14] font-semibold'
+										 : 'bg-white/[0.02] text-zinc-400 hover:text-zinc-200 border border-white/[0.06]'}"
 							>
 								<span>{roleMeta[r].title}</span>
-								<span class="text-[9px] px-1.5 py-0.5 rounded-full font-mono uppercase {activeRole === r ? 'bg-black/20 text-[#0c0a09]' : 'bg-[#1c1c1c] text-[#737373]'}">
+								<span class="text-[9px] px-1.5 py-0.5 rounded-full font-mono uppercase {activeRole === r ? 'bg-black/20 text-[#051a14]' : 'bg-white/[0.05] text-zinc-500'}">
 									{roleMeta[r].badge}
 								</span>
 							</button>
@@ -1026,18 +1026,18 @@
 					</div>
 
 					<!-- Role Preview Box -->
-					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-4">
+					<div class="rounded-[6px] border border-white/[0.06] bg-[#0c0a09] p-4">
 						<div class="flex items-center justify-between text-xs mb-3">
-							<span class="font-medium text-white">{currentRole.headline}</span>
-							<span class="font-mono text-[10px] text-[#00C48C] bg-[#1c1c1c] px-2.5 py-0.5 rounded-full border border-[#1f1e1d]">
+							<span class="font-medium text-zinc-200">{currentRole.headline}</span>
+							<span class="font-mono text-[10px] text-[#00C48C] bg-[#00C48C]/10 px-2.5 py-0.5 rounded-full border border-[#00C48C]/20">
 								Scope: {currentRole.workflowState}
 							</span>
 						</div>
 						<div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
 							{#each currentRole.stats as stat}
-								<div class="rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-3">
-									<div class="text-[10px] text-[#b3b3b3] uppercase font-mono">{stat.label}</div>
-									<div class="text-sm font-mono font-medium text-white mt-1">{stat.value}</div>
+								<div class="rounded-[6px] border border-white/[0.06] bg-white/[0.02] p-3">
+									<div class="text-[10px] text-zinc-500 font-mono">{stat.label}</div>
+									<div class="text-sm font-mono font-medium text-zinc-200 mt-1">{stat.value}</div>
 								</div>
 							{/each}
 						</div>
@@ -1045,16 +1045,16 @@
 				</div>
 
 				<!-- BENTO CARD 2 (SPAN 1): Telegram Mobile Worker Simulator -->
-				<div class="rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-6 sm:p-8 shadow-[rgb(28,28,28)_0px_0px_0px_2px] flex flex-col justify-between">
+				<div class="rounded-[6px] border border-white/[0.07] bg-gradient-to-b from-[#161619]/90 to-[#101012]/95 p-6 sm:p-8 shadow-xl flex flex-col justify-between">
 					<div>
 						<div class="flex items-center justify-between mb-4">
-							<div class="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#0c0a09] border border-[#1f1e1d] text-white">
+							<div class="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#0c0a09] border border-white/[0.08] text-white">
 								<PaperPlaneRight size={20} weight="duotone" class="text-[#00C48C]" />
 							</div>
-							<span class="text-[10px] font-mono text-[#00C48C] bg-[#0c0a09] px-2 py-0.5 rounded-full border border-[#1f1e1d]">Telegram API</span>
+							<span class="text-[10px] font-mono text-[#00C48C] bg-[#00C48C]/10 px-2.5 py-0.5 rounded-full border border-[#00C48C]/20">Telegram API</span>
 						</div>
-						<h3 class="text-lg font-normal text-white mb-1.5 tracking-[-0.02em]">Telegram Mobile Worker</h3>
-						<p class="text-xs text-[#b3b3b3] leading-relaxed mb-3">
+						<h3 class="text-lg font-normal text-zinc-100 mb-1.5 tracking-[-0.02em]">Telegram mobile worker</h3>
+						<p class="text-xs text-zinc-400 leading-relaxed mb-3">
 							Interactive bot simulator for staff self-service and payslip queries:
 						</p>
 
@@ -1065,8 +1065,8 @@
 									onclick={() => (activeCommand = cmd)}
 									class="px-2.5 py-1 rounded-full font-mono text-[10px] transition-inngest cursor-pointer
 										   {activeCommand === cmd
-											 ? 'bg-[#00C48C] text-[#0c0a09] font-bold'
-											 : 'bg-[#0c0a09] text-[#b3b3b3] hover:text-white border border-[#1f1e1d]'}"
+											 ? 'bg-[#00C48C]/20 text-[#00C48C] border border-[#00C48C]/30 font-medium'
+											 : 'bg-white/[0.02] text-zinc-400 hover:text-zinc-200 border border-white/[0.06]'}"
 								>
 									{cmd}
 								</button>
@@ -1075,19 +1075,19 @@
 					</div>
 
 					<!-- Simulated Bot Thread -->
-					<div class="rounded-[6px] border border-[#1f1e1d] bg-[#0c0a09] p-3 space-y-2 text-xs">
-						<div class="bg-[#1c1c1c] border border-[#1f1e1d] text-white rounded-[6px] py-1 px-2.5 text-[11px] font-mono text-right">
+					<div class="rounded-[6px] border border-white/[0.06] bg-[#0c0a09] p-3 space-y-2 text-xs">
+						<div class="bg-white/[0.03] border border-white/[0.06] text-zinc-200 rounded-[6px] py-1 px-2.5 text-[11px] font-mono text-right">
 							{currentBot.cmd}
 						</div>
-						<div class="bg-[#1c1c1c] border border-[#1f1e1d] text-[#ffffff] rounded-[6px] p-2.5 text-[11px]">
-							<span class="font-medium text-white block mb-1 text-[11px]">{currentBot.replyTitle}</span>
+						<div class="bg-white/[0.03] border border-white/[0.06] text-zinc-200 rounded-[6px] p-2.5 text-[11px]">
+							<span class="font-medium text-zinc-100 block mb-1 text-[11px]">{currentBot.replyTitle}</span>
 							{#each currentBot.details as d}
 								<div class="flex items-center justify-between text-[10px] py-0.5">
-									<span class="text-[#b3b3b3]">{d.label}:</span>
-									<span class="font-mono font-medium {d.highlight ? 'text-[#00C48C]' : 'text-[#ffffff]'}">{d.val}</span>
+									<span class="text-zinc-400">{d.label}:</span>
+									<span class="font-mono font-medium {d.highlight ? 'text-[#00C48C]' : 'text-zinc-200'}">{d.val}</span>
 								</div>
 							{/each}
-							<div class="border-t border-[#1f1e1d] mt-1.5 pt-1 text-[9px] text-[#737373] font-mono">
+							<div class="border-t border-white/[0.06] mt-1.5 pt-1 text-[9px] text-zinc-500 font-mono">
 								{currentBot.footer}
 							</div>
 						</div>
@@ -1097,19 +1097,19 @@
 		</section>
 
 		<!-- ── CALL TO ACTION BANNER (No duplicate GitHub buttons) ──────────── -->
-		<section class="rounded-[6px] border border-[#1f1e1d] bg-[#1c1c1c] p-8 sm:p-16 text-center my-16 shadow-[rgb(28,28,28)_0px_0px_0px_2px]">
+		<section class="rounded-[6px] border border-white/[0.07] bg-gradient-to-b from-[#161619]/90 to-[#101012]/95 p-8 sm:p-14 text-center my-16 shadow-xl">
 			<div class="max-w-2xl mx-auto">
-				<h2 class="text-3xl sm:text-4xl font-normal text-white tracking-[-0.035em] mb-4">
+				<h2 class="text-3xl sm:text-4xl font-normal text-zinc-100 tracking-[-0.035em] mb-4">
 					Test the complete workforce platform
 				</h2>
-				<p class="text-sm text-[#b3b3b3] mb-8 leading-relaxed">
+				<p class="text-sm text-zinc-400 mb-8 leading-relaxed">
 					All roles, progressive tax schedules, CBE export files, and pre-seeded mock employees are live and ready to explore in your browser.
 				</p>
 				<a
 					href="/login"
-					class="inline-flex items-center justify-center gap-2 rounded-[6px] bg-[#00C48C] hover:bg-[#00ab7a] text-[#0c0a09] font-bold text-xs uppercase tracking-wider h-[42px] px-8 transition-inngest shadow-[rgb(28,28,28)_0px_0px_0px_2px]"
+					class="inline-flex items-center justify-center gap-2 rounded-[6px] bg-gradient-to-r from-[#00C48C] to-[#00a876] hover:brightness-105 active:scale-[0.99] text-[#051a14] font-semibold text-xs h-[42px] px-8 transition-inngest shadow-sm"
 				>
-					<span>Open Role Selector</span>
+					<span>Open role selector</span>
 					<ArrowRight size={14} weight="bold" />
 				</a>
 			</div>
@@ -1117,11 +1117,11 @@
 	</main>
 
 	<!-- ── FOOTER ───────────────────────────────────────────────────────── -->
-	<footer class="border-t border-[#1f1e1d] bg-[#0c0a09] py-10 text-center text-xs text-[#b3b3b3] font-mono">
+	<footer class="border-t border-white/[0.06] bg-[#0c0a09] py-10 text-center text-xs text-zinc-500 font-mono">
 		<div class="mx-auto max-w-[1440px] px-6 sm:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
-			<div class="flex items-center gap-2 text-[#b3b3b3]">
+			<div class="flex items-center gap-2 text-zinc-400">
 				<TreeStructure size={16} class="text-[#00C48C]" weight="fill" />
-				<span class="font-medium text-white">Rosterly</span>
+				<span class="font-medium text-zinc-200">Rosterly</span>
 				<span>&bull;</span>
 				<span>Ethiopian Compliance-First Payroll Engine</span>
 			</div>
