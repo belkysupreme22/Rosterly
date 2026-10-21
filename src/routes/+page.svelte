@@ -418,8 +418,8 @@
 	<div class="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[480px] bg-[radial-gradient(ellipse_at_top,rgba(0,196,140,0.06),transparent_70%)] blur-3xl"></div>
 	<div class="pointer-events-none absolute top-[1800px] right-0 w-[600px] h-[500px] bg-[radial-gradient(circle,rgba(0,196,140,0.03),transparent_70%)] blur-3xl"></div>
 
-	<!-- ── INNGEST-STYLE DOCKED HEADER (Blends seamlessly with the sandpaper background) ── -->
-	<header class="sticky top-0 z-50 bg-transparent border-b border-white/[0.04] backdrop-blur-[6px] h-[88px] flex items-center transition-inngest">
+	<!-- ── INNGEST-STYLE DOCKED HEADER (Blends seamlessly with the sandpaper background, no bottom border) ── -->
+	<header class="sticky top-0 z-50 bg-transparent backdrop-blur-[6px] h-[88px] flex items-center transition-inngest">
 		<div class="mx-auto flex w-full max-w-[1440px] items-center justify-between px-6 sm:px-12">
 			<!-- Logo Area -->
 			<div class="flex items-center gap-8">
