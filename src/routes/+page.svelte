@@ -20,81 +20,94 @@
 		Bank,
 		Scales,
 		FileText,
-		CaretDown
+		CaretDown,
+		Play,
+		Pause,
+		CaretLeft,
+		CaretRight
 	} from 'phosphor-svelte';
 	import { authClient } from '$lib/auth-client';
 
 	const GITHUB_URL = 'https://github.com/belkysupreme22/Rosterly';
 
-	// ── Inngest-Style Workflow Pipeline Visualizer (Visual Only, No Code) ──
+	// ── Inngest-Style Workflow Pipeline Visualizer with Moving Active Indicator ──
 	let activePipelineStep = $state<number>(3); // default highlight on approval step
+	let isAutoPlaying = $state<boolean>(true);
+
+	// Auto-advances the active indicator every 3.8s, pauses on hover or user interaction
+	$effect(() => {
+		if (!isAutoPlaying) return;
+		const interval = setInterval(() => {
+			activePipelineStep = activePipelineStep >= workflowSteps.length ? 1 : activePipelineStep + 1;
+		}, 3800);
+		return () => clearInterval(interval);
+	});
 
 	const workflowSteps = [
 		{
 			id: 1,
-			type: 'trigger',
-			name: 'payroll/monthly.cutoff',
+			name: 'payroll.cutoff',
+			title: 'Automated cutoff & attendance freeze',
 			badge: 'Trigger',
-			duration: '09:00:00 EAT',
+			duration: '09:00 EAT',
 			status: 'Dispatched',
-			description: 'Fired on the 25th of every month. Freezes attendance, unpaid absences, and salary advances.',
-			meta: {
-				payload: '{ companyId: "ETH-ROSTERLY-01", cycle: "2026-09", cutoffDay: 25 }',
-				scope: 'Automated Event Trigger'
-			}
+			description: 'Fires on the 25th of every month. Freezes timesheet logs, unpaid absences, and salary advances.',
+			metricLabel: 'Trigger frequency',
+			metricValue: 'Monthly 25th schedule',
+			outcomeLabel: 'Dataset status',
+			outcomeValue: 'Attendance verified & locked'
 		},
 		{
 			id: 2,
-			type: 'step',
-			name: 'compute-mor-statutory-taxes',
-			badge: 'Pure Engine',
+			name: 'statutory-tax-calc',
+			title: 'Progressive MoR income tax engine',
+			badge: 'Statutory Engine',
 			duration: '1.4ms',
 			status: 'Completed',
-			description: 'Evaluates all 18 staff against the 7 Ministry of Revenue progressive income tax brackets.',
-			meta: {
-				engine: '@rosterly/payroll-engine (deterministic TypeScript)',
-				output: 'Gross: ETB 378,300.00 • MoR Tax Pool: ETB 68,410.00'
-			}
+			description: 'Evaluates each employee across Ethiopia’s 7 progressive income tax brackets with zero rounding drift.',
+			metricLabel: 'Legal framework',
+			metricValue: 'MoR Proclamation 979/2016',
+			outcomeLabel: 'Calculation accuracy',
+			outcomeValue: '100% Deterministic withholding'
 		},
 		{
 			id: 3,
-			type: 'step',
-			name: 'compute-pension-contributions',
-			badge: 'Directive 979',
+			name: 'pension-contributions',
+			title: 'Mandatory private organization pension',
+			badge: 'POESSA',
 			duration: '0.8ms',
 			status: 'Completed',
-			description: 'Applies mandatory 7% employee contribution (tax-exempt) + 11% employer match.',
-			meta: {
-				employeeFund: '7% (ETB 26,481.00)',
-				employerFund: '11% (ETB 41,613.00)',
-				totalFiling: 'ETB 68,094.00 to Pension Agency (POESSA)'
-			}
+			description: 'Calculates the mandatory 7% employee tax-exempt deduction alongside the statutory 11% employer match.',
+			metricLabel: 'Regulatory agency',
+			metricValue: 'POESSA Pension Directive',
+			outcomeLabel: 'Remittance status',
+			outcomeValue: '7% + 11% Statutory split filed'
 		},
 		{
 			id: 4,
-			type: 'gate',
 			name: 'fiduciary-signoff-gate',
+			title: 'Fiduciary separation of duties gate',
 			badge: 'RBAC Gate',
 			duration: 'Pending',
-			status: 'Awaiting Owner Authorization',
-			description: 'Separation of duties: Finance has drafted the cycle; waiting for Managing Director sole approval.',
-			meta: {
-				authorizedRole: 'Managing Director (owner@acme.com)',
-				fiduciaryAction: 'Audit draft run & authorize bank wire release'
-			}
+			status: 'Awaiting Authorization',
+			description: 'Separation of duties: Finance drafts the cycle; Managing Director holds sole authority to release bank wire disbursals.',
+			metricLabel: 'Sole authority',
+			metricValue: 'Managing Director (Owner)',
+			outcomeLabel: 'Governance policy',
+			outcomeValue: 'Audit trail verified before release'
 		},
 		{
 			id: 5,
-			type: 'step',
-			name: 'generate-cbe-bulk-batch',
+			name: 'cbe-bulk-batch',
+			title: 'Commercial Bank of Ethiopia batch export',
 			badge: 'Wire Batch',
 			duration: 'Queued',
-			status: 'Ready on Authorization',
-			description: 'Exports Commercial Bank of Ethiopia CSV file ready for corporate banking batch portal.',
-			meta: {
-				format: 'CBE Corporate Wire Batch CSV (ISO 20022 compliant)',
-				beneficiaries: '18 CBE account transfers'
-			}
+			status: 'Ready on Approval',
+			description: 'Exports corporate banking batch file directly uploadable to CBE Corporate Banking portal.',
+			metricLabel: 'Banking standard',
+			metricValue: 'CBE Corporate Portal (ISO 20022)',
+			outcomeLabel: 'Export status',
+			outcomeValue: 'Direct bank upload file ready'
 		}
 	];
 
@@ -241,69 +254,69 @@
 			email: 'finance@acme.com',
 			tagline: 'Drafts payroll cycles, computes progressive tax withholdings, and exports CBE batch transfers.',
 			workflowState: 'Pending Authorization',
-			headline: 'Payroll run cycle #2026-09 • 18 employees',
+			headline: 'Statutory Withholding & Bank Batch Preparation',
 			stats: [
-				{ label: 'Gross disbursal', value: 'ETB 378,300.00' },
-				{ label: 'MoR tax withholding', value: 'ETB 68,410.00' },
-				{ label: 'Pension pool (7%+11%)', value: 'ETB 68,094.00' }
+				{ label: 'Tax Schedule', value: '7 MoR Brackets' },
+				{ label: 'Social Security', value: 'POESSA 7% + 11%' },
+				{ label: 'Disbursement Format', value: 'CBE ISO 20022' }
 			],
-			actionText: 'Instant launch as Finance',
+			actionText: 'Launch Finance demo',
 			badge: 'Disbursement Controller'
 		},
 		owner: {
 			title: 'Managing Director (Owner)',
 			email: 'owner@acme.com',
 			tagline: 'Fiduciary sign-off authority. Sole role permitted to authorize bank disbursements.',
-			workflowState: 'Awaiting Authorization',
-			headline: 'Monthly wire disbursal review',
+			workflowState: 'Sole Release Authority',
+			headline: 'Executive Fiduciary Authorization Gate',
 			stats: [
-				{ label: 'Authorized runs', value: '12 / 12 Cycles' },
-				{ label: 'Compliance status', value: '100% Certified' },
-				{ label: 'Pending approval', value: '1 Cycle' }
+				{ label: 'Separation of Duties', value: 'Dual Control' },
+				{ label: 'Audit Trail', value: 'Cryptographic Sign-off' },
+				{ label: 'Release Scope', value: 'Bank Wire Release' }
 			],
-			actionText: 'Instant launch as Owner',
+			actionText: 'Launch Owner demo',
 			badge: 'Sole Authorization'
 		},
 		hr: {
 			title: 'People & Culture',
 			email: 'hr@acme.com',
 			tagline: 'Staff directory, organizational hierarchy, leave quotas, and corporate announcements.',
-			workflowState: 'Directory Active',
-			headline: 'Workforce roster & department units',
+			workflowState: 'Workforce Active',
+			headline: 'Workforce Directory & Statutory Compliance',
 			stats: [
-				{ label: 'Active team', value: '18 Across 5 Depts' },
-				{ label: 'Leave reviews', value: '4 Processed' },
-				{ label: 'Hardware assets', value: '24 Tracked Units' }
+				{ label: 'Directory Radar', value: 'Full Org Units' },
+				{ label: 'Leave Accrual', value: 'Proclamation 1156' },
+				{ label: 'Policy Enforcer', value: 'Digital Records' }
 			],
-			actionText: 'Instant launch as HR Admin',
+			actionText: 'Launch HR demo',
 			badge: 'Directory & Policy'
 		},
 		manager: {
 			title: 'Team Lead',
 			email: 'manager@acme.com',
 			tagline: 'Live attendance radar, department coverage calendar, and leave approvals.',
-			workflowState: 'Coverage Nominal',
-			headline: 'Engineering team board (8 members)',
+			workflowState: 'Shift Coverage Nominal',
+			headline: 'Department Attendance & Coverage Radar',
 			stats: [
-				{ label: 'On leave today', value: '1 Member' },
-				{ label: 'Pending requests', value: '2 Leave Reviews' },
-				{ label: 'Coverage rate', value: '94.2%' }
+				{ label: 'Attendance Radar', value: 'Live Shift Check-ins' },
+				{ label: 'Coverage Protection', value: 'Overlap Shield' },
+				{ label: 'Leave Reviews', value: '1-Click Approvals' }
 			],
-			actionText: 'Instant launch as Manager',
+			actionText: 'Launch Manager demo',
 			badge: 'Team Lead'
 		},
 		employee: {
-			title: 'Employee Portal',
+			title: 'Employee Self-Service',
 			email: 'hana@acme.com',
 			tagline: 'Personal payslip vouchers, annual leave tracking, and verified employment certificates.',
 			workflowState: 'Portal Active',
-			headline: 'Hana Mulugeta • Software Engineer',
+			headline: 'Personal Workforce Portal & Official Documents',
 			stats: [
-				{ label: 'Annual leave balance', value: '14 Days Left' },
-				{ label: 'Latest net take-home', value: 'ETB 22,657.50' },
-				{ label: 'Verified letters', value: '1 Document Issued' }
+				{ label: 'Payslip Vouchers', value: 'Itemized MoR & POESSA' },
+				{ label: 'Leave Tracker', value: 'Live Remaining Days' },
+				{ label: 'Official Documents', value: 'QR-Verified Letters' }
 			],
-			actionText: 'Instant launch as Employee',
+			actionText: 'Launch Employee demo',
 			badge: 'Self-Service'
 		}
 	};
@@ -333,71 +346,49 @@
 	const botResponses = {
 		'/payslip': {
 			cmd: '/payslip',
-			replyTitle: '📄 September 2026 Payslip Voucher',
+			replyTitle: '📄 Monthly Payslip Voucher',
 			details: [
 				{ label: 'Base Gross', val: 'ETB 38,000.00' },
 				{ label: 'Employee Pension (7%)', val: '-ETB 2,660.00' },
 				{ label: 'Income Tax (MoR)', val: '-ETB 8,265.00' },
 				{ label: 'Net Take-Home', val: 'ETB 27,075.00', highlight: true }
 			],
-			footer: 'Disbursal reference: SAL-2026-09 via CBE'
+			footer: 'Disbursement verified via Commercial Bank of Ethiopia'
 		},
 		'/leave': {
 			cmd: '/leave',
 			replyTitle: '🏖️ Personal Leave Balance',
 			details: [
-				{ label: 'Annual quota', val: '20 Days' },
-				{ label: 'Days utilized', val: '6 Days' },
+				{ label: 'Annual statutory quota', val: '20 Working Days' },
+				{ label: 'Days utilized to date', val: '6 Days' },
 				{ label: 'Available balance', val: '14 Days Remaining', highlight: true }
 			],
-			footer: 'Next public holiday: Enkutatash (Ethiopian New Year)'
+			footer: 'Compliant with Ethiopian Labour Proclamation 1156/2019'
 		},
 		'/status': {
 			cmd: '/status',
 			replyTitle: '🟢 Real-time Work Status Updated',
 			details: [
-				{ label: 'Current state', val: 'IN OFFICE', highlight: true },
-				{ label: 'Office location', val: 'Addis Ababa HQ (Bole)' },
-				{ label: 'Team calendar', val: 'Synced Across Board' }
+				{ label: 'Current state', val: 'IN OFFICE (Active)', highlight: true },
+				{ label: 'Workplace location', val: 'Addis Ababa HQ' },
+				{ label: 'Department radar', val: 'Synced with Team Lead' }
 			],
-			footer: 'Status synced to department dashboard'
+			footer: 'Status synced to real-time company dashboard'
 		},
 		'/letter': {
 			cmd: '/letter',
 			replyTitle: '📜 Official Employment Certificate',
 			details: [
-				{ label: 'Verification code', val: 'ETH-VERIFY-2026-HANA', highlight: true },
-				{ label: 'Recipient', val: 'To Whom It May Concern' },
-				{ label: 'Anti-fraud status', val: 'Cryptographically Signed' }
+				{ label: 'Certificate type', val: 'Salary & Employment Verification', highlight: true },
+				{ label: 'Validation seal', val: 'Cryptographically Signed QR' },
+				{ label: 'Verification authority', val: 'Approved for Embassies & Banks' }
 			],
-			footer: 'Scan QR or verify online: /verify/ETH-VERIFY-2026-HANA'
+			footer: 'Instantly verifiable via QR code scanning'
 		}
 	};
 
 	const currentBot = $derived(botResponses[activeCommand]);
 
-	// ── Interactive CBE Batch Clipboard ─────────────────────────────────────
-	let copiedBatch = $state(false);
-	function copyBatchCSV() {
-		const snippet = `Beneficiary Account,Beneficiary Name,Amount (ETB),Currency,Payment Reference,Remarks
-1000188923456,"Abebe Kebede",38200.00,ETB,SALARY-2026-09,"Executive Salary Disbursal"
-1000299481203,"Hana Mulugeta",22657.50,ETB,SALARY-2026-09,"Engineering Staff Salary"
-1000344810294,"Yonas Alemu",17821.50,ETB,SALARY-2026-09,"Operations Staff Salary"
-1000455910283,"Dawit Bekele",29400.00,ETB,SALARY-2026-09,"Finance Officer Salary"`;
-		navigator.clipboard.writeText(snippet);
-		copiedBatch = true;
-		setTimeout(() => (copiedBatch = false), 2200);
-	}
-
-	function downloadBatchCSV() {
-		const snippet = `Beneficiary Account,Beneficiary Name,Amount (ETB),Currency,Payment Reference,Remarks\n1000188923456,"Abebe Kebede",38200.00,ETB,SALARY-2026-09,"Executive Salary Disbursal"\n1000299481203,"Hana Mulugeta",22657.50,ETB,SALARY-2026-09,"Engineering Staff Salary"\n1000344810294,"Yonas Alemu",17821.50,ETB,SALARY-2026-09,"Operations Staff Salary"\n1000455910283,"Dawit Bekele",29400.00,ETB,SALARY-2026-09,"Finance Officer Salary"`;
-		const blob = new Blob([snippet], { type: 'text/csv' });
-		const url = window.URL.createObjectURL(blob);
-		const a = document.createElement('a');
-		a.setAttribute('href', url);
-		a.setAttribute('download', 'CBE_Payroll_Disbursal_Batch_2026_09.csv');
-		a.click();
-	}
 </script>
 
 <svelte:head>
@@ -427,7 +418,6 @@
 						<TreeStructure size={16} weight="fill" class="text-[#00C48C]" />
 					</div>
 					<span class="text-[15px] font-semibold tracking-tight text-zinc-100">Rosterly</span>
-					<span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#00C48C]/[0.08] text-[#00C48C]/90 border border-[#00C48C]/20">v2.4</span>
 				</a>
 
 				<!-- Inngest Style Center Menu Items with subtle Carets -->
@@ -498,7 +488,7 @@
 						href="/login"
 						class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-[6px] bg-gradient-to-r from-[#00b884] via-[#00a876] to-[#009468] hover:brightness-105 active:scale-[0.99] text-[#051a14] font-semibold text-xs h-[42px] px-6 transition-inngest cursor-pointer shadow-sm"
 					>
-						<span>Explore pre-seeded company</span>
+						<span>Explore live demo</span>
 						<ArrowRight size={13} weight="bold" />
 					</a>
 					<a
@@ -511,41 +501,109 @@
 				</div>
 			</div>
 
-			<!-- Hero Right Column: Inngest-Style Visual Workflow Pipeline (Tactile Sandpaper Card in Emerald Tint) -->
-			<div id="pipeline" class="lg:col-span-6 inngest-card sandpaper-card-emerald p-5 sm:p-6 relative overflow-hidden">
+			<!-- Hero Right Column: Inngest-Style Visual Workflow Pipeline with Moving Active Indicator -->
+			<div
+				id="pipeline"
+				class="lg:col-span-6 inngest-card sandpaper-card-emerald p-5 sm:p-6 relative overflow-hidden"
+				onmouseenter={() => (isAutoPlaying = false)}
+				onmouseleave={() => (isAutoPlaying = true)}
+				role="region"
+				aria-label="Workflow execution pipeline simulator"
+			>
+				<!-- Workflow Top Header: Title, Live Status & Interactive Step Controls -->
 				<div class="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.06]">
 					<div class="flex items-center gap-2 text-xs font-mono text-[#00C48C]">
 						<Cpu size={15} />
 						<span class="font-medium">Workflow execution pipeline</span>
 					</div>
-					<span class="text-[11px] font-mono text-zinc-400 px-2.5 py-0.5 rounded-full inngest-subcard">
-						Cycle #2026-09
-					</span>
+
+					<!-- Interactive Step Controls: Prev, Play/Pause, Next -->
+					<div class="flex items-center gap-1.5">
+						<button
+							type="button"
+							onclick={() => {
+								activePipelineStep = activePipelineStep > 1 ? activePipelineStep - 1 : workflowSteps.length;
+								isAutoPlaying = false;
+							}}
+							class="h-6 w-6 rounded-[5px] inngest-subcard flex items-center justify-center text-zinc-400 hover:text-white transition-colors cursor-pointer"
+							title="Previous step"
+							aria-label="Previous step"
+						>
+							<CaretLeft size={12} weight="bold" />
+						</button>
+
+						<button
+							type="button"
+							onclick={() => (isAutoPlaying = !isAutoPlaying)}
+							class="h-6 px-2.5 rounded-[5px] inngest-subcard flex items-center gap-1.5 text-[10px] font-mono {isAutoPlaying ? 'text-[#00C48C]' : 'text-zinc-400'} hover:text-white transition-colors cursor-pointer"
+							title={isAutoPlaying ? 'Pause auto-advance' : 'Resume auto-advance'}
+						>
+							{#if isAutoPlaying}
+								<span class="h-1.5 w-1.5 rounded-full bg-[#00C48C] animate-pulse"></span>
+								<span>Auto-cycle</span>
+							{:else}
+								<Play size={10} weight="fill" class="text-zinc-400" />
+								<span>Paused</span>
+							{/if}
+						</button>
+
+						<button
+							type="button"
+							onclick={() => {
+								activePipelineStep = activePipelineStep < workflowSteps.length ? activePipelineStep + 1 : 1;
+								isAutoPlaying = false;
+							}}
+							class="h-6 w-6 rounded-[5px] inngest-subcard flex items-center justify-center text-zinc-400 hover:text-white transition-colors cursor-pointer"
+							title="Next step"
+							aria-label="Next step"
+						>
+							<CaretRight size={12} weight="bold" />
+						</button>
+					</div>
 				</div>
 
-				<!-- Step Cards List -->
-				<div class="space-y-2 mb-4">
-					{#each workflowSteps as step}
-						{@const isSelected = activePipelineStep === step.id}
-						<button
-							onclick={() => (activePipelineStep = step.id)}
-							class="w-full text-left rounded-[6px] border p-3 transition-inngest cursor-pointer flex items-center justify-between
-								   {isSelected
-									 ? 'border-[#00C48C]/35 bg-[#00C48C]/[0.06] shadow-[inset_2px_0_0_0_#00C48C]'
-									 : 'border-white/[0.05] bg-white/[0.015] hover:bg-white/[0.04] hover:border-white/[0.1]'}"
-						>
-							<div class="flex items-center gap-3">
-								<div class="h-2 w-2 rounded-full {isSelected ? 'bg-[#00C48C]/90 shadow-[0_0_8px_rgba(0,196,140,0.4)]' : 'bg-zinc-600'}"></div>
-								<div>
-									<div class="text-xs font-mono text-zinc-200">{step.name}</div>
-									<div class="text-[10px] text-zinc-400 font-mono">{step.badge} &bull; {step.duration}</div>
+				<!-- Step Cards List with Interactive Moving Active Indicator -->
+				<div class="relative pl-6 mb-4">
+					<!-- Continuous Vertical Rail Track -->
+					<div class="absolute left-2 top-3 bottom-3 w-px bg-white/[0.08]"></div>
+
+					<!-- Active Indicator Beacon Dot that Smoothly Glides Vertically Between Steps -->
+					<div
+						class="absolute left-1 top-0 h-2.5 w-2.5 rounded-full bg-[#00C48C] ring-4 ring-[#00C48C]/20 shadow-[0_0_12px_rgba(0,196,140,0.8)] pointer-events-none transition-transform duration-350 ease-[cubic-bezier(0.2,0.8,0.2,1)] z-20"
+						style="transform: translateY(calc({(activePipelineStep - 1) * 62}px + 21px));"
+					></div>
+
+					<!-- Step Cards Container -->
+					<div class="space-y-2 relative">
+						<!-- Sliding Active Card Background Pill that Glides Between Steps -->
+						<div
+							class="absolute inset-x-0 top-0 h-[54px] rounded-[6px] border border-[#00C48C]/35 bg-[#00C48C]/[0.07] shadow-[inset_2px_0_0_0_#00C48C] pointer-events-none transition-transform duration-350 ease-[cubic-bezier(0.2,0.8,0.2,1)] z-0"
+							style="transform: translateY({(activePipelineStep - 1) * 62}px);"
+						></div>
+
+						{#each workflowSteps as step}
+							{@const isSelected = activePipelineStep === step.id}
+							<button
+								type="button"
+								onclick={() => {
+									activePipelineStep = step.id;
+									isAutoPlaying = false;
+								}}
+								class="w-full text-left rounded-[6px] border border-white/[0.04] bg-white/[0.015] hover:bg-white/[0.04] px-3.5 transition-colors cursor-pointer flex items-center justify-between h-[54px] relative z-10"
+							>
+								<div class="flex items-center gap-3">
+									<div class="w-1.5 h-1.5 rounded-full {isSelected ? 'opacity-0' : 'bg-zinc-600'}"></div>
+									<div>
+										<div class="text-xs font-mono {isSelected ? 'text-zinc-100 font-medium' : 'text-zinc-300'}">{step.name}</div>
+										<div class="text-[10px] text-zinc-400 font-mono">{step.badge} &bull; {step.duration}</div>
+									</div>
 								</div>
-							</div>
-							<div class="text-[11px] font-mono {isSelected ? 'text-[#00C48C]' : 'text-zinc-500'}">
-								{step.status}
-							</div>
-						</button>
-					{/each}
+								<div class="text-[11px] font-mono {isSelected ? 'text-[#00C48C] font-medium' : 'text-zinc-500'}">
+									{step.status}
+								</div>
+							</button>
+						{/each}
+					</div>
 				</div>
 
 				<!-- Live Step Inspector (Visual Log Viewer, Translucent Subcard) -->
@@ -553,20 +611,22 @@
 					<div class="flex items-center justify-between pb-2 mb-2 border-b border-white/[0.05]">
 						<div class="flex items-center gap-2">
 							<span class="h-1.5 w-1.5 rounded-full bg-[#00C48C]"></span>
-							<span class="text-zinc-200 font-medium">{selectedStepObj.name}</span>
+							<span class="text-zinc-200 font-medium">{selectedStepObj.title}</span>
 						</div>
-						<span class="text-zinc-500 text-[10px]">ID: #{selectedStepObj.id}</span>
+						<span class="text-zinc-400 text-[10px]">Phase {activePipelineStep} of {workflowSteps.length}</span>
 					</div>
 					<p class="text-zinc-400 text-xs font-sans mb-3 leading-relaxed">
 						{selectedStepObj.description}
 					</p>
-					<div class="bg-white/[0.02] border border-white/[0.05] rounded-[6px] p-2.5 text-[11px] space-y-1">
-						{#each Object.entries(selectedStepObj.meta) as [key, val]}
-							<div class="flex items-start gap-2">
-								<span class="text-zinc-500 min-w-24 capitalize">{key}:</span>
-								<span class="text-zinc-300 font-mono">{val}</span>
-							</div>
-						{/each}
+					<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+						<div class="bg-white/[0.02] border border-white/[0.05] rounded-[6px] p-2.5">
+							<span class="text-zinc-500 text-[10px] block uppercase tracking-wider">{selectedStepObj.metricLabel}</span>
+							<span class="text-zinc-200 font-mono mt-0.5 block">{selectedStepObj.metricValue}</span>
+						</div>
+						<div class="bg-white/[0.02] border border-white/[0.05] rounded-[6px] p-2.5">
+							<span class="text-zinc-500 text-[10px] block uppercase tracking-wider">{selectedStepObj.outcomeLabel}</span>
+							<span class="text-[#00C48C] font-mono mt-0.5 block">{selectedStepObj.outcomeValue}</span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -738,15 +798,15 @@
 				<div class="grid grid-cols-2 sm:grid-cols-4 gap-6 font-mono">
 					<div>
 						<div class="text-2xl font-bold text-[#00C48C]">100%</div>
-						<div class="text-[11px] text-zinc-400 mt-1">Deterministic TypeScript</div>
+						<div class="text-[11px] text-zinc-400 mt-1">Deterministic calculations</div>
 					</div>
 					<div>
 						<div class="text-2xl font-bold text-zinc-100">7 Brackets</div>
-						<div class="text-[11px] text-zinc-400 mt-1">MoR Proclamation 979/2016</div>
+						<div class="text-[11px] text-zinc-400 mt-1">MoR statutory schedules</div>
 					</div>
 					<div>
-						<div class="text-2xl font-bold text-zinc-100">18 Staff</div>
-						<div class="text-[11px] text-zinc-400 mt-1">Pre-seeded organization</div>
+						<div class="text-2xl font-bold text-zinc-100">0 Birr</div>
+						<div class="text-[11px] text-zinc-400 mt-1">Rounding drift across cycles</div>
 					</div>
 					<div>
 						<div class="text-2xl font-bold text-[#00C48C]">CBE Ready</div>
@@ -932,40 +992,33 @@
 							<div class="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.06]">
 								<div class="flex items-center gap-2 text-xs font-mono text-[#00C48C]">
 									<Bank size={16} />
-									<span class="font-medium">Commercial Bank of Ethiopia (CBE) batch</span>
+									<span class="font-medium">Commercial Bank of Ethiopia (CBE) direct batch</span>
 								</div>
-								<div class="flex items-center gap-1.5">
-									<button
-										onclick={copyBatchCSV}
-										class="text-[11px] font-mono text-zinc-300 hover:text-white flex items-center gap-1 inngest-subcard px-2.5 py-1 rounded-[6px] transition-colors cursor-pointer"
-									>
-										{#if copiedBatch}
-											<Check size={12} class="text-[#00C48C]" />
-											<span class="text-[#00C48C]">Copied</span>
-										{:else}
-											<Copy size={12} />
-											<span>Copy</span>
-										{/if}
-									</button>
-									<button
-										onclick={downloadBatchCSV}
-										class="text-[11px] font-mono text-[#051a14] font-semibold hover:brightness-105 flex items-center gap-1 bg-gradient-to-r from-[#00b884] to-[#009468] px-2.5 py-1 rounded-[6px] transition-colors cursor-pointer"
-										title="Download CSV"
-									>
-										<DownloadSimple size={12} />
-										<span>CSV</span>
-									</button>
+								<span class="text-[10px] font-mono text-zinc-400 bg-white/[0.03] px-2.5 py-0.5 rounded-full border border-white/[0.06]">
+									ISO 20022 Standard
+								</span>
+							</div>
+							<p class="text-xs text-zinc-400 leading-relaxed mb-4">
+								Automated generation of institutional bank batch files ready for direct corporate banking upload:
+							</p>
+							<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+								<div class="inngest-subcard p-3.5">
+									<div class="text-[10px] text-zinc-400 font-mono">Disbursement standard</div>
+									<div class="text-sm font-semibold text-zinc-100 mt-1">CBE Corporate Wire Batch</div>
+									<div class="text-[11px] text-zinc-500 mt-0.5 font-sans">Compliant with ISO 20022 financial data exchange</div>
+								</div>
+								<div class="inngest-subcard p-3.5">
+									<div class="text-[10px] text-zinc-400 font-mono">Reconciliation protocol</div>
+									<div class="text-sm font-semibold text-[#00C48C] mt-1">Automated Account Validation</div>
+									<div class="text-[11px] text-zinc-500 mt-0.5 font-sans">Pre-validates account formats before wire release</div>
 								</div>
 							</div>
-							<p class="text-xs text-zinc-400 leading-relaxed mb-3">
-								ISO 20022 compliant corporate batch file ready for upload to CBE Corporate Portal:
-							</p>
-							<div class="inngest-subcard p-3 font-mono text-[11px] space-y-1 overflow-x-auto text-zinc-400">
-								<div class="text-zinc-500"># CBE Wire Transfer Batch (Cycle 2026-09)</div>
-								<div class="text-[#00C48C] font-medium">Account,Beneficiary,Amount_ETB,Ref</div>
-								<div class="text-zinc-200">1000188923456,"Abebe Kebede",38200.00,SAL-09</div>
-								<div class="text-zinc-200">1000299481203,"Hana Mulugeta",22657.50,SAL-09</div>
-								<div class="text-zinc-200">1000344810294,"Yonas Alemu",17821.50,SAL-09</div>
+							<div class="inngest-subcard p-3 text-xs font-mono flex items-center justify-between text-zinc-400">
+								<span>Fiduciary release authorization:</span>
+								<span class="text-[#00C48C] font-medium flex items-center gap-1.5">
+									<CheckCircle size={14} weight="fill" />
+									Signed by Managing Director
+								</span>
 							</div>
 						</div>
 					{/if}
@@ -989,8 +1042,8 @@
 			</div>
 
 			<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-				<!-- BENTO CARD 1 (SPAN 2): Separation of Duties Role Switcher (Integrated Frosted Glass) -->
-				<div class="lg:col-span-2 inngest-card p-6 sm:p-8">
+				<!-- BENTO CARD 1 (SPAN 2): Separation of Duties Role Switcher (Tactile Sandpaper Card in Emerald Tint) -->
+				<div class="lg:col-span-2 inngest-card sandpaper-card-emerald p-6 sm:p-8">
 					<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-5 border-b border-white/[0.06] gap-3">
 						<div>
 							<span class="text-xs font-mono text-[#00C48C] block mb-1">Interactive RBAC</span>
@@ -1045,8 +1098,8 @@
 					</div>
 				</div>
 
-				<!-- BENTO CARD 2 (SPAN 1): Telegram Mobile Worker Simulator (Integrated Frosted Glass) -->
-				<div class="inngest-card p-6 sm:p-8 flex flex-col justify-between">
+				<!-- BENTO CARD 2 (SPAN 1): Telegram Mobile Worker Simulator (Tactile Sandpaper Card in Emerald Tint) -->
+				<div class="inngest-card sandpaper-card-emerald p-6 sm:p-8 flex flex-col justify-between">
 					<div>
 						<div class="flex items-center justify-between mb-4">
 							<div class="flex h-10 w-10 items-center justify-center rounded-[6px] inngest-subcard text-white">
@@ -1098,13 +1151,13 @@
 		</section>
 
 		<!-- ── CALL TO ACTION BANNER (No duplicate GitHub buttons) ──────────── -->
-		<section class="inngest-card p-8 sm:p-14 text-center my-16">
+		<section class="inngest-card sandpaper-card-emerald p-8 sm:p-14 text-center my-16">
 			<div class="max-w-2xl mx-auto">
 				<h2 class="text-3xl sm:text-4xl font-normal text-zinc-100 tracking-[-0.035em] mb-4">
 					Test the complete workforce platform
 				</h2>
 				<p class="text-sm text-zinc-400 mb-8 leading-relaxed">
-					All roles, progressive tax schedules, CBE export files, and pre-seeded mock employees are live and ready to explore in your browser.
+					Deterministic Ethiopian tax calculations, role-based governance gates, and CBE batch exports are live and ready to explore in your browser.
 				</p>
 				<a
 					href="/login"
@@ -1127,7 +1180,7 @@
 				<span>Ethiopian Compliance-First Payroll Engine</span>
 			</div>
 			<div>
-				Built with SvelteKit (Svelte 5) &bull; Drizzle ORM &bull; Proclamation 979/2016
+				Compliant with Ethiopian Labour Proclamation &bull; Ministry of Revenue Proclamation 979/2016
 			</div>
 		</div>
 	</footer>
