@@ -23,10 +23,9 @@ import {
 	leaveRequest,
 	salaryAdvance,
 	notice,
-	documentRequest,
-	company
+	documentRequest
 } from '../../src/lib/server/db/schema';
-import { eq, desc, and } from 'drizzle-orm';
+import { eq, desc } from 'drizzle-orm';
 
 // ── Database Connection ─────────────────────────────────────────────────────
 const DATABASE_URL = process.env.DATABASE_URL || 'postgresql://postgres:postgrespassword@localhost:5555/rosterly';
@@ -169,8 +168,9 @@ async function requestLeaveConversation(conversation: MyConversation, ctx: MyCon
 			`Your manager and HR admin have been notified on the web dashboard.`,
 			{ parse_mode: 'Markdown' }
 		);
-	} catch (e: any) {
-		await ctx.reply(`❌ Failed to submit leave request: ${e.message}`);
+	} catch (e) {
+		const err = e as Error;
+		await ctx.reply(`❌ Failed to submit leave request: ${err.message}`);
 	}
 }
 
@@ -216,8 +216,9 @@ async function requestAdvanceConversation(conversation: MyConversation, ctx: MyC
 			`Approved advances will be automatically deducted from your upcoming monthly payroll.`,
 			{ parse_mode: 'Markdown' }
 		);
-	} catch (e: any) {
-		await ctx.reply(`❌ Error submitting advance: ${e.message}`);
+	} catch (e) {
+		const err = e as Error;
+		await ctx.reply(`❌ Error submitting advance: ${err.message}`);
 	}
 }
 
@@ -425,7 +426,7 @@ bot.command('status', async (ctx) => {
 bot.on('callback_query:data', async (ctx) => {
 	const data = ctx.callbackQuery.data;
 	if (data.startsWith('status_')) {
-		const newStatus = data.replace('status_', '') as any;
+		const newStatus = data.replace('status_', '') as 'in_office' | 'remote' | 'on_leave' | 'sick' | 'field_work';
 		const emp = await getEmployeeForChat(String(ctx.chat?.id), ctx.session.authenticatedPhone);
 		if (emp) {
 			await db.update(employee).set({ workStatus: newStatus }).where(eq(employee.id, emp.id));

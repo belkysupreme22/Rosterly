@@ -13,6 +13,18 @@ export default ts.config(
 				...globals.browser,
 				...globals.node
 			}
+		},
+		rules: {
+			'@typescript-eslint/no-explicit-any': 'off',
+			'@typescript-eslint/no-unused-vars': [
+				'warn',
+				{
+					argsIgnorePattern: '^_',
+					varsIgnorePattern: '^_',
+					caughtErrorsIgnorePattern: '^_'
+				}
+			],
+			'@typescript-eslint/ban-ts-comment': 'off'
 		}
 	},
 	{
@@ -21,6 +33,10 @@ export default ts.config(
 			parserOptions: {
 				parser: ts.parser
 			}
+		},
+		rules: {
+			'svelte/no-navigation-without-resolve': 'off',
+			'svelte/require-each-key': 'off'
 		}
 	},
 	{
