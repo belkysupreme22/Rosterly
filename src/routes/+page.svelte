@@ -102,7 +102,7 @@
 			status: 'Ready on Approval',
 			description: 'Exports corporate banking batch file directly uploadable to CBE Corporate Banking portal.',
 			metricLabel: 'Banking standard',
-			metricValue: 'CBE Corporate Portal (ISO 20022)',
+			metricValue: 'CBE Corporate Batch (Direct CSV)',
 			outcomeLabel: 'Export status',
 			outcomeValue: 'Direct bank upload file ready'
 		}
@@ -223,7 +223,7 @@
 			number: '04',
 			category: 'Banking Disbursement',
 			title: 'Commercial Bank of Ethiopia direct batch',
-			description: 'Generates ISO 20022 compliant corporate CSV batches directly uploadable to CBE Corporate Banking.',
+			description: 'Generates CBE compliant corporate CSV batches directly uploadable to CBE Corporate Banking.',
 			badge: 'CBE Wire Batch'
 		}
 	];
@@ -255,7 +255,7 @@
 			stats: [
 				{ label: 'Income Tax', value: '7 MoR Brackets (Deterministic)' },
 				{ label: 'Pension Directives', value: 'POESSA 7% + 11% Split' },
-				{ label: 'Disbursement Format', value: 'CBE Corporate ISO 20022' }
+				{ label: 'Disbursement Format', value: 'CBE Corporate CSV Batch' }
 			],
 			actionText: 'Launch Finance demo',
 			badge: 'Disbursement Controller'
@@ -268,7 +268,7 @@
 			headline: 'Executive Fiduciary Authorization Gate',
 			stats: [
 				{ label: 'Separation of Duties', value: 'Enforced Dual Control' },
-				{ label: 'Audit Trail', value: 'Cryptographic Sign-off' },
+				{ label: 'Audit Trail', value: 'Role-Audited Approval Log' },
 				{ label: 'Release Scope', value: 'Direct Bank Wire Release' }
 			],
 			actionText: 'Launch Owner demo',
@@ -283,7 +283,7 @@
 			stats: [
 				{ label: 'Staff Records', value: 'Unified Department Hierarchy' },
 				{ label: 'Leave Accrual', value: 'Labour Proclamation 1156' },
-				{ label: 'Compliance Hub', value: 'Cryptographically Verified Records' }
+				{ label: 'Compliance Hub', value: 'System-Audited Personnel Records' }
 			],
 			actionText: 'Launch HR demo',
 			badge: 'Directory & Policy'
@@ -350,7 +350,7 @@
 				{ label: 'Income Tax (MoR)', val: '-ETB 8,265.00' },
 				{ label: 'Net Take-Home', val: 'ETB 27,075.00', highlight: true }
 			],
-			footer: 'Disbursed via CBE Corporate Banking ISO 20022 wire batch'
+			footer: 'Disbursed via Commercial Bank of Ethiopia bulk wire batch'
 		},
 		'/leave': {
 			cmd: '/leave',
@@ -377,7 +377,7 @@
 			replyTitle: '📜 Official Employment Certificate',
 			details: [
 				{ label: 'Certificate type', val: 'Salary & Employment Verification', highlight: true },
-				{ label: 'Validation seal', val: 'Cryptographically Signed QR' },
+				{ label: 'Validation seal', val: 'System-Verified QR Code' },
 				{ label: 'Verification authority', val: 'Approved for Embassies & Banks' }
 			],
 			footer: 'Tamper-proof verification code. Scannable via official portal'
@@ -423,7 +423,7 @@
 					<a href="#engine" class="hover:text-zinc-100 transition-colors">Tax engine</a>
 					<a href="#timeline" class="hover:text-zinc-100 transition-colors">Compliance</a>
 					<a href="#roles" class="hover:text-zinc-100 transition-colors">Governance</a>
-					<a href="#roles" class="hover:text-zinc-100 transition-colors">Telegram</a>
+					<a href="#roles" class="hover:text-zinc-100 transition-colors">Self-service</a>
 				</nav>
 			</div>
 
@@ -474,7 +474,7 @@
 
 				<!-- Subtext -->
 				<p class="text-sm sm:text-base lg:text-lg text-zinc-400 max-w-xl leading-relaxed mb-6 sm:mb-8">
-					Replace fragile Excel sheets and manual chat approvals with an audited, deterministic platform. Calculate progressive taxes, stream CBE wire batches, and empower staff over Telegram.
+					Replace fragile Excel sheets and manual chat approvals with an audited, deterministic platform. Calculate progressive taxes, generate CBE wire batches, and empower staff with self-service.
 				</p>
 
 				<!-- Action Buttons (Controlled contrast, soft gradients) -->
@@ -636,9 +636,9 @@
 				<span class="text-zinc-700">&bull;</span>
 				<span class="flex items-center gap-2 shrink-0"><Shield size={15} class="text-[#00C48C]/70" /> Pension Agency (POESSA Directives)</span>
 				<span class="text-zinc-700">&bull;</span>
-				<span class="flex items-center gap-2 shrink-0"><FileText size={15} class="text-[#00C48C]/70" /> ISO 20022 Corporate Wire Standard</span>
+				<span class="flex items-center gap-2 shrink-0"><FileText size={15} class="text-[#00C48C]/70" /> CBE Corporate Bulk CSV Export</span>
 				<span class="text-zinc-700">&bull;</span>
-				<span class="flex items-center gap-2 shrink-0"><Coins size={15} class="text-[#00C48C]/70" /> Telebirr Corporate Batch Gateway</span>
+				<span class="flex items-center gap-2 shrink-0"><Coins size={15} class="text-[#00C48C]/70" /> Labour Proclamation 1156 Leave Accrual</span>
 				<span class="text-zinc-700">&bull;</span>
 				<span class="flex items-center gap-2 shrink-0"><Bank size={15} class="text-[#00C48C]/70" /> Commercial Bank of Ethiopia (CBE Direct)</span>
 				<span class="text-zinc-700">&bull;</span>
@@ -646,9 +646,9 @@
 				<span class="text-zinc-700">&bull;</span>
 				<span class="flex items-center gap-2 shrink-0"><Shield size={15} class="text-[#00C48C]/70" /> Pension Agency (POESSA Directives)</span>
 				<span class="text-zinc-700">&bull;</span>
-				<span class="flex items-center gap-2 shrink-0"><FileText size={15} class="text-[#00C48C]/70" /> ISO 20022 Corporate Wire Standard</span>
+				<span class="flex items-center gap-2 shrink-0"><FileText size={15} class="text-[#00C48C]/70" /> CBE Corporate Bulk CSV Export</span>
 				<span class="text-zinc-700">&bull;</span>
-				<span class="flex items-center gap-2 shrink-0"><Coins size={15} class="text-[#00C48C]/70" /> Telebirr Corporate Batch Gateway</span>
+				<span class="flex items-center gap-2 shrink-0"><Coins size={15} class="text-[#00C48C]/70" /> Labour Proclamation 1156 Leave Accrual</span>
 			</div>
 		</section>
 
@@ -793,7 +793,7 @@
 						From monthly attendance freeze to corporate bank wire release in seconds.
 					</h3>
 					<p class="text-xs sm:text-sm text-zinc-400 mt-2 sm:mt-3 leading-relaxed font-sans">
-						Every payroll cycle generates an immutable audit record, maker-checker authorization gates, and CBE ISO 20022 wire batches verified against national proclamations.
+						Every payroll cycle generates an immutable audit record, maker-checker authorization gates, and CBE bulk wire batches verified against national proclamations.
 					</p>
 				</div>
 				<div class="lg:col-span-7 grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-2.5 sm:gap-3.5">
@@ -829,11 +829,11 @@
 
 					<div class="inngest-subcard p-3 sm:p-4 rounded-[6px] flex flex-col justify-between">
 						<div class="text-base sm:text-lg lg:text-xl font-bold font-mono text-[#00C48C] tracking-tight truncate">
-							ISO 20022
+							CBE Direct
 						</div>
 						<div class="mt-2 sm:mt-3">
-							<div class="text-xs font-medium text-zinc-200 leading-tight">CBE Direct</div>
-							<div class="text-[10px] text-zinc-400 font-mono mt-0.5 leading-snug">Corporate wire export</div>
+							<div class="text-xs font-medium text-zinc-200 leading-tight">Bulk Wire Export</div>
+							<div class="text-[10px] text-zinc-400 font-mono mt-0.5 leading-snug">Corporate banking CSV</div>
 						</div>
 					</div>
 				</div>
@@ -1022,7 +1022,7 @@
 									<span class="font-medium">Commercial Bank of Ethiopia (CBE) direct batch</span>
 								</div>
 								<span class="text-[10px] font-mono text-zinc-400 bg-white/[0.03] px-2.5 py-0.5 rounded-full border border-white/[0.06]">
-									ISO 20022 Standard
+									CBE Bulk CSV Format
 								</span>
 							</div>
 							<p class="text-xs text-zinc-400 leading-relaxed mb-4 font-sans">
@@ -1032,7 +1032,7 @@
 								<div class="inngest-subcard p-3.5">
 									<div class="text-[10px] text-zinc-400 font-mono">Disbursement standard</div>
 									<div class="text-sm font-semibold text-zinc-100 mt-1 font-sans">CBE Corporate Wire Batch</div>
-									<div class="text-[11px] text-zinc-500 mt-0.5 font-sans">Compliant with ISO 20022 financial data exchange</div>
+									<div class="text-[11px] text-zinc-500 mt-0.5 font-sans">Formatted for CBE corporate banking bulk upload</div>
 								</div>
 								<div class="inngest-subcard p-3.5">
 									<div class="text-[10px] text-zinc-400 font-mono">Reconciliation protocol</div>
@@ -1064,7 +1064,7 @@
 					Built for every stakeholder in the organization
 				</h2>
 				<p class="text-xs sm:text-sm text-zinc-400">
-					Test authentic permission scopes with 1-click live demo logins or interact with the Telegram bot simulator.
+					Test authentic permission scopes with 1-click live demo logins or preview the upcoming Telegram bot self-service flow.
 				</p>
 			</div>
 
@@ -1134,11 +1134,11 @@
 							<div class="flex h-10 w-10 items-center justify-center rounded-[6px] inngest-subcard text-white">
 								<PaperPlaneRight size={20} weight="duotone" class="text-[#00C48C]" />
 							</div>
-							<span class="text-[10px] font-mono text-[#00C48C] bg-[#00C48C]/10 px-2.5 py-0.5 rounded-full border border-[#00C48C]/20">Telegram API</span>
+							<span class="text-[10px] font-mono text-[#00C48C] bg-[#00C48C]/10 px-2.5 py-0.5 rounded-full border border-[#00C48C]/20">Roadmap Preview</span>
 						</div>
 						<h3 class="text-base sm:text-lg font-normal text-zinc-100 mb-1.5 tracking-[-0.02em] font-display">Telegram mobile worker</h3>
 						<p class="text-xs text-zinc-400 leading-relaxed mb-3 font-sans">
-							Interactive bot simulator for staff self-service and payslip queries:
+							Interactive preview of employee self-service bot commands (schema-backed):
 						</p>
 
 						<!-- Command Pills -->
