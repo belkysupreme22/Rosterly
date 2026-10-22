@@ -3,23 +3,18 @@
 		TreeStructure,
 		ArrowRight,
 		GithubLogo,
-		Check,
 		Terminal,
 		Sliders,
 		Shield,
 		Coins,
 		PaperPlaneRight,
-		Buildings,
 		CheckCircle,
 		Lightning,
 		Cpu,
-		Clock,
-		ArrowsClockwise,
 		Bank,
 		Scales,
 		FileText,
 		Play,
-		Pause,
 		CaretLeft,
 		CaretRight
 	} from 'phosphor-svelte';
@@ -331,7 +326,7 @@
 				window.location.href = '/dashboard';
 				return;
 			}
-		} catch (e) {
+		} catch (_e) {
 			// fallback
 		}
 		window.location.href = '/login';

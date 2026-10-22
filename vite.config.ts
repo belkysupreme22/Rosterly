@@ -2,7 +2,7 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
 
-// @ts-ignore
+// @ts-expect-error Node built-in module
 import { fileURLToPath } from 'node:url';
 
 export default defineConfig({
