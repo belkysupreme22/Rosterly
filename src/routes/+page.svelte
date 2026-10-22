@@ -784,31 +784,57 @@
 
 		<!-- ── VIBRANT ACCENT BAND (Seamlessly Blended Sandpaper Gradient) ── -->
 		<section class="rounded-[6px] border border-[#00C48C]/15 bg-gradient-to-b from-[#00C48C]/[0.03] to-transparent p-6 sm:p-10 lg:p-12 my-10 sm:my-16 shadow-[inset_0_1px_0_0_rgba(0,196,140,0.08)]">
-			<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8">
-				<div class="max-w-xl">
+			<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-10 items-center">
+				<div class="lg:col-span-5">
 					<span class="text-xs font-mono text-[#00C48C] font-medium block mb-2">
 						Audited compliance architecture
 					</span>
-					<h3 class="text-xl sm:text-3xl font-normal tracking-[-0.035em] text-zinc-100 leading-snug font-display">
+					<h3 class="text-xl sm:text-2xl lg:text-3xl font-normal tracking-[-0.035em] text-zinc-100 leading-snug font-display">
 						From monthly attendance freeze to corporate bank wire release in seconds.
 					</h3>
+					<p class="text-xs sm:text-sm text-zinc-400 mt-2 sm:mt-3 leading-relaxed font-sans">
+						Every payroll cycle generates an immutable audit record, maker-checker authorization gates, and CBE ISO 20022 wire batches verified against national proclamations.
+					</p>
 				</div>
-				<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 font-mono">
-					<div>
-						<div class="text-xl sm:text-2xl font-bold text-[#00C48C]">100%</div>
-						<div class="text-[11px] text-zinc-400 mt-1 font-sans">Deterministic calculation</div>
+				<div class="lg:col-span-7 grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-2.5 sm:gap-3.5">
+					<div class="inngest-subcard p-3 sm:p-4 rounded-[6px] flex flex-col justify-between">
+						<div class="text-base sm:text-lg lg:text-xl font-bold font-mono text-[#00C48C] tracking-tight truncate">
+							0.00 ETB
+						</div>
+						<div class="mt-2 sm:mt-3">
+							<div class="text-xs font-medium text-zinc-200 leading-tight">Zero Drift</div>
+							<div class="text-[10px] text-zinc-400 font-mono mt-0.5 leading-snug">Deterministic math</div>
+						</div>
 					</div>
-					<div>
-						<div class="text-xl sm:text-2xl font-bold text-zinc-100">7 Brackets</div>
-						<div class="text-[11px] text-zinc-400 mt-1 font-sans">MoR statutory schedules</div>
+
+					<div class="inngest-subcard p-3 sm:p-4 rounded-[6px] flex flex-col justify-between">
+						<div class="text-base sm:text-lg lg:text-xl font-bold font-mono text-zinc-100 tracking-tight truncate">
+							Dual-Control
+						</div>
+						<div class="mt-2 sm:mt-3">
+							<div class="text-xs font-medium text-zinc-200 leading-tight">Maker-Checker</div>
+							<div class="text-[10px] text-zinc-400 font-mono mt-0.5 leading-snug">Fiduciary sign-off gate</div>
+						</div>
 					</div>
-					<div>
-						<div class="text-xl sm:text-2xl font-bold text-zinc-100">0 Birr</div>
-						<div class="text-[11px] text-zinc-400 mt-1 font-sans">Rounding drift across cycles</div>
+
+					<div class="inngest-subcard p-3 sm:p-4 rounded-[6px] flex flex-col justify-between">
+						<div class="text-base sm:text-lg lg:text-xl font-bold font-mono text-zinc-100 tracking-tight truncate">
+							MoR &amp; POESSA
+						</div>
+						<div class="mt-2 sm:mt-3">
+							<div class="text-xs font-medium text-zinc-200 leading-tight">Statutory Rules</div>
+							<div class="text-[10px] text-zinc-400 font-mono mt-0.5 leading-snug">Procl. 979 &amp; 1156</div>
+						</div>
 					</div>
-					<div>
-						<div class="text-xl sm:text-2xl font-bold text-[#00C48C]">CBE Ready</div>
-						<div class="text-[11px] text-zinc-400 mt-1 font-sans">ISO 20022 wire export</div>
+
+					<div class="inngest-subcard p-3 sm:p-4 rounded-[6px] flex flex-col justify-between">
+						<div class="text-base sm:text-lg lg:text-xl font-bold font-mono text-[#00C48C] tracking-tight truncate">
+							ISO 20022
+						</div>
+						<div class="mt-2 sm:mt-3">
+							<div class="text-xs font-medium text-zinc-200 leading-tight">CBE Direct</div>
+							<div class="text-[10px] text-zinc-400 font-mono mt-0.5 leading-snug">Corporate wire export</div>
+						</div>
 					</div>
 				</div>
 			</div>
